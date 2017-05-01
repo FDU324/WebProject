@@ -1,10 +1,9 @@
-# WebClassProject Test
-
+# WebClassProject
 ## Initial
 
-> git clone https://github.com/kadoufall/WebClassProject.git web-pj-test
+> git clone https://github.com/FDU324/WebProject.git web-project
 
-> cd web-pj-test
+> cd web-project
 
 > npm install
 
