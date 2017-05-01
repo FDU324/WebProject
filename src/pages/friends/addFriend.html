@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>添加好友</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <form (ngSubmit)="onSubmit()" #addFriendForm="ngForm">
+     <ion-list>
+
+      <ion-item>
+        <ion-label floating>用户名</ion-label>
+        <ion-input type="text" name="username" [(ngModel)]='username' required></ion-input>
+       
+
+      </ion-item>
+      </ion-list>
+
+      <br/>
+
+    <div padding>
+      <button type="submit" ion-button color="primary" block [disabled]="!addFriendForm.form.valid">添加</button>
+    </div>
+  </form>
+
+
+  
+
+</ion-content>

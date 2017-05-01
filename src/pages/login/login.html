@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>登录</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <ion-list>
+
+      <ion-item>
+        <ion-label floating>用户名</ion-label>
+        <ion-input type="text" name="username" [(ngModel)]='username' required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>密码</ion-label>
+        <ion-input [type]="showPsw? 'text' : 'password'" name="password" [(ngModel)]="password"
+                   required></ion-input>
+        <button type="button" ion-button clear item-right (click)="changeShowPsw()">
+          <ion-icon [name]="showPsw? 'eye' : 'eye-off'"></ion-icon>
+        </button>
+      </ion-item>
+
+      <br/>
+
+    </ion-list>
+
+    <div padding>
+      <button type="submit" ion-button color="primary" block [disabled]="!loginForm.form.valid">登录</button>
+    </div>
+  </form>
+
+  <div text-center>
+    <button ion-button color="dark" clear (click)="forget()">
+      <ion-icon name="help"></ion-icon>
+      &emsp; 忘记密码
+    </button>
+  </div>
+
+</ion-content>

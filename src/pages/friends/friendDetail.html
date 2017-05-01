@@ -1,0 +1,25 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>详细信息</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-card>
+        <ion-item>
+            <ion-avatar item-left>
+                <img [src]="friend.userimage">
+            </ion-avatar>
+            <h2>{{friend.nickname}}</h2>
+            <p>用户名：{{friend.username}}</p>
+        </ion-item>
+    </ion-card>
+
+
+    <div padding>
+      <button ion-button color="primary" block (click)="gotoChat(friend)">发消息</button>
+    </div>
+</ion-content>

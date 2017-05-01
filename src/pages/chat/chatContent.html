@@ -1,0 +1,53 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{friendsChat.user.nickname}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item *ngFor="let chat of friendsChat.chats">
+      <ion-note text-center="">{{chat.time}}</ion-note>
+      <ion-avatar *ngIf="chat.from.username === currentUser.username" item-right>
+        <img [src]="chat.from.userimage">
+      </ion-avatar>
+      <ion-avatar *ngIf="chat.from.username === friendsChat.user.username" item-left>
+        <img [src]="chat.from.userimage">
+      </ion-avatar>
+      <!--
+      <h2>{{chat.from.nickname}}</h2>
+      -->
+      <p text-wrap *ngIf="chat.from.username === currentUser.username" text-right>{{chat.content}}</p>
+      <p text-wrap *ngIf="chat.from.username === friendsChat.user.username" text-left>{{chat.content}}</p>
+
+    </ion-item>
+
+
+  </ion-list>
+
+  
+
+</ion-content>
+
+
+<ion-footer>
+  <ion-grid padding-right>
+    <ion-row>
+      <ion-col col-8 >
+        <ion-input placeholder="请输入"></ion-input>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button clear icon-only>
+          <ion-icon  name="home"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button color="secondary">发送</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

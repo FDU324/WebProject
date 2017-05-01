@@ -1,0 +1,51 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>注册</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form (ngSubmit)="onSubmit()" #sighupForm="ngForm">
+    <ion-list>
+
+      <ion-item>
+        <ion-label floating>用户名(不可修改)</ion-label>
+        <ion-input type="text" name="username" [(ngModel)]='user.username' required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>密码</ion-label>
+        <ion-input [type]="showPsw? 'text' : 'password'" name="password" [(ngModel)]="user.password"
+                   required></ion-input>
+        <button type="button" ion-button clear item-right (click)="changeShowPsw()">
+          <ion-icon [name]="showPsw? 'eye' : 'eye-off'"></ion-icon>
+        </button>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>昵称</ion-label>
+        <ion-input type="text" name="nickname" [(ngModel)]="user.nickname" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>国家/地区</ion-label>
+        <ion-select interface="action-sheet" cancelText="取消" [(ngModel)]='user.location' name='location' required>
+          <ion-option *ngFor="let loc of locations" [value]="loc">{{loc}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-thumbnail item-right>
+        <img src="img/thumbnail-totoro.png">
+      </ion-thumbnail>
+
+    </ion-list>
+
+    <div padding>
+      <button type="submit" ion-button color="primary" block [disabled]="!sighupForm.form.valid">注册</button>
+    </div>
+  </form>
+
+</ion-content>
