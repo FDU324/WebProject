@@ -14,10 +14,54 @@
 </ion-header>
 
 
-<ion-content padding scrollDownOnLoad='true' #content>
+<ion-content scrollDownOnLoad='true' #content>
 
   <ion-list *ngIf="session !== undefined">
-    <ion-item *ngFor="let message of session.messageList" >
+    <ion-item no-lines *ngFor="let message of session.messageList">
+      <ion-row>  
+        <ion-col text-center> 
+          <ion-note>{{message.time}}</ion-note>
+        </ion-col>     
+      </ion-row>
+
+      
+      
+      <ion-row *ngIf="message.from === 'me'">
+        <ion-col col-1> 
+        </ion-col>
+        <ion-col col-9>
+            <ion-card> 
+              <ion-card-content>
+                  <p text-wrap text-left>{{message.content}}</p>
+              </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col col-2> 
+          <ion-avatar>
+            <img [src]="localUser.userimage">
+          </ion-avatar>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="message.from === 'friend'">
+        <ion-col col-2> 
+          <ion-avatar>
+            <img [src]="localUser.userimage">
+          </ion-avatar> 
+        </ion-col>
+        <ion-col col-9>
+            <ion-card> 
+              <ion-card-content>
+                  <p text-wrap text-left>{{message.content}}</p>
+              </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col col-1> 
+        </ion-col>
+      </ion-row>
+      
+      
+    <!--
       <ion-note text-center="">{{message.time}}</ion-note>
       <ion-avatar *ngIf="message.from === 'me'" item-right>
         <img [src]="localUser.userimage">
@@ -25,11 +69,10 @@
       <ion-avatar *ngIf="message.from === 'friend'" item-left>
         <img [src]="session.friend.userimage">
       </ion-avatar>
-      <!--
-      <h2>{{chat.from.nickname}}</h2>
-      -->
+
       <p text-wrap *ngIf="message.from === 'me'" text-right>{{message.content}}</p>
       <p text-wrap *ngIf="message.from === 'friend'" text-left>{{message.content}}</p>
+      -->
     </ion-item>
 
   </ion-list>
