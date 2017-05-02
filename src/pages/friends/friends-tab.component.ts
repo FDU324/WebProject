@@ -1,32 +1,30 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, App} from 'ionic-angular';
 
-import { ChatContentPage } from '../chat/chatContent'
-import {AddFriendPage} from './addFriend';
-import {FriendDetailPage} from './friendDetail';
+import {FriendAddPage} from './friend-add.component';
+import {FriendDetailPage} from './friend-detail.component';
 
-import {User} from "../../user";
-import {FriendListService} from '../../service/friendList';
-import {LocalUserService} from '../../service/localUser';
-import {ChatListService} from '../../service/chatList';
+import {User} from "../../entities/user";
+import {FriendListService} from '../../service/friend-list.service';
+import {LocalUserService} from '../../service/local-user.service';
+import {ChatService} from '../../service/chat.service';
 
 @Component({
-  selector: 'page-contact',
-  templateUrl: 'friends.html',
+  selector: 'page-friends-tab',
+  templateUrl: 'friends-tab.component.html',
   //providers:[FriendListService]
 })
-export class FriendsPage {
+export class FriendsTabPage {
   friendList: User[];
-  currentUser: User;        // 当前的玩家
-
+  localUser: User;        // 当前的玩家
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public appCtrl: App,
-              public localUserService: LocalUserService, 
+              public localUserService: LocalUserService,
               public friendListService: FriendListService,
-              public chatListService: ChatListService
+              public chatService: ChatService
               ) {
     this.friendList = friendListService.getFriendList();
-    this.currentUser = localUserService.getLocalUser();
+    this.localUser = localUserService.getLocalUser();
   }
 
   searchFriends(ev) {
@@ -45,12 +43,12 @@ export class FriendsPage {
   }
 
   addFriend() {
-    
-    this.navCtrl.push(AddFriendPage, {
-      currentUser: this.currentUser
+
+    this.navCtrl.push(FriendAddPage, {
+      localUser: this.localUser
     });
-    
-    
+
+
   }
 
   showDetail(friend: User) {
@@ -59,6 +57,6 @@ export class FriendsPage {
     })
   }
 
-   
+
 
 }

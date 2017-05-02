@@ -1,0 +1,25 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>chat</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <button ion-item *ngFor="let session of sessionList" (click)="gotoSession(session.friend)">
+      <ion-avatar item-left>
+        <img [src]="session.friend.userimage">
+      </ion-avatar>
+      <h2>{{session.friend.nickname}}</h2>
+      <p>{{session.messageList[session.messageList.length-1].content}}</p>
+      <ion-note item-right>{{session.messageList[session.messageList.length-1].time}}</ion-note>
+    </button>
+  </ion-list>
+
+</ion-content>
+
+

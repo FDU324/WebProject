@@ -8,25 +8,23 @@
 
 
 <ion-content padding>
-    <form (ngSubmit)="onSubmit()" #addFriendForm="ngForm">
-     <ion-list>
+  <form (ngSubmit)="onSubmit()" #friendAddForm="ngForm">
+    <ion-list>
 
       <ion-item>
         <ion-label floating>用户名</ion-label>
         <ion-input type="text" name="username" [(ngModel)]='username' required></ion-input>
-       
+
 
       </ion-item>
-      </ion-list>
+    </ion-list>
 
-      <br/>
+    <br/>
 
     <div padding>
-      <button type="submit" ion-button color="primary" block [disabled]="!addFriendForm.form.valid">添加</button>
+      <button type="submit" ion-button color="primary" block [disabled]="!friendAddForm.form.valid">添加</button>
     </div>
   </form>
 
-
-  
 
 </ion-content>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import {User} from '../user';
+import {User} from '../entities/user';
 
 @Injectable()
 export class FriendListService {
@@ -14,9 +14,8 @@ export class FriendListService {
     }
   }
 
-  getFriendList() { 
-    
-    
-    return this.friendList; 
+  getFriendList() {
+    return this.friendList;
   }
+
 }

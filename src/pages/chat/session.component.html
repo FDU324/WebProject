@@ -1,0 +1,54 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{session.friend.nickname}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding scrollDownOnLoad='true'>
+
+  <ion-list>
+    <ion-item *ngFor="let message of session.messageList">
+      <ion-note text-center="">{{message.time}}</ion-note>
+      <ion-avatar *ngIf="message.from === 'me'" item-right>
+        <img [src]="localUser.userimage">
+      </ion-avatar>
+      <ion-avatar *ngIf="message.from === 'friend'" item-left>
+        <img [src]="session.friend.userimage">
+      </ion-avatar>
+      <!--
+      <h2>{{chat.from.nickname}}</h2>
+      -->
+      <p text-wrap *ngIf="message.from === 'me'" text-right>{{message.content}}</p>
+      <p text-wrap *ngIf="message.from === 'friend'" text-left>{{message.content}}</p>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
+
+
+<ion-footer>
+  <form (ngSubmit)="onSubmit()" #sessionForm="ngForm">
+    <ion-grid padding-right>
+      <ion-row>
+        <ion-col col-10>
+          <ion-input placeholder="请输入" required [(ngModel)]="inputContent" name="inputContent" #inputTem></ion-input>
+        </ion-col>
+        <ion-col col-1>
+          <button clear ion-button icon-only>
+            <ion-icon  name="home"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col col-1>
+          <button ion-button type="submit" color="secondary"  [disabled]="!sessionForm.form.valid" [hidden]="inputTem.value===''">发送</button>
+          <button ion-button clear icon-only [hidden]="inputTem.value!==''">
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-footer>

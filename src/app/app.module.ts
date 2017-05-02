@@ -8,14 +8,15 @@ import {HttpModule} from '@angular/http';
 //import { InMemoryDataService }  from '../services/in-memory-data.service';
 
 import {MyApp} from './app.component';
-import {ChatPage} from '../pages/chat/chat';
-import {ChatContentPage} from '../pages/chat/chatContent';
-import {AboutPage} from '../pages/about/about';
-import {FriendsPage} from '../pages/friends/friends';
-import {AddFriendPage} from '../pages/friends/addFriend';
-import {FriendDetailPage} from '../pages/friends/friendDetail'
-import {MomentPage} from '../pages/moment/moment';
+import {ChatTabPage} from '../pages/chat/chat-tab.component';
+import {SessionPage} from '../pages/chat/session.component';
+import {AboutTabPage} from '../pages/about/about-tab.component';
+import {FriendsTabPage} from '../pages/friends/friends-tab.component';
+import {FriendAddPage} from '../pages/friends/friend-add.component';
+import {FriendDetailPage} from '../pages/friends/friend-detail.component'
+import {MomentTabPage} from '../pages/moment/moment-tab.component';
 import {TabsPage} from '../pages/tabs/tabs';
+
 import {SighupPage} from '../pages/signup/signup';
 import {LoginPage} from '../pages/login/login';
 import {StartPage} from '../pages/start/start';
@@ -23,23 +24,23 @@ import {StartPage} from '../pages/start/start';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 
-import {FriendListService} from '../service/friendList';
-import {LocalUserService} from '../service/localUser';
-import {ChatListService} from '../service/chatList';
-import {TabSwitchService} from '../service/tabSwitch';
+import {FriendListService} from '../service/friend-list.service';
+import {LocalUserService} from '../service/local-user.service';
+import {ChatService} from '../service/chat.service';
+import {TabSwitchService} from '../service/tab-switch.service';
 
 
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    FriendsPage,
-    AddFriendPage,
+    AboutTabPage,
+    FriendsTabPage,
+    FriendAddPage,
     FriendDetailPage,
-    MomentPage,
+    MomentTabPage,
     TabsPage,
-    ChatPage,
-    ChatContentPage,
+    ChatTabPage,
+    SessionPage,
     SighupPage,
     StartPage,
     LoginPage
@@ -51,14 +52,14 @@ import {TabSwitchService} from '../service/tabSwitch';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    FriendsPage,
-    AddFriendPage,
+    AboutTabPage,
+    FriendsTabPage,
+    FriendAddPage,
     FriendDetailPage,
-    MomentPage,
+    MomentTabPage,
     TabsPage,
-    ChatPage,
-    ChatContentPage,
+    ChatTabPage,
+    SessionPage,
     SighupPage,
     StartPage,
     LoginPage
@@ -69,7 +70,7 @@ import {TabSwitchService} from '../service/tabSwitch';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FriendListService,
     LocalUserService,
-    ChatListService,
+    ChatService,
     TabSwitchService,
   ]
 })
