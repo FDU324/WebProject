@@ -1,7 +1,7 @@
 import {NgModule, ErrorHandler} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
-import {HttpModule} from '@angular/http';
+//import {HttpModule} from '@angular/http';
 
 // Imports for loading & configuring the in-memory web api
 //import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -10,6 +10,7 @@ import {HttpModule} from '@angular/http';
 import {MyApp} from './app.component';
 import {ChatTabPage} from '../pages/chat/chat-tab.component';
 import {SessionPage} from '../pages/chat/session.component';
+import {SessionSearchPage} from '../pages/chat/session-search.component';
 import {AboutTabPage} from '../pages/about/about-tab.component';
 import {FriendsTabPage} from '../pages/friends/friends-tab.component';
 import {FriendAddPage} from '../pages/friends/friend-add.component';
@@ -45,6 +46,7 @@ import {CommentService} from '../service/comment.service'
     TabsPage,
     ChatTabPage,
     SessionPage,
+    SessionSearchPage,
     SighupPage,
     StartPage,
     LoginPage,
@@ -66,6 +68,7 @@ import {CommentService} from '../service/comment.service'
     TabsPage,
     ChatTabPage,
     SessionPage,
+    SessionSearchPage,
     SighupPage,
     StartPage,
     LoginPage,
