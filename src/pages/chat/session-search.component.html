@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      搜索历史消息记录
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar (ionInput)="searchMessages($event)"></ion-searchbar>
+  <ion-list *ngIf="searchMessage.length!==0">
+    <ion-item *ngFor="let message of searchMessage" >
+      <ion-note text-center="">{{message.time}}</ion-note>
+      <ion-avatar *ngIf="message.from === 'me'" item-right>
+        <img [src]="localUser.userimage">
+      </ion-avatar>
+      <ion-avatar *ngIf="message.from === 'friend'" item-left>
+        <img [src]="session.friend.userimage">
+      </ion-avatar>
+      <p text-wrap *ngIf="message.from === 'me'" text-right>{{message.content}}</p>
+      <p text-wrap *ngIf="message.from === 'friend'" text-left>{{message.content}}</p>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

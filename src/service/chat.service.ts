@@ -12,13 +12,12 @@ export class ChatService {
   sessionList: Session[];
 
   constructor(public localUserService: LocalUserService) {
-
     this.localUser = localUserService.getLocalUser();
-    this.initializeChats();
+    this.initializeSissions();
   }
 
-  // 初始化所有chats
-  initializeChats() {
+  // sessions
+  initializeSissions() {
     this.sessionList = [];
     // 添加50个模拟的好友及其聊天内容
     for (let i = 0; i < 50; i++) {
@@ -27,11 +26,11 @@ export class ChatService {
       // 添加50条模拟的聊天记录
       let messages = [];
       for (let j = 0; j < 25; j++) {
-        let messageFrom = new Message('friend','text', j + '--sdfadsf,fadgasadfasdfasfdadfasdfadsfafassfafdasdfasdfa' +
+        let messageFrom = new Message('friend', 'text', j + '--sdfadsf,fadgasadfasdfasfdadfasdfadsfafassfafdasdfasdfa' +
           'asdfadsfadfadfadfasfasfasdfafdadsfadsfadfsafafagsdfgdghfhgjfhgnbsdfgsdgaf' +
           'asdfadgfhldsfng;iahng;auighliasudhfaiu;sgbha;iufh;uiahg', new Date().toLocaleString());
 
-        let messageTo = new Message('me','text', j + '--sdfadsffadga', new Date().toLocaleString());
+        let messageTo = new Message('me', 'text', j + '--sdfadsffadga', new Date().toLocaleString());
 
         messages.push(messageFrom);
         messages.push(messageTo);
@@ -43,14 +42,34 @@ export class ChatService {
 
   }
 
-  getSessionList() {
-    return this.sessionList;
+  getSession(friend: User) {
+    return this.sessionList.find((item) => item.friend.username === friend.username);
   }
 
-  getSession(friend: User) {
-    return this.sessionList.filter((item) => {
-      return (item['friend'].nickname.toLowerCase() === friend.nickname.toLowerCase());
-    })[0];
+  getLastSessionList() {
+    let temList = this.sessionList.map((item, index, array) => {
+      return new Session(item.friend, item.messageList.slice(-1));
+    });
+
+    const compare = (a,b) => {
+      return new Date(b.messageList[0].time).getTime()-new Date(a.messageList[0].time).getTime();
+    };
+
+    return temList.sort(compare);
+  }
+
+  addMessage(friend: User, type: string, content) {
+    let message = new Message('me', type, content, new Date().toLocaleString());
+
+    let temSession = this.sessionList.find((item) => item.friend.username === friend.username);
+    if (temSession === undefined) {
+      let newSession = new Session(friend, [message]);
+      temSession = newSession;
+      this.sessionList.unshift(newSession);
+    } else {
+      temSession.messageList.push(message);
+    }
+    return Promise.resolve(temSession);
   }
 
 

@@ -1,16 +1,23 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{session.friend.nickname}}</ion-title>
+    <ion-title>{{friend.nickname}}</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="searchMessage()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+
   </ion-navbar>
+
 
 </ion-header>
 
 
-<ion-content padding scrollDownOnLoad='true'>
+<ion-content padding scrollDownOnLoad='true' #content>
 
-  <ion-list>
-    <ion-item *ngFor="let message of session.messageList">
+  <ion-list *ngIf="session !== undefined">
+    <ion-item *ngFor="let message of session.messageList" >
       <ion-note text-center="">{{message.time}}</ion-note>
       <ion-avatar *ngIf="message.from === 'me'" item-right>
         <img [src]="localUser.userimage">
@@ -31,22 +38,39 @@
 
 
 <ion-footer>
-  <form (ngSubmit)="onSubmit()" #sessionForm="ngForm">
+  <form (ngSubmit)="submitInput()" #sessionForm="ngForm">
     <ion-grid padding-right>
       <ion-row>
         <ion-col col-10>
           <ion-input placeholder="请输入" required [(ngModel)]="inputContent" name="inputContent" #inputTem></ion-input>
         </ion-col>
+        <!--
         <ion-col col-1>
           <button clear ion-button icon-only>
             <ion-icon  name="home"></ion-icon>
           </button>
         </ion-col>
-        <ion-col col-1>
+        -->
+        <ion-col col-2>
           <button ion-button type="submit" color="secondary"  [disabled]="!sessionForm.form.valid" [hidden]="inputTem.value===''">发送</button>
-          <button ion-button clear icon-only [hidden]="inputTem.value!==''">
+
+          <ion-fab [hidden]="inputTem.value!==''">
+            <button ion-fab mini type="button" clear icon-only [hidden]="inputTem.value!==''" (click)="add()">
+              <ion-icon name="add"></ion-icon>
+            </button>
+            <ion-fab-list side="left">
+              <button ion-fab color="dark"><ion-icon name="camera"></ion-icon></button>
+              <button ion-fab color="primary"><ion-icon name="images" ></ion-icon></button>
+              <button ion-fab color="light"><ion-icon name="navigate"></ion-icon></button>
+              <button ion-fab color="secondary"><ion-icon name="color-wand"></ion-icon></button>
+            </ion-fab-list>
+          </ion-fab>
+
+          <!--
+          <button ion-button type="button" clear icon-only [hidden]="inputTem.value!==''" (click)="add()">
             <ion-icon name="add"></ion-icon>
           </button>
+          -->
         </ion-col>
       </ion-row>
     </ion-grid>

@@ -30,7 +30,7 @@ export class FriendDetailPage {
     //console.log('dismiss');
     this.appCtrl.getRootNav().push(SessionPage, {
       localUser: this.localUserService.getLocalUser(),
-      session: this.chatService.getSession(friend)
+      friend: friend
     });
 
     setTimeout(() => this.viewCtrl.dismiss(),1000);

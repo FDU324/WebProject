@@ -1,4 +1,4 @@
-import {Component, Injectable, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {Tabs} from 'ionic-angular'
 
 import {AboutTabPage} from '../about/about-tab.component';
