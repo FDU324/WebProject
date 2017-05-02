@@ -18,8 +18,85 @@
         </ion-item>
     </ion-card>
 
+    <ion-card>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col col-2 >
+                    <ion-label>地区</ion-label>
+                </ion-col>
+                <ion-col col-8>
+                    <ion-label>{{friend.location}}</ion-label>
+                </ion-col>
+            </ion-row>
+            <ion-row (click)="gotoMoment(friend)">
+                <ion-col col-2>
+                    <ion-label>动态</ion-label>
+                </ion-col>
+                <ion-col col-2>
+                    <img src="../../assets/icon/favicon.ico">
+                </ion-col>
+                <ion-col col-2>
+                    <img src="../../assets/icon/favicon.ico">
+                </ion-col>
+                <ion-col col-2>
+                    <img src="../../assets/icon/favicon.ico">
+                </ion-col>
+                <ion-col col-2>
+                    <img src="../../assets/icon/favicon.ico">
+                </ion-col>
+            </ion-row>
+
+            <ion-row (click)="gotoMomentMap(friend)">
+                <ion-col col-2 >
+                    <ion-label>地图</ion-label>
+                </ion-col>
+                <ion-col col-2>
+                    <img src="../../assets/icon/favicon.ico">
+                </ion-col>
+                <ion-col col-2>
+                    <img src="../../assets/icon/favicon.ico">
+                </ion-col>
+                <ion-col col-2>
+                    <img src="../../assets/icon/favicon.ico">
+                </ion-col>
+                <ion-col col-2>
+                    <img src="../../assets/icon/favicon.ico">
+                </ion-col>
+                
+            </ion-row>
+        </ion-grid>
+<!--
+        <ion-list>
+            <ion-item>
+                <ion-label>地区</ion-label>
+                <div item-content item-left>
+                    {{friend.location}}
+                </div>
+            </ion-item>
+            <ion-item detail-push (click)="gotoMoment(friend)">
+                <ion-label>动态</ion-label>
+                <div item-content>
+                    <img src="../../assets/icon/favicon.ico">
+                    <img src="../../assets/icon/favicon.ico">
+                    <img src="../../assets/icon/favicon.ico">
+                </div>
+            </ion-item>
+            <ion-item detail-push (click)="gotoMomentMap(friend)">
+                <ion-label>地图</ion-label>
+                <div item-content>
+                    <img src="../../assets/icon/favicon.ico">
+                    <img src="../../assets/icon/favicon.ico">
+                    <img src="../../assets/icon/favicon.ico">
+                </div>
+            </ion-item>
+        </ion-list>
+-->
+    
+    </ion-card>
+
 
     <div padding>
-      <button ion-button color="primary" block (click)="gotoSession(friend)">发消息</button>
+      <button ion-button color="primary" block (click)="gotoChat(friend)">发消息</button>
     </div>
 </ion-content>

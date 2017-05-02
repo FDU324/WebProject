@@ -3,6 +3,8 @@ import {ViewController, NavParams, App} from 'ionic-angular';
 import {User} from '../../entities/user';
 
 import {SessionPage} from '../chat/session.component';
+import {MomentListPage} from '../moment/moment-list.component';
+
 import {LocalUserService} from '../../service/local-user.service'
 import {ChatService} from '../../service/chat.service'
 
@@ -35,6 +37,17 @@ export class FriendDetailPage {
 
     setTimeout(() => this.viewCtrl.dismiss(),1000);
 
+  }
+
+  gotoMoment(friend) {
+    console.log('moment');
+    this.appCtrl.getRootNav().push(MomentListPage, {
+      user: friend
+    })
+  }
+
+  gotoMomentMap(friend) {
+    console.log('map');
   }
 
 
