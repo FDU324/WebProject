@@ -16,6 +16,9 @@ import {FriendAddPage} from '../pages/friends/friend-add.component';
 import {FriendDetailPage} from '../pages/friends/friend-detail.component'
 import {MomentTabPage} from '../pages/moment/moment-tab.component';
 import {TabsPage} from '../pages/tabs/tabs';
+import {MomentListPage} from '../pages/moment/moment-list.component';
+import {MomentDetailPage} from '../pages/moment/moment-detail.component';
+
 
 import {SighupPage} from '../pages/signup/signup';
 import {LoginPage} from '../pages/login/login';
@@ -28,7 +31,8 @@ import {FriendListService} from '../service/friend-list.service';
 import {LocalUserService} from '../service/local-user.service';
 import {ChatService} from '../service/chat.service';
 import {TabSwitchService} from '../service/tab-switch.service';
-
+import {MomentService} from '../service/moment.service';
+import {CommentService} from '../service/comment.service'
 
 @NgModule({
   declarations: [
@@ -43,7 +47,9 @@ import {TabSwitchService} from '../service/tab-switch.service';
     SessionPage,
     SighupPage,
     StartPage,
-    LoginPage
+    LoginPage,
+    MomentListPage,
+    MomentDetailPage
   ],
   imports: [
     BrowserModule,
@@ -62,7 +68,9 @@ import {TabSwitchService} from '../service/tab-switch.service';
     SessionPage,
     SighupPage,
     StartPage,
-    LoginPage
+    LoginPage,
+    MomentListPage,
+    MomentDetailPage
   ],
   providers: [
     StatusBar,
@@ -72,6 +80,8 @@ import {TabSwitchService} from '../service/tab-switch.service';
     LocalUserService,
     ChatService,
     TabSwitchService,
+    MomentService,
+    CommentService
   ]
 })
 export class AppModule {
