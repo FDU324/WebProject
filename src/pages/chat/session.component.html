@@ -18,25 +18,44 @@
 
   <ion-list *ngIf="session !== undefined">
     <ion-item no-lines *ngFor="let message of session.messageList">
-      <ion-row>  
-        <ion-col text-center> 
+      <ion-row>
+        <ion-col text-center>
           <ion-note>{{message.time}}</ion-note>
-        </ion-col>     
+        </ion-col>
       </ion-row>
 
-      
-      
       <ion-row *ngIf="message.from === 'me'">
-        <ion-col col-1> 
+        <ion-col col-1>
         </ion-col>
         <ion-col col-9>
-            <ion-card> 
-              <ion-card-content>
-                  <p text-wrap text-left>{{message.content}}</p>
-              </ion-card-content>
-            </ion-card>
+          <ion-card>
+            <ion-card-content>
+              <p text-wrap text-left *ngIf="message.type==='text'">{{message.content}}</p>
+              <img text-wrap text-left *ngIf="message.type==='images'" src="assets/icon/favicon.ico">
+
+              <div *ngIf="message.type==='locations'" (click)="mapDetail(message.content)">
+                <ion-item>
+                  <ion-icon name="compass" item-left large></ion-icon>
+                  <p text-wrap>
+                    <b>地点</b>
+                    <br/>
+                    {{message.content[1]}}
+                  </p>
+                </ion-item>
+                <ion-item>
+                  <ion-icon name="navigate" item-left large></ion-icon>
+                  <p text-wrap>
+                    <b>最近的路口</b>
+                    <br/>
+                    {{message.content[2]}}
+                  </p>
+                </ion-item>
+              </div>
+
+            </ion-card-content>
+          </ion-card>
         </ion-col>
-        <ion-col col-2> 
+        <ion-col col-2>
           <ion-avatar>
             <img [src]="localUser.userimage">
           </ion-avatar>
@@ -44,24 +63,38 @@
       </ion-row>
 
       <ion-row *ngIf="message.from === 'friend'">
-        <ion-col col-2> 
+        <ion-col col-2>
           <ion-avatar>
             <img [src]="localUser.userimage">
-          </ion-avatar> 
+          </ion-avatar>
         </ion-col>
         <ion-col col-9>
-            <ion-card> 
-              <ion-card-content>
-                  <p text-wrap text-left>{{message.content}}</p>
-              </ion-card-content>
-            </ion-card>
+          <ion-card>
+            <ion-card-content>
+              <p text-wrap text-left *ngIf="message.type==='text'">{{message.content}}</p>
+              <img text-wrap text-left *ngIf="message.type==='images'" src="assets/icon/favicon.ico">
+              <div *ngIf="message.type==='locations'" (click)="mapDetail(message.content[0])">
+                <ion-item>
+                  <ion-icon name="compass" item-left large></ion-icon>
+                  <p>地点</p>
+                  <h2>{{message.content[1]}}</h2>
+                </ion-item>
+                <ion-item>
+                  <ion-icon name="navigate" item-left large></ion-icon>
+                  <p>最近的路口</p>
+                  <h2>{{message.content[2]}}</h2>
+                </ion-item>
+              </div>
+
+            </ion-card-content>
+          </ion-card>
         </ion-col>
-        <ion-col col-1> 
+        <ion-col col-1>
         </ion-col>
       </ion-row>
-      
-      
-    <!--
+
+
+      <!--
       <ion-note text-center="">{{message.time}}</ion-note>
       <ion-avatar *ngIf="message.from === 'me'" item-right>
         <img [src]="localUser.userimage">
@@ -95,17 +128,17 @@
         </ion-col>
         -->
         <ion-col col-2>
-          <button ion-button type="submit" color="secondary"  [disabled]="!sessionForm.form.valid" [hidden]="inputTem.value===''">发送</button>
+          <button ion-button type="submit" color="secondary" [disabled]="!sessionForm.form.valid" [hidden]="inputTem.value===''">发送</button>
 
           <ion-fab [hidden]="inputTem.value!==''">
             <button ion-fab mini type="button" clear icon-only [hidden]="inputTem.value!==''" (click)="add()">
               <ion-icon name="add"></ion-icon>
             </button>
             <ion-fab-list side="left">
-              <button ion-fab color="dark"><ion-icon name="camera"></ion-icon></button>
-              <button ion-fab color="primary"><ion-icon name="images" ></ion-icon></button>
-              <button ion-fab color="light"><ion-icon name="navigate"></ion-icon></button>
-              <button ion-fab color="secondary"><ion-icon name="color-wand"></ion-icon></button>
+              <button ion-fab color="dark"  type="button" (click)="takeCamera()"><ion-icon name="camera"></ion-icon></button>
+              <button ion-fab color="primary" type="button" (click)="pickImg()"><ion-icon name="images" ></ion-icon></button>
+              <button ion-fab color="light" type="button" (click)="sendLoc()"><ion-icon name="navigate"></ion-icon></button>
+              <button ion-fab color="secondary" type="button" (click)="postMoment()"><ion-icon name="color-wand"></ion-icon></button>
             </ion-fab-list>
           </ion-fab>
 

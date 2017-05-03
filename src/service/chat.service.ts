@@ -21,7 +21,7 @@ export class ChatService {
     this.sessionList = [];
     // 添加50个模拟的好友及其聊天内容
     for (let i = 0; i < 50; i++) {
-      let friend = new User('username--' + i, 'fake--' + i, 'sdfadsfas', '../assets/icon/favicon.ico', '中国大陆');
+      let friend = new User('username--' + i, 'fake--' + i, 'sdfadsfas', 'assets/icon/favicon.ico', '中国大陆');
 
       // 添加50条模拟的聊天记录
       let messages = [];
@@ -58,7 +58,7 @@ export class ChatService {
     return temList.sort(compare);
   }
 
-  addMessage(friend: User, type: string, content) {
+  sendMessage(friend: User, type: string, content) {
     let message = new Message('me', type, content, new Date().toLocaleString());
 
     let temSession = this.sessionList.find((item) => item.friend.username === friend.username);
@@ -70,6 +70,11 @@ export class ChatService {
       temSession.messageList.push(message);
     }
     return Promise.resolve(temSession);
+  }
+
+  sendImg(friend: User,url:string) {
+    //TODO: 这里将本地图片路径上传到服务器，得到该图片在服务器的路径
+    return this.sendMessage(friend,'images',url);
   }
 
 

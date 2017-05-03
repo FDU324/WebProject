@@ -7,7 +7,7 @@ export class LocalUserService {
   localUser: User;
 
   constructor() {
-    this.localUser = new User('Me', 'Who am I', 'sdfadsfas', '../assets/icon/favicon.ico', '中国大陆');
+    this.localUser = new User('Me', 'Who am I', 'sdfadsfas', 'assets/icon/favicon.ico', '中国大陆');
 
   }
 
