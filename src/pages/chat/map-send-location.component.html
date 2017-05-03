@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>位置</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-right (click)="sendLoc()" color="primary">
+        发送 <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div id="mapContainer"></div>
+</ion-content>
+
+<ion-footer>
+  <ion-list>
+    <ion-list-header>
+      当前位置
+      <p hidden id="position"></p>
+    </ion-list-header>
+    <ion-item>
+      地址<p id="address"></p>
+    </ion-item>
+    <ion-item>
+      最近的路口<p id="nearestJunction"></p>
+    </ion-item>
+  </ion-list>
+</ion-footer>

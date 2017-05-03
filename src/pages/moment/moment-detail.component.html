@@ -1,0 +1,130 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>detail</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+
+    <ion-item>
+      <ion-avatar  item-left>
+        <img [src]="moment.user.userimage">
+      </ion-avatar>
+      <h2>{{moment.user.nickname}}</h2>
+
+      
+    </ion-item>
+
+
+    <ion-card-content >
+      <p>{{moment.text}}</p>
+    </ion-card-content>
+
+    <img padding *ngIf="moment.images!=undefined&&moment.images.length==1" [src]="moment.images[0]">
+
+    <ion-grid padding *ngIf="moment.images!=undefined&&moment.images.length>1">
+      <ion-row>
+        <ion-col col-4>
+          <img [src]="moment.images[0]">
+        </ion-col>
+        <ion-col col-4>
+          <img [src]="moment.images[1]">
+        </ion-col>
+        <ion-col col-4 >
+          <img *ngIf="moment.images.length>=3" [src]="moment.images[2]">
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="moment.images.length>3">
+        <ion-col col-4>
+          <img *ngIf="moment.images.length>=4" [src]="moment.images[3]">
+        </ion-col>
+        <ion-col col-4>
+          <img *ngIf="moment.images.length>=5" [src]="moment.images[4]">
+        </ion-col>
+        <ion-col col-4>
+          <img *ngIf="moment.images.length>=6" [src]="moment.images[5]">
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="moment.images.length>6">
+        <ion-col col-4>
+          <img *ngIf="moment.images.length>=7" [src]="moment.images[6]">
+        </ion-col>
+        <ion-col col-4>
+          <img *ngIf="moment.images.length>=8" [src]="moment.images[7]">
+        </ion-col>
+        <ion-col col-4>
+          <img *ngIf="moment.images.length==9" [src]="moment.images[8]">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-row>
+      <ion-col col-5 text-left>
+        <ion-icon name="pin"></ion-icon>
+        <ion-note>
+          {{moment.location}}
+        </ion-note>
+        <br>
+        <ion-note>
+          {{moment.time}}
+        </ion-note>
+      </ion-col>
+      <ion-col col-4>
+        <ion-icon [name]="moment.emotion" clear></ion-icon>
+        <ion-note>
+          {{moment.emotion}}
+        </ion-note>
+        
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button icon-left clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button icon-left clear small>
+          <ion-icon name="text"></ion-icon>
+        </button>
+      </ion-col>
+      
+    </ion-row>
+
+  </ion-card>
+
+  
+    <ion-list>
+        <button ion-item *ngFor="let comment of commentList" (click)="addComment(moment.id, comment.user.nickname)">
+          <ion-avatar item-left>
+            <img [src]="comment.user.userimage">
+          </ion-avatar>
+          <h2>{{comment.user.nickname}} <span *ngIf="comment.to!==''"> 回复： {{comment.to}}</span></h2>
+          <p>{{comment.content}}</p>
+        </button>
+    </ion-list>
+  
+
+
+</ion-content>
+
+<ion-footer>
+  <form (ngSubmit)="onSubmit()" #commentForm="ngForm">
+    <ion-grid padding-right>
+      <ion-row>
+        <ion-col col-10>
+          <ion-input placeholder="评论" required [(ngModel)]="inputContent" name="inputContent" #inputTem></ion-input>
+        </ion-col>
+        <ion-col col-1>
+          <button clear ion-button icon-only>
+            <ion-icon  name="happy"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col col-1>
+          <button ion-button type="submit"  clear icon-only  [disabled]="!commentForm.form.valid">
+              <ion-icon name="return-left"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-footer>

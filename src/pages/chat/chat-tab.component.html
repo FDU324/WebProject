@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>chat</ion-title>
+    <ion-title>Chat</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -10,16 +10,17 @@
 <ion-content padding>
 
   <ion-list>
-    <button ion-item *ngFor="let session of sessionList" (click)="gotoSession(session.friend)">
+    <button ion-item *ngFor="let lastSession of lastSessionList" (click)="gotoSession(lastSession.friend)">
       <ion-avatar item-left>
-        <img [src]="session.friend.userimage">
+        <img [src]="lastSession.friend.userimage">
       </ion-avatar>
-      <h2>{{session.friend.nickname}}</h2>
-      <p>{{session.messageList[session.messageList.length-1].content}}</p>
-      <ion-note item-right>{{session.messageList[session.messageList.length-1].time}}</ion-note>
+      <h2>{{lastSession.friend.nickname}}</h2>
+      <p *ngIf="lastSession.messageList[0].type==='text'">{{lastSession.messageList[0].content}}</p>
+      <p *ngIf="lastSession.messageList[0].type==='images'">[图片]</p>
+      <p *ngIf="lastSession.messageList[0].type==='locations'">[位置]</p>
+      <p *ngIf="lastSession.messageList[0].type==='momennt'">[动态]</p>
+      <ion-note item-right>{{lastSession.messageList[0].time}}</ion-note>
     </button>
   </ion-list>
 
 </ion-content>
-
-

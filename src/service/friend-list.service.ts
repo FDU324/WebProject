@@ -9,7 +9,7 @@ export class FriendListService {
   constructor() {
     this.friendList = [];
     for(let i = 0; i< 50; i++) {
-      let friend = new User('username--' + i, 'fake--' + i, 'sdfadsfas', '../assets/icon/favicon.ico', '中国大陆');
+      let friend = new User('username--' + i, 'fake--' + i, 'sdfadsfas', 'assets/icon/favicon.ico', '中国大陆');
       this.friendList.push(friend);
     }
   }

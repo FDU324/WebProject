@@ -13,7 +13,7 @@ import {ChatService} from '../../service/chat.service';
   templateUrl: 'chat-tab.component.html',
 })
 export class ChatTabPage {
-  sessionList: Session[];   // 所有聊天内容，一个元素对应一个好友会话
+  lastSessionList: Session[];   // 所有聊天内容，一个元素对应一个好友会话
   localUser: User;        // 当前的玩家
 
   constructor(public navCtrl: NavController,
@@ -22,20 +22,20 @@ export class ChatTabPage {
               localUserService: LocalUserService,
               public chatService: ChatService
               ) {
-    // TODO:这里currentUser应该从navParams中初始化
     this.localUser = localUserService.getLocalUser();
-    this.sessionList = chatService.getSessionList();
+    this.lastSessionList = chatService.getLastSessionList();
   }
 
+  ionViewWillEnter() {
+    this.lastSessionList = this.chatService.getLastSessionList();
+  }
 
   // 进入和某一好友的聊天页面
   gotoSession(friend) {
     this.appCtrl.getRootNav().push(SessionPage, {
       localUser: this.localUser,
-      session: this.chatService.getSession(friend)
+      friend: friend
     });
-
-
   }
 
 

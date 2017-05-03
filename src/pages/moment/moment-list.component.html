@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{user.nickname}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <img [src]="user.userimage">
+
+
+  <ion-list>
+    <ion-card ion-item *ngFor="let moment of momentList" (click)="showDetail(moment)">
+
+      <ion-item>
+        <ion-avatar item-left>  
+          <h2>{{moment.time}}</h2>
+        </ion-avatar>
+        <ion-row>
+          <ion-col col-3 *ngIf="moment.images!=undefined&&moment.images.length>0">
+            <img [src]="moment.images[0]">
+          </ion-col>
+          <ion-col col-7>
+
+            <ion-card-content>
+              <p>{{moment.text}}</p>
+              <ion-note>
+                {{moment.emotion}}
+              </ion-note>
+            </ion-card-content> 
+          </ion-col>
+        </ion-row>
+       </ion-item> 
+    </ion-card>
+  </ion-list>
+
+
+</ion-content>

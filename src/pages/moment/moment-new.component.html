@@ -1,11 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>朋友圈</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="newMoment()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-title>{{user.nickname}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -27,7 +22,7 @@
       <ion-avatar item-left>
         <img src="../assets/icon/favicon.ico">
       </ion-avatar>
-      <h2>Marty McFly</h2>
+      <h2>{{user.nickname}}</h2>
       <p>November 5, 1955</p>
     </ion-item>
 
