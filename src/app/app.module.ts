@@ -1,6 +1,7 @@
 import {NgModule, ErrorHandler} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
+import { CityPickerModule } from  "ionic2-city-picker";
 import {HttpModule} from '@angular/http';
 
 // Imports for loading & configuring the in-memory web api
@@ -28,6 +29,8 @@ import {FriendListService} from '../service/friend-list.service';
 import {LocalUserService} from '../service/local-user.service';
 import {ChatService} from '../service/chat.service';
 import {TabSwitchService} from '../service/tab-switch.service';
+import {UserInfoPage} from "../pages/about/user-info.component";
+import {CityPickerService} from "../service/city-picker.service";
 
 
 @NgModule({
@@ -43,11 +46,14 @@ import {TabSwitchService} from '../service/tab-switch.service';
     SessionPage,
     SighupPage,
     StartPage,
-    LoginPage
+    LoginPage,
+    UserInfoPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    CityPickerModule,
+    HttpModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -62,7 +68,8 @@ import {TabSwitchService} from '../service/tab-switch.service';
     SessionPage,
     SighupPage,
     StartPage,
-    LoginPage
+    LoginPage,
+    UserInfoPage
   ],
   providers: [
     StatusBar,
@@ -72,6 +79,7 @@ import {TabSwitchService} from '../service/tab-switch.service';
     LocalUserService,
     ChatService,
     TabSwitchService,
+    CityPickerService,
   ]
 })
 export class AppModule {

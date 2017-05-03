@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      个人信息
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <button ion-item (click)="changeImage()">
+      头像
+      <ion-avatar item-right>
+        <img [src] = localUser.userimage style="width: 80px;height: 80px">
+      </ion-avatar>
+      <ion-icon name = "arrow-forward" item-right></ion-icon>
+    </button>
+    <button ion-item>
+      昵称
+      <p item-right>{{localUser.nickname}}</p>
+      <ion-icon name = "arrow-forward" item-right></ion-icon>
+    </button>
+    <ion-item>
+      账号
+      <p item-right>{{localUser.username}}</p>
+    </ion-item>
+    <ion-item>
+      <ion-label>地区</ion-label>
+      <city-picker item-content
+                   [cancelText]="'取消'"
+                   [doneText]="'完成'"
+                   [separator]="' - '"
+                   [citiesData]="cityData"
+                   [(ngModel)]="cityName"
+                   (ionChange)="cityChange($event)"
+                   style = "margin-top: 7px"
+                    item-right="">
+      </city-picker>
+      <ion-icon name = "arrow-forward" item-right></ion-icon>
+    </ion-item>
+    <button ion-button color = "danger" block style = "margin-top: 150px">
+      退出
+    </button>
+  </ion-list>
+
+</ion-content>
