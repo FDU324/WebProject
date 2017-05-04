@@ -4,11 +4,16 @@ import {Comment} from '../entities/comment';
 import {User} from '../entities/user';
 import {Moment} from '../entities/moment';
 
+import {LocalUserService} from './local-user.service';
+
 @Injectable()
 export class CommentService {
+    localUser: User;
     commentDatabse: Comment[];
 
-    constructor() {
+
+    constructor(public localUserService: LocalUserService) {
+        this.localUser = localUserService.getLocalUser();
         this.initCommentDatabase();
 
     }
@@ -30,6 +35,18 @@ export class CommentService {
         return this.commentDatabse.filter(item=>{
             return item.momentId === moment.id;
         });
+    }
+
+    addComment(momentId: number, to: string, content: string) {
+        let comment = new Comment(momentId, this.localUser, to, content);
+        this.commentDatabse.push(comment);
+
+
+
+        let commentList = this.commentDatabse.filter(item=>{
+            return item.momentId === momentId;
+        });
+        return Promise.resolve(commentList);
     }
 
 }

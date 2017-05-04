@@ -8,6 +8,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 //import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 //import { InMemoryDataService }  from '../services/in-memory-data.service';
 
+
 import { MyApp } from './app.component';
 import { ChatTabPage } from '../pages/chat/chat-tab.component';
 import { SessionPage } from '../pages/chat/session.component';
@@ -22,8 +23,11 @@ import { FriendDetailPage } from '../pages/friends/friend-detail.component'
 import { MomentTabPage } from '../pages/moment/moment-tab.component';
 import { TabsPage } from '../pages/tabs/tabs';
 import { MomentListPage } from '../pages/moment/moment-list.component';
-import { MomentDetailPage } from '../pages/moment/moment-detail.component';
 import { MomentNewPage } from '../pages/moment/moment-new.component';
+import {MomentDetailComponent} from '../pages/moment/moment-detail.component';
+import {MomentPage} from '../pages/moment/moment.component';
+import {MomentZonePage} from '../pages/moment/moment-zone.component';
+import {ImageViewer} from '../pages/moment/image-viewer.component';
 
 
 import {UserInfoPage} from "../pages/about/user-info.component";
@@ -63,9 +67,14 @@ import {NicknameChangePage} from "../pages/about/nickname-change.component";
     LoginPage,
     UserInfoPage,
     MomentListPage,
-    MomentDetailPage,
     MomentNewPage,
-    NicknameChangePage
+    NicknameChangePage,
+    MomentDetailComponent,
+    MomentPage,
+    MomentZonePage,
+    ImageViewer,
+    MomentNewPage
+
   ],
   imports: [
     BrowserModule,
@@ -92,9 +101,12 @@ import {NicknameChangePage} from "../pages/about/nickname-change.component";
     LoginPage,
     UserInfoPage,
     MomentListPage,
-    MomentDetailPage,
     MomentNewPage,
-    NicknameChangePage
+    NicknameChangePage,
+    MomentDetailComponent,
+    MomentPage,
+    MomentZonePage,
+    ImageViewer
   ],
   providers: [
     StatusBar,

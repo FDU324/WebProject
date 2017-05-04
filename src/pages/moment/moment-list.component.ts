@@ -4,7 +4,7 @@ import {NavParams, App} from 'ionic-angular';
 import {User} from '../../entities/user';
 import {Moment} from '../../entities/moment';
 
-import {MomentDetailPage} from './moment-detail.component'
+import {MomentPage} from './moment.component'
 
 import {MomentService} from '../../service/moment.service';
 
@@ -26,7 +26,7 @@ export class MomentListPage {
   }
 
   showDetail(moment: Moment) {
-    this.appCtrl.getRootNav().push(MomentDetailPage, {
+    this.appCtrl.getRootNav().push(MomentPage, {
       moment: moment
     });
   }
