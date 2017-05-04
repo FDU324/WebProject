@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, NavParams, LoadingController} from 'ionic-angular';
 
 import {TabsPage} from '../tabs/tabs';
+import {SighupPage} from "../signup/signup";
 
 @Component({
   selector: 'page-login',
@@ -15,7 +16,8 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public loadingCtrl: LoadingController,) {
-    this.username = '';
+    //this.username = '';
+    this.username = this.navParams.get('username');
     this.password = '';
     this.showPsw = false;
   }
@@ -39,6 +41,9 @@ export class LoginPage {
     }, 2000);
 
     this.navCtrl.setRoot(TabsPage);
+  }
+  gotoRegister(){
+    this.navCtrl.push(SighupPage);
   }
 
   forget(){

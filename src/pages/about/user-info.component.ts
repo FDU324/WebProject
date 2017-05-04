@@ -1,11 +1,15 @@
 /**
  * Created by wangziheng on 2017/5/3.
  */
-import { Component } from '@angular/core';
+import {Component, ApplicationModule} from '@angular/core';
 import {User} from "../../entities/user";
 import {Camera } from 'ionic-native';
-import {NavController, NavParams , ActionSheetController} from "ionic-angular";
+import {NavController, NavParams, ActionSheetController, App} from "ionic-angular";
 import {CityPickerService} from "../../service/city-picker.service";
+import {ImgService} from "../../service/img.service";
+import {NicknameChangePage} from "./nickname-change.component";
+import {LoginPage} from "../login/login";
+import {StartPage} from "../start/start";
 @Component({
   templateUrl: 'user-info.component.html',
 })
@@ -16,7 +20,9 @@ export class UserInfoPage{
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public actionSheetCtrl: ActionSheetController,
-              public cityPickerService: CityPickerService){
+              public cityPickerService: CityPickerService,
+              public imgService: ImgService,
+              public appCtrl: App){
     this.localUser = navParams.get('localUser');
     this.setCityPickerData();//得到城市数据
     this.cityName = this.localUser.location;//初始化城市名
@@ -50,12 +56,13 @@ export class UserInfoPage{
           role: 'destructive',
           handler: () => {
             console.log('选择拍照');
-            //this.takePicture();
+            this.takeCamera();
           }
         },{
           text: '从手机相册选择',
           handler: () => {
             console.log('选择相册');
+            this.pickImg();
           }
         },{
           text: '取消',
@@ -68,18 +75,43 @@ export class UserInfoPage{
     });
     actionSheet.present();
   }
-  /*
-  takePicture(){
-    Camera.getPicture({
-      destinationType: Camera.DestinationType.DATA_URL,
-      targetWidth: 1000,
-      targetHeight: 1000
-    }).then((imageData) => {
-      // imageData is a base64 encoded string
-      this.base64Image = "data:image/jpeg;base64," + imageData;
-    }, (err) => {
-      console.log(err);
+  pickImg() {
+    this.imgService.openImgPickerSingle().then((url) => {
+      if (url === 'error') {
+        console.log('error');
+      } else {
+        // TODO；上传到服务器
+        console.log(url);
+        this.localUser.userimage = url;
+      }
     });
   }
-  */
+
+  takeCamera() {
+    this.imgService.openCamara().then((url) => {
+      if (url === 'error') {
+        console.log('error');
+      } else {
+        // TODO；上传到服务器
+        console.log(url);
+        this.localUser.userimage = url;
+      }
+    });
+  }
+
+  /**
+   * 点击后进入修改昵称的界面
+   */
+  changeNickname(){
+    this.appCtrl.getRootNav().push(NicknameChangePage, {
+      localUser: this.localUser
+    });
+  }
+
+  /**
+   * 退出账号的点击事件
+   */
+  cancelAccount(){
+    this.navCtrl.push(StartPage);
+}
 }

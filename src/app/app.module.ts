@@ -42,6 +42,7 @@ import { TabSwitchService } from '../service/tab-switch.service';
 import { MomentService } from '../service/moment.service';
 import { CommentService } from '../service/comment.service'
 import { ImgService } from '../service/img.service'
+import {NicknameChangePage} from "../pages/about/nickname-change.component";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { ImgService } from '../service/img.service'
     UserInfoPage,
     MomentListPage,
     MomentDetailPage,
-    MomentNewPage
+    MomentNewPage,
+    NicknameChangePage
   ],
   imports: [
     BrowserModule,
@@ -91,7 +93,8 @@ import { ImgService } from '../service/img.service'
     UserInfoPage,
     MomentListPage,
     MomentDetailPage,
-    MomentNewPage
+    MomentNewPage,
+    NicknameChangePage
   ],
   providers: [
     StatusBar,

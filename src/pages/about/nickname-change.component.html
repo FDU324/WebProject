@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      昵称
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="saveNickname()" [disabled] = "tempName === localUser.nickname">
+        <ion-icon name="checkmark-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="tempName" clearInput></ion-input>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
