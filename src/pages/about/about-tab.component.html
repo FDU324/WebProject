@@ -1,11 +1,26 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      About
+      我
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-list>
+    <button ion-item (click)="gotoInfo()">
+      <ion-avatar item-left>
+        <img [src]="localUser.userimage">
+      </ion-avatar>
+      <h1>{{localUser.nickname}}</h1>
+      <h2>账号 : {{localUser.username}}</h2>
+      <ion-icon name = "arrow-forward" item-right></ion-icon>
+    </button>
+    <br>
+    <button ion-item>
+      <ion-icon name = "photos" item-left style="margin-bottom: 5px"> </ion-icon>
+      相册
+    </button>
+  </ion-list>
 
 </ion-content>

@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>显示位置</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div id="mapContainer"></div>
+</ion-content>
+
+<ion-footer>
+  <ion-list>
+    <ion-list-header>
+      当前位置
+    </ion-list-header>
+    <ion-item>
+      地址<p id="address">{{address}}</p>
+    </ion-item>
+    <ion-item>
+      最近的路口<p id="nearestJunction">{{nearestJunction}}</p>
+    </ion-item>
+  </ion-list>
+</ion-footer>
