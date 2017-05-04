@@ -30,13 +30,13 @@ export class MomentService {
           moment.id = 5;
           moment.text = 'fsdajflsakdjffffffffffffffffffffffffffffffffffffffffffffffffffffffffffweijrnfkslakgajoijiigjfsdh';
           //moment.images = [];
-          moment.images = ['../assets/icon/favicon.ico',
+          moment.images = ['../assets/icon/bg.jpg',
           '../assets/icon/favicon.ico',
           '../assets/icon/favicon.ico',
+          '../assets/icon/bg.jpg',
           '../assets/icon/favicon.ico',
           '../assets/icon/favicon.ico',
-          '../assets/icon/favicon.ico',
-          '../assets/icon/favicon.ico'
+          '../assets/icon/bg.jpg'
           ];
           this.memonetDatabase.push(moment);
 
@@ -47,5 +47,10 @@ export class MomentService {
       return this.memonetDatabase.filter(item => {
           return item.user.nickname.toLowerCase() == user.nickname.toLowerCase();
       })
+  }
+
+
+  getMomentList() {
+      return this.memonetDatabase;
   }
 }

@@ -18,7 +18,10 @@ import {FriendDetailPage} from '../pages/friends/friend-detail.component'
 import {MomentTabPage} from '../pages/moment/moment-tab.component';
 import {TabsPage} from '../pages/tabs/tabs';
 import {MomentListPage} from '../pages/moment/moment-list.component';
-import {MomentDetailPage} from '../pages/moment/moment-detail.component';
+import {MomentDetailComponent} from '../pages/moment/moment-detail.component';
+import {MomentPage} from '../pages/moment/moment.component';
+import {MomentZonePage} from '../pages/moment/moment-zone.component';
+import {ImageViewer} from '../pages/moment/image-viewer.component';
 
 
 import {SighupPage} from '../pages/signup/signup';
@@ -51,7 +54,10 @@ import {CommentService} from '../service/comment.service'
     StartPage,
     LoginPage,
     MomentListPage,
-    MomentDetailPage
+    MomentDetailComponent,
+    MomentPage,
+    MomentZonePage,
+    ImageViewer,
   ],
   imports: [
     BrowserModule,
@@ -73,7 +79,10 @@ import {CommentService} from '../service/comment.service'
     StartPage,
     LoginPage,
     MomentListPage,
-    MomentDetailPage
+    MomentDetailComponent,
+    MomentPage,
+    MomentZonePage,
+    ImageViewer
   ],
   providers: [
     StatusBar,

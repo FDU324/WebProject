@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {NavParams, App} from 'ionic-angular';
 
 import {User} from '../../entities/user';
@@ -8,27 +8,17 @@ import {Comment} from '../../entities/comment';
 import {CommentService} from '../../service/comment.service';
 
 @Component({
-  selector: 'page-moment-detail',
+  selector: 'moment-detail',
   templateUrl: 'moment-detail.component.html',
 })
 
 
-export class MomentDetailPage {
+export class MomentDetailComponent {
 
-  moment: Moment;
-  commentList: Comment[];
-  inputContent: string;
+  @Input() moment: Moment;
+  @Input() commentList: Comment[];
 
-  constructor(public navParams: NavParams, public appCtrl: App, public commentService: CommentService) {
-    this.moment = navParams.get('moment');
-    this.commentList = commentService.getCommentByMoment(this.moment);
-    this.inputContent='';
-    //this.momentList = momentService.getMomentByUser(this.user);
-    //console.log(this.momentList);
-  }
-
-  onSubmit() {
-
+  constructor(public commentService: CommentService) {
   }
 
   addComment(momontId: number, to: string) {
