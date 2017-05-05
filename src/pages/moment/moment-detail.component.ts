@@ -22,7 +22,7 @@ export class MomentDetailComponent {
   }
 
   addComment(momontId: number, to: string) {
-    
+
   }
 
 

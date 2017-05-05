@@ -18,10 +18,10 @@
 
   <ion-list *ngIf="session !== undefined">
     <ion-item no-lines *ngFor="let message of session.messageList">
-      <ion-row>  
-        <ion-col text-center> 
+      <ion-row>
+        <ion-col text-center>
           <ion-note style="font-size:xx-small">{{message.time}}</ion-note>
-        </ion-col>     
+        </ion-col>
 
       </ion-row>
 
@@ -51,6 +51,37 @@
                     {{message.content[2]}}
                   </p>
                 </ion-item>
+              </div>
+
+              <div *ngIf="message.type==='moment'" (click)="momentDetail(message.content)">
+                <ion-grid>
+                  <ion-row>
+                    <ion-item>
+                      <p text-wrap>
+                        <b>{{message.content["text"]}}</b>
+                      </p>
+                    </ion-item>
+                  </ion-row>
+                  <ion-row *ngIf="message.content['images'].length>=1">
+                    <ion-col col-4>
+                      <img [src]="message.content['images'][0]">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=2" [src]="message.content['images'][1]">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=3" [src]="message.content['images'][2]">
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-item>
+                      <ion-icon [name]="message.content['emotion'][2]" item-left large></ion-icon>
+                      <p text-wrap>
+                        <b>{{message.content["location"][1]}}</b>
+                      </p>
+                    </ion-item>
+                  </ion-row>
+                </ion-grid>
               </div>
 
             </ion-card-content>
@@ -87,26 +118,74 @@
                 </ion-item>
               </div>
 
+              <div *ngIf="message.type==='moment'" (click)="momentDetail(message.content)">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                      <p>
+                        {{message.content["text"]}}
+                      </p>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="message.content['images'].length>=1">
+                    <ion-col col-4>
+                      <img [src]="message.content['images'][0]" (click)="viewImage(message.content['images'],0)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=2" [src]="message.content['images'][1]"
+                           (click)="viewImage(message.content['images'],1)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=3" [src]="message.content['images'][2]"
+                           (click)="viewImage(message.content['images'],2)">
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="message.content['images'].length>3">
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=4" [src]="message.content['images'][3]"
+                           (click)="viewImage(message.content['images'],3)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=5" [src]="message.content['images'][4]"
+                           (click)="viewImage(message.content['images'],4)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=6" [src]="message.content['images'][5]"
+                           (click)="viewImage(message.content['images'],5)">
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="message.content['images'].length>6">
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=7" [src]="message.content['images'][6]"
+                           (click)="viewImage(message.content['images'],6)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=8" [src]="message.content['images'][7]"
+                           (click)="viewImage(message.content['images'],7)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length==9" [src]="message.content['images'][8]"
+                           (click)="viewImage(message.content['images'],8)">
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <p>
+                      {{message.content["position"]}}
+                      <br/>
+                      {{message.content["emotion"]}}
+                      <br/>
+                      {{message.content["emotion"]}}
+                    </p>
+                  </ion-row>
+                </ion-grid>
+              </div>
+
             </ion-card-content>
           </ion-card>
         </ion-col>
         <ion-col col-1>
         </ion-col>
       </ion-row>
-
-
-      <!--
-      <ion-note text-center="">{{message.time}}</ion-note>
-      <ion-avatar *ngIf="message.from === 'me'" item-right>
-        <img [src]="localUser.userimage">
-      </ion-avatar>
-      <ion-avatar *ngIf="message.from === 'friend'" item-left>
-        <img [src]="session.friend.userimage">
-      </ion-avatar>
-
-      <p text-wrap *ngIf="message.from === 'me'" text-right>{{message.content}}</p>
-      <p text-wrap *ngIf="message.from === 'friend'" text-left>{{message.content}}</p>
-      -->
     </ion-item>
 
   </ion-list>
@@ -129,25 +208,29 @@
         </ion-col>
         -->
         <ion-col col-2>
-          <button ion-button type="submit" color="secondary" [disabled]="!sessionForm.form.valid" [hidden]="inputTem.value===''">发送</button>
+          <button ion-button type="submit" color="secondary" [disabled]="!sessionForm.form.valid"
+                  [hidden]="inputTem.value===''">发送
+          </button>
 
           <ion-fab [hidden]="inputTem.value!==''">
-            <button ion-fab mini type="button" clear icon-only [hidden]="inputTem.value!==''" (click)="add()">
+            <button ion-fab mini type="button" clear icon-only [hidden]="inputTem.value!==''">
               <ion-icon name="add"></ion-icon>
             </button>
             <ion-fab-list side="left">
-              <button ion-fab color="dark"  type="button" (click)="takeCamera()"><ion-icon name="camera"></ion-icon></button>
-              <button ion-fab color="primary" type="button" (click)="pickImg()"><ion-icon name="images" ></ion-icon></button>
-              <button ion-fab color="light" type="button" (click)="sendLoc()"><ion-icon name="navigate"></ion-icon></button>
-              <button ion-fab color="secondary" type="button" (click)="postMoment()"><ion-icon name="color-wand"></ion-icon></button>
+              <button ion-fab color="dark" type="button" (click)="takeCamera()">
+                <ion-icon name="camera"></ion-icon>
+              </button>
+              <button ion-fab color="primary" type="button" (click)="pickImg()">
+                <ion-icon name="images"></ion-icon>
+              </button>
+              <button ion-fab color="light" type="button" (click)="sendLoc()">
+                <ion-icon name="navigate"></ion-icon>
+              </button>
+              <button ion-fab color="secondary" type="button" (click)="postMoment()">
+                <ion-icon name="color-wand"></ion-icon>
+              </button>
             </ion-fab-list>
           </ion-fab>
-
-          <!--
-          <button ion-button type="button" clear icon-only [hidden]="inputTem.value!==''" (click)="add()">
-            <ion-icon name="add"></ion-icon>
-          </button>
-          -->
         </ion-col>
       </ion-row>
     </ion-grid>

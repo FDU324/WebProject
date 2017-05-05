@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
-import { ChatService } from '../../service/chat.service';
-import { User } from "../../entities/user";
+import {Component} from '@angular/core';
+import {NavController, NavParams, ViewController} from 'ionic-angular';
+import {ChatService} from '../../service/chat.service';
+import {User} from "../../entities/user";
 
 @Component({
   selector: 'page-map-send-locatoon',
@@ -11,12 +11,20 @@ export class MapSendLocationPage {
   localUser: User;
   friend: User;
 
+  position: string;
+  address: string;
+  nearestJunction: string;
+
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public viewCtrl: ViewController,
-    public chatService: ChatService, ) {
+              public navParams: NavParams,
+              public viewCtrl: ViewController,
+              public chatService: ChatService,) {
     this.localUser = navParams.get('localUser');
     this.friend = navParams.get('friend');
+
+    this.position = '';
+    this.address = '';
+    this.nearestJunction = '';
   }
 
   ionViewDidLoad() {
@@ -27,6 +35,8 @@ export class MapSendLocationPage {
   }
 
   initialMap() {
+    //let self = this;
+
     //加载PositionPicker，loadUI的路径参数为模块名中 'ui/' 之后的部分
     AMapUI.loadUI(['misc/PositionPicker'], function (PositionPicker) {
       let map = new AMap.Map('mapContainer', {
@@ -41,6 +51,9 @@ export class MapSendLocationPage {
       positionPicker.start();
 
       positionPicker.on('success', function (positionResult) {
+        //self.nearestJunction = positionResult.nearestJunction;
+        //self.address = positionResult.address;
+        //self.position = positionResult.position;
         document.getElementById('nearestJunction').innerHTML = positionResult.nearestJunction;
         document.getElementById('address').innerHTML = positionResult.address;
         document.getElementById('position').innerHTML = positionResult.position;
@@ -55,12 +68,18 @@ export class MapSendLocationPage {
   }
 
   sendLoc() {
+
+    //console.log(document.getElementById('address').innerHTML);
+    //console.log(this.address);
+    //console.log('21312');
     let position = document.getElementById('position').innerHTML;
     let address = document.getElementById('address').innerHTML;
     let nearestJunction = document.getElementById('nearestJunction').innerHTML;
     let outputInfo = [position, address, nearestJunction];
     this.chatService.sendMessage(this.friend, 'locations', outputInfo).then(
-      () => { this.viewCtrl.dismiss(); }
+      () => {
+        this.viewCtrl.dismiss();
+      }
     );
   }
 

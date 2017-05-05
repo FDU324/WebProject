@@ -51,8 +51,8 @@ export class ChatService {
       return new Session(item.friend, item.messageList.slice(-1));
     });
 
-    const compare = (a,b) => {
-      return new Date(b.messageList[0].time).getTime()-new Date(a.messageList[0].time).getTime();
+    const compare = (a, b) => {
+      return new Date(b.messageList[0].time).getTime() - new Date(a.messageList[0].time).getTime();
     };
 
     return temList.sort(compare);
@@ -61,6 +61,9 @@ export class ChatService {
   sendMessage(friend: User, type: string, content) {
     let message = new Message('me', type, content, new Date().toLocaleString());
 
+    //console.log(content);
+    //console.log(this.sessionList);
+    //console.log(friend);
     let temSession = this.sessionList.find((item) => item.friend.username === friend.username);
     if (temSession === undefined) {
       let newSession = new Session(friend, [message]);
@@ -72,9 +75,9 @@ export class ChatService {
     return Promise.resolve(temSession);
   }
 
-  sendImg(friend: User,url:string) {
+  sendImg(friend: User, url: string) {
     //TODO: 这里将本地图片路径上传到服务器，得到该图片在服务器的路径
-    return this.sendMessage(friend,'images',url);
+    return this.sendMessage(friend, 'images', url);
   }
 
 

@@ -1,22 +1,24 @@
 <ion-header>
   <ion-navbar>
     <ion-title>发现</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only clear (click)="addMoment()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-  <ion-card (click)="gotoMomentZone()"> 
-    <ion-card-content> 
+  <ion-card (click)="gotoMomentZone()">
+    <ion-card-content>
       <p><b>朋友圈</b></p>
     </ion-card-content>
   </ion-card>
 
 
 </ion-content>
-
-
-
 
 
 <!--

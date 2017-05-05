@@ -1,19 +1,19 @@
 /**
  * Created by kadoufall on 2017/4/30.
  */
-import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Content } from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {NavController, NavParams, Content, App} from 'ionic-angular';
 
-import { Session } from '../../entities/session';
-import { User } from '../../entities/user';
-import { SessionSearchPage } from './session-search.component';
-import { MapSendLocationPage } from './map-send-location.component';
-import { MapSeeDetailPage } from './map-see-detail.component';
+import {Session} from '../../entities/session';
+import {User} from '../../entities/user';
+import {SessionSearchPage} from './session-search.component';
+import {MapSendLocationPage} from './map-send-location.component';
+import {MapSeeDetailPage} from './map-see-detail.component';
+import {MomentNewPage} from "../moment/moment-new.component";
 
-import { TabSwitchService } from '../../service/tab-switch.service';
-import { ChatService } from '../../service/chat.service';
-import { ImgService } from '../../service/img.service';
-
+import {TabSwitchService} from '../../service/tab-switch.service';
+import {ChatService} from '../../service/chat.service';
+import {ImgService} from '../../service/img.service';
 
 @Component({
   selector: 'page-session',
@@ -29,10 +29,11 @@ export class SessionPage {
   inputContent: string;
 
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public tabSwitchService: TabSwitchService,
-    public chatService: ChatService,
-    public imgService: ImgService) {
+              public navParams: NavParams,
+              public appCtrl: App,
+              public tabSwitchService: TabSwitchService,
+              public chatService: ChatService,
+              public imgService: ImgService) {
     this.friend = navParams.get('friend');
     this.localUser = navParams.get('localUser');
     this.inputContent = "";
@@ -41,6 +42,7 @@ export class SessionPage {
   ionViewWillEnter() {
     this.session = this.chatService.getSession(this.friend);
   }
+
 
   ionViewCanLeave() {
     //console.log("leave chat page");
@@ -65,10 +67,6 @@ export class SessionPage {
       friend: this.friend,
       localUser: this.localUser
     });
-  }
-
-  add() {
-
   }
 
   sendLoc() {
@@ -118,6 +116,13 @@ export class SessionPage {
   }
 
   postMoment() {
+    this.navCtrl.push(MomentNewPage, {
+      type: 'single',
+      friend: this.friend
+    });
+  }
+
+  momentDetail(moment) {
 
   }
 

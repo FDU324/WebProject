@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import {User} from '../entities/user';
 
@@ -7,7 +7,7 @@ export class LocalUserService {
   localUser: User;
 
   constructor() {
-    this.localUser = new User('Me', 'Who am I', 'sdfadsfas', 'assets/icon/favicon.ico', '中国大陆');
+    this.localUser = new User('Me', 'Who am I', 'sdfadsfas', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
 
   }
 

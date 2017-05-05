@@ -17,4 +17,11 @@ export class MomentTabPage {
   gotoMomentZone() {
     this.appCtrl.getRootNav().push(MomentZonePage);
   }
+
+
+  addMoment() {
+    this.appCtrl.getRootNav().push(MomentNewPage);
+  }
+
+
 }
