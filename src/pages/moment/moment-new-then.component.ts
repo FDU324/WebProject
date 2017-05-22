@@ -25,6 +25,7 @@ export class MomentNewThenPage {
   position: string;
   address: string;
   nearestJunction: string;
+  staticMapUrl: string;
   // 心情信息
   emotionText: string;
   emotionValue: string;
@@ -49,6 +50,7 @@ export class MomentNewThenPage {
     this.position = navParams.get('locInfo')[0];
     this.address = navParams.get('locInfo')[1];
     this.nearestJunction = navParams.get('locInfo')[2];
+    this.staticMapUrl = navParams.get('locInfo')[3];
 
     this.emotionText = navParams.get('emotionInfo')[0];
     this.emotionValue = navParams.get('emotionInfo')[1];
@@ -125,13 +127,13 @@ export class MomentNewThenPage {
   }
 
   // 这里所有的单发和未分组，moment的group都设成了null
-  // 所有moment的id都为-1，时间都为''
+  // 所有moment的id都为-1，时间都为-1
   sendMoment() {
-    let momentLocation = [this.position, this.address, this.nearestJunction];
+    let momentLocation = [this.position, this.address, this.nearestJunction, this.staticMapUrl];
     let momentEmotion = [this.emotionText, this.emotionValue, this.emotionIconName];
 
     if (this.type === 'single') {
-      let moment = new Moment(this.type, this.localUser, '', momentLocation, momentEmotion, -1, null, this.inputContent, this.images);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, null, this.inputContent, this.images);
       // console.log(moment);
       this.chatService.sendMessage(this.friend, 'moment', moment).then(
         () => {
@@ -143,7 +145,7 @@ export class MomentNewThenPage {
 
     } else {
       // public
-      let moment = new Moment(this.type, this.localUser, '', momentLocation, momentEmotion, -1, null, this.inputContent, this.images, null, 0);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, null, this.inputContent, this.images, null, 0);
       console.log(moment);
       this.momentService.sendMoment(moment, null).then(
         () => {

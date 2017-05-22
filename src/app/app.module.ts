@@ -49,8 +49,11 @@ import {ImgService} from '../service/img.service'
 import {NicknameChangePage} from "../pages/about/nickname-change.component";
 import {CityPickerService} from "../service/city-picker.service";
 
+import {MyDatePipe} from './my-date.pipe';
+
 @NgModule({
   declarations: [
+    MyDatePipe,
     MyApp,
     AboutTabPage,
     FriendsTabPage,

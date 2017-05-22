@@ -18,7 +18,7 @@ export class MomentService {
     this.memonetDatabase = [];
     for (let i = 0; i < 5; i++) {
       let user = new User('username--0', 'fake--0', 'sdfadsfas', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
-      let moment = new Moment('public', user, new Date().toLocaleString(), ['', 'zhangjiang', ''], ['happy', '高兴', 'happy']);
+      let moment = new Moment('public', user, Date.now(), ['', 'zhangjiang', ''], ['happy', '高兴', 'happy']);
       moment.id = i;
       moment.text = 'fsdajflsakdjffffffffffffffffffffffffffffffffffffffffffffffffffffffffffweijrnfkslakgajoijiigjfsdh';
       moment.images = ['assets/icon/favicon.ico'];
@@ -26,7 +26,7 @@ export class MomentService {
     }
 
     let user = new User('username--0', 'fake--0', 'sdfadsfas', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
-    let moment = new Moment('public', user, new Date().toLocaleString(), ['', 'zhangjiang', ''], ['sad', '悲伤', 'sad']);
+    let moment = new Moment('public', user, Date.now(), ['', 'zhangjiang', ''], ['sad', '悲伤', 'sad']);
     moment.id = 5;
     moment.text = 'fsdajflsakdjffffffffffffffffffffffffffffffffffffffffffffffffffffffffffweijrnfkslakgajoijiigjfsdh';
     //moment.images = [];
@@ -56,7 +56,7 @@ export class MomentService {
   sendMoment(moment: Moment, group) {
     // 这里moment的id都是-1,time都是空值
     // 设置time
-    moment.time = new Date().toLocaleString();
+    moment.time = Date.now();
 
     this.memonetDatabase.unshift(moment);
 

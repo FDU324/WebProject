@@ -112,7 +112,9 @@ export class MomentNewPage {
     let position = document.getElementById('position').innerHTML;
     let address = document.getElementById('address').innerHTML;
     let nearestJunction = document.getElementById('nearestJunction').innerHTML;
-    let locInfo = [position, address, nearestJunction];
+    let temPosition = position.split(',');
+    let url = "http://restapi.amap.com/v3/staticmap?location=" + temPosition[0] + "," + temPosition[1] + "&zoom=15&size=750*300&markers=mid,,:" + temPosition[0] + "," + temPosition[1] + "&key=a55c3c970ecab69b1f6e51374a467bba";
+    let locInfo = [position, address, nearestJunction, url];
 
     let emotionInfo = this.emotions.find((emotion) => emotion['value'] === this.chooseEmotion);
 

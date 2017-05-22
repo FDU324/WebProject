@@ -3,44 +3,48 @@
  */
 import {Component, ApplicationModule} from '@angular/core';
 import {User} from "../../entities/user";
-import {Camera } from 'ionic-native';
+import {Camera} from 'ionic-native';
 import {NavController, NavParams, ActionSheetController, App} from "ionic-angular";
 import {CityPickerService} from "../../service/city-picker.service";
 import {ImgService} from "../../service/img.service";
 import {NicknameChangePage} from "./nickname-change.component";
 import {LoginPage} from "../login/login";
 import {StartPage} from "../start/start";
+
 @Component({
   templateUrl: 'user-info.component.html',
 })
-export class UserInfoPage{
-  localUser : User;
+export class UserInfoPage {
+  localUser: User;
   cityData: any[]; //城市数据
-  cityName:string;
+  cityName: string;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public actionSheetCtrl: ActionSheetController,
               public cityPickerService: CityPickerService,
               public imgService: ImgService,
-              public appCtrl: App){
+              public appCtrl: App) {
     this.localUser = navParams.get('localUser');
     this.setCityPickerData();//得到城市数据
     this.cityName = this.localUser.location;//初始化城市名
   }
+
   /**
    * 获取城市数据
    */
-  setCityPickerData(){
+  setCityPickerData() {
     this.cityPickerService.getCitiesData()
-      .then( data => {
+      .then(data => {
         this.cityData = data;
       });
   }
+
   /**
    * 城市选择器被改变时触发的事件
    * @param event
    */
-  cityChange(event){
+  cityChange(event) {
     this.localUser.location = this.cityName;
   }
 
@@ -58,13 +62,13 @@ export class UserInfoPage{
             console.log('选择拍照');
             this.takeCamera();
           }
-        },{
+        }, {
           text: '从手机相册选择',
           handler: () => {
             console.log('选择相册');
             this.pickImg();
           }
-        },{
+        }, {
           text: '取消',
           role: 'cancel',
           handler: () => {
@@ -75,14 +79,15 @@ export class UserInfoPage{
     });
     actionSheet.present();
   }
+
   pickImg() {
     this.imgService.openImgPickerSingle().then((url) => {
-      if (url === 'error') {
+      if (url[0] === 'error') {
         console.log('error');
       } else {
         // TODO；上传到服务器
         console.log(url);
-        this.localUser.userimage = url;
+        this.localUser.userimage = url[0];
       }
     });
   }
@@ -102,7 +107,7 @@ export class UserInfoPage{
   /**
    * 点击后进入修改昵称的界面
    */
-  changeNickname(){
+  changeNickname() {
     this.appCtrl.getRootNav().push(NicknameChangePage, {
       localUser: this.localUser
     });
@@ -111,7 +116,7 @@ export class UserInfoPage{
   /**
    * 退出账号的点击事件
    */
-  cancelAccount(){
+  cancelAccount() {
     this.navCtrl.push(StartPage);
-}
+  }
 }

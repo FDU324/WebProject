@@ -13,7 +13,7 @@
 
       <ion-item>
         <ion-avatar item-left>
-          <h2>{{moment.time}}</h2>
+          <h2>{{moment.time | myDatePipe}}</h2>
         </ion-avatar>
         <ion-row>
           <ion-col col-3 *ngIf="moment.images!=undefined&&moment.images.length>0">

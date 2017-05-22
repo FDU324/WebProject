@@ -28,9 +28,9 @@ export class ChatService {
       for (let j = 0; j < 25; j++) {
         let messageFrom = new Message('friend', 'text', j + '--sdfadsf,fadgasadfasdfasfdadfasdfadsfafassfafdasdfasdfa' +
           'asdfadsfadfadfadfasfasfasdfafdadsfadsfadfsafafagsdfgdghfhgjfhgnbsdfgsdgaf' +
-          'asdfadgfhldsfng;iahng;auighliasudhfaiu;sgbha;iufh;uiahg', new Date().toLocaleString());
+          'asdfadgfhldsfng;iahng;auighliasudhfaiu;sgbha;iufh;uiahg', Date.now());
 
-        let messageTo = new Message('me', 'text', j + '--sdfadsffadga', new Date().toLocaleString());
+        let messageTo = new Message('me', 'text', j + '--sdfadsffadga', Date.now());
 
         messages.push(messageFrom);
         messages.push(messageTo);
@@ -52,14 +52,14 @@ export class ChatService {
     });
 
     const compare = (a, b) => {
-      return new Date(b.messageList[0].time).getTime() - new Date(a.messageList[0].time).getTime();
+      return b.messageList[0].time - a.messageList[0].time;
     };
 
     return temList.sort(compare);
   }
 
   sendMessage(friend: User, type: string, content) {
-    let message = new Message('me', type, content, new Date().toLocaleString());
+    let message = new Message('me', type, content, Date.now());
 
     //console.log(content);
     //console.log(this.sessionList);

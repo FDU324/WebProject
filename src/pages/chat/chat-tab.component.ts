@@ -19,14 +19,13 @@ export class ChatTabPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public appCtrl: App,
-              localUserService: LocalUserService,
-              public chatService: ChatService
-              ) {
+              public localUserService: LocalUserService,
+              public chatService: ChatService) {
     this.localUser = localUserService.getLocalUser();
     this.lastSessionList = chatService.getLastSessionList();
   }
 
-  ionViewWillEnter() {
+  ionViewDidEnter() {
     this.lastSessionList = this.chatService.getLastSessionList();
   }
 

@@ -9,8 +9,8 @@
 <ion-content>
   <ion-searchbar (ionInput)="searchMessages($event)"></ion-searchbar>
   <ion-list *ngIf="searchMessage.length!==0">
-    <ion-item *ngFor="let message of searchMessage" >
-      <ion-note text-center="">{{message.time}}</ion-note>
+    <ion-item *ngFor="let message of searchMessage">
+      <ion-note text-center="">{{message.time | myDatePipe}}</ion-note>
       <ion-avatar *ngIf="message.from === 'me'" item-right>
         <img [src]="localUser.userimage">
       </ion-avatar>

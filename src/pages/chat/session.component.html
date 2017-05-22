@@ -7,9 +7,7 @@
         <ion-icon name="search"></ion-icon>
       </button>
     </ion-buttons>
-
   </ion-navbar>
-
 
 </ion-header>
 
@@ -20,7 +18,7 @@
     <ion-item no-lines *ngFor="let message of session.messageList">
       <ion-row>
         <ion-col text-center>
-          <ion-note style="font-size:xx-small">{{message.time}}</ion-note>
+          <ion-note style="font-size:xx-small">{{message.time | myDatePipe}}</ion-note>
         </ion-col>
 
       </ion-row>
@@ -35,6 +33,7 @@
               <img text-wrap text-left *ngIf="message.type==='images'" src="assets/icon/favicon.ico">
 
               <div *ngIf="message.type==='locations'" (click)="mapDetail(message.content)">
+                <img [src]="message.content[3]">
                 <ion-item>
                   <ion-icon name="compass" item-left large></ion-icon>
                   <p text-wrap>
@@ -106,6 +105,7 @@
               <p text-wrap text-left *ngIf="message.type==='text'">{{message.content}}</p>
               <img text-wrap text-left *ngIf="message.type==='images'" src="assets/icon/favicon.ico">
               <div *ngIf="message.type==='locations'" (click)="mapDetail(message.content[0])">
+                <img [src]="message.content[3]">
                 <ion-item>
                   <ion-icon name="compass" item-left large></ion-icon>
                   <p>地点</p>

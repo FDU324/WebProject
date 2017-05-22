@@ -1,8 +1,8 @@
 /**
  * Created by kadoufall on 2017/5/3.
  */
-import { Injectable } from "@angular/core";
-import { Camera, ImagePicker } from "ionic-native";
+import {Injectable} from "@angular/core";
+import {Camera, ImagePicker} from "ionic-native";
 
 @Injectable()
 export class ImgService {
@@ -29,7 +29,7 @@ export class ImgService {
         quality: 80
       };
 
-      const re = ImagePicker.getPictures(options).then(
+      return ImagePicker.getPictures(options).then(
         (results) => {
           reURL = [];
           for (let i = 0; i < results.length; i++) {
@@ -41,9 +41,8 @@ export class ImgService {
           reURL = ['error'];
           console.log(err);
         }).then(() => {
-          return reURL;
-        });
-      return re;
+        return reURL;
+      });
     } else {
       return Promise.resolve(reURL);
     }
@@ -69,7 +68,7 @@ export class ImgService {
         quality: 80
       };
 
-      const re = ImagePicker.getPictures(options).then(
+      return ImagePicker.getPictures(options).then(
         (results) => {
           reURL = results[0];
           console.log(results[0]);
@@ -79,7 +78,6 @@ export class ImgService {
         }).then(() => {
         return reURL;
       });
-      return re;
     } else {
       return Promise.resolve(reURL);
     }
@@ -103,16 +101,16 @@ export class ImgService {
       correctOrientation: true,
     };
 
-    const re = Camera.getPicture(options).then((imageData) => {
+    return Camera.getPicture(options).then((imageData) => {
       reURL = imageData;
       //console.log(imageData);
     }, (err) => {
       reURL = 'error';
       //console.log();
-    }).then(() => { return reURL });
+    }).then(() => {
+      return reURL
+    });
 
-    return re;
   }
-
 
 }
