@@ -38,14 +38,14 @@
     2. 架构和技术说明
 
         本次pj采用前后端分离的架构。前端主要采用ionic2+AngularJS2的框架，后端计划使用Node.js。ionic提供显示的UI；/src/service中的服务用来处理数据，包括从后台获取数据，给前端传递数据；Node.js用来与数据库交互，并给前端传递数据
-
-            | Ionic2  & AngularJS2 |
-            |:----:|
-            | Service |
-            | ⬇request  ⬆request |
-            | Node.js |
-            | ↕️data |
-            | Databasea |
+        
+        | Ionic2  & AngularJS2 |
+        |:----:|
+        | Service |
+        | ⬇request  ⬆request |
+        | Node.js |
+        | ↕️data |
+        | Databasea |
             
 2. 使用说明
 
