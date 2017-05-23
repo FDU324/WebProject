@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 @Component({
-  selector: 'page-map-see-detail',
-  templateUrl: 'map-see-detail.component.html',
+  selector: 'page-chat-map-see-detail',
+  templateUrl: 'chat-map-see-detail.component.html',
 })
-export class MapSeeDetailPage {
+export class ChatMapSeeDetailPage {
   content: string[];
   address: string;
   nearestJunction: string;
@@ -28,7 +28,7 @@ export class MapSeeDetailPage {
 
     AMap.plugin(['AMap.ToolBar'], function () {
       map.addControl(new AMap.ToolBar());
-    })
+    });
 
     let marker = new AMap.Marker({
       position: map.getCenter(),

@@ -6,9 +6,9 @@ import {NavController, NavParams, Content, App} from 'ionic-angular';
 
 import {Session} from '../../entities/session';
 import {User} from '../../entities/user';
-import {SessionSearchPage} from './session-search.component';
-import {MapSendLocationPage} from './map-send-location.component';
-import {MapSeeDetailPage} from './map-see-detail.component';
+import {ChatSessionSearchPage} from './chat-session-search.component';
+import {ChatMapSendLocationPage} from './chat-map-send-location.component';
+import {ChatMapSeeDetailPage} from './chat-map-see-detail.component';
 import {MomentNewPage} from "../moment/moment-new.component";
 
 import {TabSwitchService} from '../../service/tab-switch.service';
@@ -16,12 +16,12 @@ import {ChatService} from '../../service/chat.service';
 import {ImgService} from '../../service/img.service';
 
 @Component({
-  selector: 'page-session',
-  templateUrl: 'session.component.html',
+  selector: 'page-chat-session',
+  templateUrl: 'chat-session.component.html',
 })
 
 
-export class SessionPage {
+export class ChatSessionPage {
   @ViewChild(Content) content: Content;
   session: Session;
   friend: User;
@@ -62,7 +62,7 @@ export class SessionPage {
   }
 
   searchMessage() {
-    this.navCtrl.push(SessionSearchPage, {
+    this.navCtrl.push(ChatSessionSearchPage, {
       session: this.session,
       friend: this.friend,
       localUser: this.localUser
@@ -70,7 +70,7 @@ export class SessionPage {
   }
 
   sendLoc() {
-    this.navCtrl.push(MapSendLocationPage, {
+    this.navCtrl.push(ChatMapSendLocationPage, {
       localUser: this.localUser,
       friend: this.friend,
     });
@@ -78,7 +78,7 @@ export class SessionPage {
 
   mapDetail(content) {
     //console.log(position);
-    this.navCtrl.push(MapSeeDetailPage, {
+    this.navCtrl.push(ChatMapSeeDetailPage, {
       content: content,
     });
   }

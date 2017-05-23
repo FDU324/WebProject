@@ -5,10 +5,10 @@ import {ImgService} from '../../service/img.service';
 import {User} from "../../entities/user";
 
 @Component({
-  selector: 'page-map-send-locatoon',
-  templateUrl: 'map-send-location.component.html',
+  selector: 'page-chat-map-send-locatoon',
+  templateUrl: 'chat-map-send-location.component.html',
 })
-export class MapSendLocationPage {
+export class ChatMapSendLocationPage {
   localUser: User;
   friend: User;
 

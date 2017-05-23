@@ -53,6 +53,7 @@
               </div>
 
               <div *ngIf="message.type==='moment'" (click)="momentDetail(message.content)">
+                <img [src]="message.content['location'][3]">
                 <ion-grid>
                   <ion-row>
                     <ion-item>
@@ -119,6 +120,7 @@
               </div>
 
               <div *ngIf="message.type==='moment'" (click)="momentDetail(message.content)">
+                <img [src]="message.content['location'][3]">
                 <ion-grid>
                   <ion-row>
                     <ion-col>

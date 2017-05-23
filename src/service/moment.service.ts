@@ -16,29 +16,36 @@ export class MomentService {
 
   initMemonetDatabase() {
     this.memonetDatabase = [];
-    for (let i = 0; i < 5; i++) {
-      let user = new User('username--0', 'fake--0', 'sdfadsfas', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
-      let moment = new Moment('public', user, Date.now(), ['', 'zhangjiang', ''], ['happy', '高兴', 'happy']);
-      moment.id = i;
-      moment.text = 'fsdajflsakdjffffffffffffffffffffffffffffffffffffffffffffffffffffffffffweijrnfkslakgajoijiigjfsdh';
-      moment.images = ['assets/icon/favicon.ico'];
+
+    let user = new User('username--0', 'fake--0', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
+    let temEmotion = ['happy', '高兴', 'happy'];
+    let temLocation = [
+      ['121.598457,31.190464', '复旦大学张江校区', '复旦大学张江校区', 'http://restapi.amap.com/v3/staticmap?location=121.598457,31.190464&zoom=15&size=750*300&markers=mid,,:121.598457,31.190464&key=a55c3c970ecab69b1f6e51374a467bba'],
+      ['121.503584,31.296426', '复旦大学邯郸校区', '复旦大学邯郸校区', 'http://restapi.amap.com/v3/staticmap?location=121.503584,31.296426&zoom=15&size=750*300&markers=mid,,:121.503584,31.296426&key=a55c3c970ecab69b1f6e51374a467bba'],
+      ['121.450745,31.196852', '复旦大学枫林校区', '复旦大学枫林校区', 'http://restapi.amap.com/v3/staticmap?location=121.450745,31.196852&zoom=15&size=750*300&markers=mid,,:121.450745,31.196852&key=a55c3c970ecab69b1f6e51374a467bba'],
+      ['121.506303,31.336578', '复旦大学江湾校区', '复旦大学江湾校区', 'http://restapi.amap.com/v3/staticmap?location=121.506303,31.336578&zoom=15&size=750*300&markers=mid,,:121.506303,31.336578&key=a55c3c970ecab69b1f6e51374a467bba'],
+      ['121.320205,31.193935', '上海虹桥站', '上海虹桥站', 'http://restapi.amap.com/v3/staticmap?location=121.320205,31.193935&zoom=15&size=750*300&markers=mid,,:121.320205,31.193935&key=a55c3c970ecab69b1f6e51374a467bba'],
+      ['121.33976,31.1961', '上海虹桥国际机场', '上海虹桥国际机场', 'http://restapi.amap.com/v3/staticmap?location=121.33976,31.1961&zoom=15&size=750*300&markers=mid,,:121.33976,31.1961&key=a55c3c970ecab69b1f6e51374a467bba'],
+    ];
+    let temText = 'fsdajflsakdjffffffffffffffffffffffffffffffffffffffffffffffffffffffffffweijrnfkslakgajoijiigjfsdh';
+    let temImg = ['assets/icon/favicon.ico'];
+
+    for (let i = 0; i < 6; i++) {
+      let moment = new Moment('public', user, Date.now(), temLocation[i], temEmotion, i, null, temText, temImg);
+
+      if (i === 5) {
+        moment.images = ['assets/icon/bg.jpg',
+          'assets/icon/favicon.ico',
+          'assets/icon/favicon.ico',
+          'assets/icon/bg.jpg',
+          'assets/icon/favicon.ico',
+          'assets/icon/favicon.ico',
+          'assets/icon/bg.jpg'
+        ];
+      }
+
       this.memonetDatabase.push(moment);
     }
-
-    let user = new User('username--0', 'fake--0', 'sdfadsfas', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
-    let moment = new Moment('public', user, Date.now(), ['', 'zhangjiang', ''], ['sad', '悲伤', 'sad']);
-    moment.id = 5;
-    moment.text = 'fsdajflsakdjffffffffffffffffffffffffffffffffffffffffffffffffffffffffffweijrnfkslakgajoijiigjfsdh';
-    //moment.images = [];
-    moment.images = ['assets/icon/bg.jpg',
-      'assets/icon/favicon.ico',
-      'assets/icon/favicon.ico',
-      'assets/icon/bg.jpg',
-      'assets/icon/favicon.ico',
-      'assets/icon/favicon.ico',
-      'assets/icon/bg.jpg'
-    ];
-    this.memonetDatabase.push(moment);
 
   }
 
@@ -47,7 +54,6 @@ export class MomentService {
       return item.user.nickname.toLowerCase() == user.nickname.toLowerCase();
     })
   }
-
 
   getMomentList() {
     return this.memonetDatabase;

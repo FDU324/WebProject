@@ -2,19 +2,22 @@
  * Created by wangziheng on 2017/5/3.
  */
 import {Component, ApplicationModule} from '@angular/core';
-import {User} from "../../entities/user";
-import {Camera} from 'ionic-native';
 import {NavController, NavParams, ActionSheetController, App} from "ionic-angular";
+import {Camera} from 'ionic-native';
+
 import {CityPickerService} from "../../service/city-picker.service";
 import {ImgService} from "../../service/img.service";
-import {NicknameChangePage} from "./nickname-change.component";
+
+import {User} from "../../entities/user";
+
+import {AboutNicknameChangePage} from "./about-nickname-change.component";
 import {LoginPage} from "../login/login";
 import {StartPage} from "../start/start";
 
 @Component({
-  templateUrl: 'user-info.component.html',
+  templateUrl: 'about-user-info.component.html',
 })
-export class UserInfoPage {
+export class AboutUserInfoPage {
   localUser: User;
   cityData: any[]; //城市数据
   cityName: string;
@@ -108,7 +111,7 @@ export class UserInfoPage {
    * 点击后进入修改昵称的界面
    */
   changeNickname() {
-    this.appCtrl.getRootNav().push(NicknameChangePage, {
+    this.appCtrl.getRootNav().push(AboutNicknameChangePage, {
       localUser: this.localUser
     });
   }

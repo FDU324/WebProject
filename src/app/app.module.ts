@@ -7,10 +7,6 @@ import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 
-// Imports for loading & configuring the in-memory web api
-//import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-//import { InMemoryDataService }  from '../services/in-memory-data.service';
-
 import {MyApp} from './app.component';
 import {SighupPage} from '../pages/signup/signup';
 import {LoginPage} from '../pages/login/login';
@@ -18,17 +14,19 @@ import {StartPage} from '../pages/start/start';
 import {TabsPage} from '../pages/tabs/tabs';
 
 import {AboutTabPage} from '../pages/about/about-tab.component';
-import {UserInfoPage} from "../pages/about/user-info.component";
+import {AboutUserInfoPage} from "../pages/about/about-user-info.component";
+import {AboutNicknameChangePage} from "../pages/about/about-nickname-change.component";
 
 import {ChatTabPage} from '../pages/chat/chat-tab.component';
-import {SessionPage} from '../pages/chat/session.component';
-import {MapSeeDetailPage} from '../pages/chat/map-see-detail.component';
-import {MapSendLocationPage} from '../pages/chat/map-send-location.component';
-import {SessionSearchPage} from '../pages/chat/session-search.component';
+import {ChatSessionPage} from '../pages/chat/chat-session.component';
+import {ChatMapSeeDetailPage} from '../pages/chat/chat-map-see-detail.component';
+import {ChatMapSendLocationPage} from '../pages/chat/chat-map-send-location.component';
+import {ChatSessionSearchPage} from '../pages/chat/chat-session-search.component';
 
 import {FriendsTabPage} from '../pages/friends/friends-tab.component';
 import {FriendAddPage} from '../pages/friends/friend-add.component';
 import {FriendDetailPage} from '../pages/friends/friend-detail.component'
+import {FriendMapPage} from '../pages/friends/friend-map.component'
 
 import {MomentTabPage} from '../pages/moment/moment-tab.component';
 import {MomentListPage} from '../pages/moment/moment-list.component';
@@ -46,7 +44,6 @@ import {TabSwitchService} from '../service/tab-switch.service';
 import {MomentService} from '../service/moment.service';
 import {CommentService} from '../service/comment.service'
 import {ImgService} from '../service/img.service'
-import {NicknameChangePage} from "../pages/about/nickname-change.component";
 import {CityPickerService} from "../service/city-picker.service";
 
 import {MyDatePipe} from './my-date.pipe';
@@ -55,31 +52,31 @@ import {MyDatePipe} from './my-date.pipe';
   declarations: [
     MyDatePipe,
     MyApp,
-    AboutTabPage,
-    FriendsTabPage,
-    FriendAddPage,
-    FriendDetailPage,
-    MomentTabPage,
     TabsPage,
-    ChatTabPage,
-    SessionPage,
-    SessionSearchPage,
-    MapSendLocationPage,
-    MapSeeDetailPage,
     SighupPage,
     StartPage,
     LoginPage,
-    UserInfoPage,
+    AboutTabPage,
+    AboutUserInfoPage,
+    AboutNicknameChangePage,
+    FriendsTabPage,
+    FriendAddPage,
+    FriendDetailPage,
+    FriendMapPage,
+    ChatTabPage,
+    ChatSessionPage,
+    ChatSessionSearchPage,
+    ChatMapSendLocationPage,
+    ChatMapSeeDetailPage,
+    MomentTabPage,
     MomentListPage,
     MomentNewPage,
     MomentNewThenPage,
-    NicknameChangePage,
     MomentDetailComponent,
     MomentPage,
     MomentZonePage,
+    MomentNewPage,
     ImageViewer,
-    MomentNewPage
-
   ],
   imports: [
     BrowserModule,
@@ -90,25 +87,26 @@ import {MyDatePipe} from './my-date.pipe';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutTabPage,
-    FriendsTabPage,
-    FriendAddPage,
-    FriendDetailPage,
-    MomentTabPage,
     TabsPage,
-    ChatTabPage,
-    SessionPage,
-    SessionSearchPage,
-    MapSendLocationPage,
-    MapSeeDetailPage,
     SighupPage,
     StartPage,
     LoginPage,
-    UserInfoPage,
+    AboutTabPage,
+    AboutUserInfoPage,
+    AboutNicknameChangePage,
+    FriendsTabPage,
+    FriendAddPage,
+    FriendDetailPage,
+    FriendMapPage,
+    ChatTabPage,
+    ChatSessionPage,
+    ChatSessionSearchPage,
+    ChatMapSendLocationPage,
+    ChatMapSeeDetailPage,
+    MomentTabPage,
     MomentListPage,
     MomentNewPage,
     MomentNewThenPage,
-    NicknameChangePage,
     MomentDetailComponent,
     MomentPage,
     MomentZonePage,

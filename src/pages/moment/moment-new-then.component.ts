@@ -3,7 +3,7 @@ import {NavController, NavParams, App, AlertController, ViewController} from 'io
 
 import {User} from '../../entities/user';
 import {Moment} from "../../entities/moment";
-import {MapSeeDetailPage} from '../chat/map-see-detail.component';
+import {ChatMapSeeDetailPage} from '../chat/chat-map-see-detail.component';
 import {ImageViewer} from './image-viewer.component';
 
 import {LocalUserService} from '../../service/local-user.service';
@@ -121,7 +121,7 @@ export class MomentNewThenPage {
   }
 
   mapDetail() {
-    this.navCtrl.push(MapSeeDetailPage, {
+    this.navCtrl.push(ChatMapSeeDetailPage, {
       content: [this.position, this.address, this.nearestJunction],
     });
   }

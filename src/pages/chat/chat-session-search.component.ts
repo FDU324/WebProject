@@ -10,10 +10,10 @@ import {Message} from "../../entities/message";
 import {User} from "../../entities/user";
 
 @Component({
-  selector: 'page-session-search',
-  templateUrl: 'session-search.component.html',
+  selector: 'page-chat-session-search',
+  templateUrl: 'chat-session-search.component.html',
 })
-export class SessionSearchPage {
+export class ChatSessionSearchPage {
   session: Session;
   searchMessage: Message[];
   localUser: User;

@@ -3,7 +3,7 @@ import {NavController, NavParams, App} from 'ionic-angular';
 
 import {User} from "../../entities/user";
 import {Session} from '../../entities/session';
-import {SessionPage} from './session.component';
+import {ChatSessionPage} from './chat-session.component';
 
 import {LocalUserService} from '../../service/local-user.service';
 import {ChatService} from '../../service/chat.service';
@@ -31,7 +31,7 @@ export class ChatTabPage {
 
   // 进入和某一好友的聊天页面
   gotoSession(friend) {
-    this.appCtrl.getRootNav().push(SessionPage, {
+    this.appCtrl.getRootNav().push(ChatSessionPage, {
       localUser: this.localUser,
       friend: friend
     });

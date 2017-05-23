@@ -13,7 +13,8 @@ export class SighupPage {
   locations: string[];
   showPsw: boolean;
   cityData: any[]; //城市数据
-  cityName:string;
+  cityName: string;
+  
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public loadingCtrl: LoadingController,
@@ -24,6 +25,7 @@ export class SighupPage {
     this.setCityPickerData();//得到城市数据
     this.showPsw = false;
   }
+
   /**
    * 获取城市数据
    */
@@ -33,6 +35,7 @@ export class SighupPage {
         this.cityData = data;
       });
   }
+
   /**
    * 城市选择器被改变时触发的事件
    * @param event
@@ -40,6 +43,7 @@ export class SighupPage {
   cityChange(event){
     this.user.location = this.cityName;
   }
+
   changeShowPsw() {
     this.showPsw = !this.showPsw;
   }
