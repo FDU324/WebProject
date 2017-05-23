@@ -21,16 +21,16 @@ export class ChatService {
     this.sessionList = [];
     // 添加50个模拟的好友及其聊天内容
     for (let i = 0; i < 50; i++) {
-      let friend = new User('username--' + i, 'fake--' + i, 'sdfadsfas', 'assets/icon/favicon.ico', '中国大陆');
+      let friend = new User('username--' + i, 'fake--' + i, 'assets/icon/favicon.ico', '北京市-北京市-东城区');
 
       // 添加50条模拟的聊天记录
       let messages = [];
       for (let j = 0; j < 25; j++) {
         let messageFrom = new Message('friend', 'text', j + '--sdfadsf,fadgasadfasdfasfdadfasdfadsfafassfafdasdfasdfa' +
           'asdfadsfadfadfadfasfasfasdfafdadsfadsfadfsafafagsdfgdghfhgjfhgnbsdfgsdgaf' +
-          'asdfadgfhldsfng;iahng;auighliasudhfaiu;sgbha;iufh;uiahg', new Date().toLocaleString());
+          'asdfadgfhldsfng;iahng;auighliasudhfaiu;sgbha;iufh;uiahg', Date.now());
 
-        let messageTo = new Message('me', 'text', j + '--sdfadsffadga', new Date().toLocaleString());
+        let messageTo = new Message('me', 'text', j + '--sdfadsffadga', Date.now());
 
         messages.push(messageFrom);
         messages.push(messageTo);
@@ -51,16 +51,19 @@ export class ChatService {
       return new Session(item.friend, item.messageList.slice(-1));
     });
 
-    const compare = (a,b) => {
-      return new Date(b.messageList[0].time).getTime()-new Date(a.messageList[0].time).getTime();
+    const compare = (a, b) => {
+      return b.messageList[0].time - a.messageList[0].time;
     };
 
     return temList.sort(compare);
   }
 
   sendMessage(friend: User, type: string, content) {
-    let message = new Message('me', type, content, new Date().toLocaleString());
+    let message = new Message('me', type, content, Date.now());
 
+    //console.log(content);
+    //console.log(this.sessionList);
+    //console.log(friend);
     let temSession = this.sessionList.find((item) => item.friend.username === friend.username);
     if (temSession === undefined) {
       let newSession = new Session(friend, [message]);
@@ -72,9 +75,9 @@ export class ChatService {
     return Promise.resolve(temSession);
   }
 
-  sendImg(friend: User,url:string) {
+  sendImg(friend: User, url: string) {
     //TODO: 这里将本地图片路径上传到服务器，得到该图片在服务器的路径
-    return this.sendMessage(friend,'images',url);
+    return this.sendMessage(friend, 'images', url);
   }
 
 

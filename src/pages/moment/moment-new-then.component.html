@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-navbar hideBackButton="true">
+    <ion-title>发送动态</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only clear (click)="sendMoment()">
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-input [(ngModel)]="inputContent" placeholder="请输入动态内容" clearInput></ion-input>
+  </ion-item>
+
+  <ion-grid padding>
+    <ion-row>
+      <ion-col col-3>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button round type="button" (click)="pickImg()">
+          点击选择图片
+        </button>
+      </ion-col>
+      <ion-col col-3>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="images.length>=1">
+      <ion-col col-4>
+        <img [src]="images[0]" (click)="viewImage(images,0)">
+      </ion-col>
+      <ion-col col-4>
+        <img *ngIf="images.length>=2" [src]="images[1]" (click)="viewImage(images,1)">
+      </ion-col>
+      <ion-col col-4>
+        <img *ngIf="images.length>=3" [src]="images[2]" (click)="viewImage(images,2)">
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="images.length>3">
+      <ion-col col-4>
+        <img *ngIf="images.length>=4" [src]="images[3]" (click)="viewImage(images,3)">
+      </ion-col>
+      <ion-col col-4>
+        <img *ngIf="images.length>=5" [src]="images[4]" (click)="viewImage(images,4)">
+      </ion-col>
+      <ion-col col-4>
+        <img *ngIf="images.length>=6" [src]="images[5]" (click)="viewImage(images,5)">
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="images.length>6">
+      <ion-col col-4>
+        <img *ngIf="images.length>=7" [src]="images[6]" (click)="viewImage(images,6)">
+      </ion-col>
+      <ion-col col-4>
+        <img *ngIf="images.length>=8" [src]="images[7]" (click)="viewImage(images,7)">
+      </ion-col>
+      <ion-col col-4>
+        <img *ngIf="images.length==9" [src]="images[8]" (click)="viewImage(images,8)">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <div (click)="mapDetail()">
+    <img [src]="staticMapUrl">
+    <ion-item>
+      <ion-icon name="compass" item-left large></ion-icon>
+      <p text-wrap>
+        <b>地点</b>
+        <br/> {{address}}
+      </p>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="navigate" item-left large></ion-icon>
+      <p text-wrap>
+        <b>最近的路口</b>
+        <br/> {{nearestJunction}}
+      </p>
+    </ion-item>
+    <ion-item>
+      <ion-icon [name]="emotionIconName" item-left large></ion-icon>
+      <p text-wrap>
+        <b>心情</b>
+        <br/> {{emotionText}}
+      </p>
+    </ion-item>
+  </div>
+
+  <!-- TODO: 分组  -->
+
+
+</ion-content>

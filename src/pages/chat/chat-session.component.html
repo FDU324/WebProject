@@ -1,0 +1,240 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{friend.nickname}}</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="searchMessage()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content scrollDownOnLoad='true' #content>
+
+  <ion-list *ngIf="session !== undefined">
+    <ion-item no-lines *ngFor="let message of session.messageList">
+      <ion-row>
+        <ion-col text-center>
+          <ion-note style="font-size:xx-small">{{message.time | myDatePipe}}</ion-note>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row *ngIf="message.from === 'me'">
+        <ion-col col-1>
+        </ion-col>
+        <ion-col col-9>
+          <ion-card>
+            <ion-card-content>
+              <p text-wrap text-left *ngIf="message.type==='text'">{{message.content}}</p>
+              <img text-wrap text-left *ngIf="message.type==='images'" src="assets/icon/favicon.ico">
+
+              <div *ngIf="message.type==='locations'" (click)="mapDetail(message.content)">
+                <img [src]="message.content[3]">
+                <ion-item>
+                  <ion-icon name="compass" item-left large></ion-icon>
+                  <p text-wrap>
+                    <b>地点</b>
+                    <br/>
+                    {{message.content[1]}}
+                  </p>
+                </ion-item>
+                <ion-item>
+                  <ion-icon name="navigate" item-left large></ion-icon>
+                  <p text-wrap>
+                    <b>最近的路口</b>
+                    <br/>
+                    {{message.content[2]}}
+                  </p>
+                </ion-item>
+              </div>
+
+              <div *ngIf="message.type==='moment'" (click)="momentDetail(message.content)">
+                <img [src]="message.content['location'][3]">
+                <ion-grid>
+                  <ion-row>
+                    <ion-item>
+                      <p text-wrap>
+                        <b>{{message.content["text"]}}</b>
+                      </p>
+                    </ion-item>
+                  </ion-row>
+                  <ion-row *ngIf="message.content['images'].length>=1">
+                    <ion-col col-4>
+                      <img [src]="message.content['images'][0]">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=2" [src]="message.content['images'][1]">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=3" [src]="message.content['images'][2]">
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-item>
+                      <ion-icon [name]="message.content['emotion'][2]" item-left large></ion-icon>
+                      <p text-wrap>
+                        <b>{{message.content["location"][1]}}</b>
+                      </p>
+                    </ion-item>
+                  </ion-row>
+                </ion-grid>
+              </div>
+
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-2>
+          <ion-avatar>
+            <img [src]="localUser.userimage">
+          </ion-avatar>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="message.from === 'friend'">
+        <ion-col col-2>
+          <ion-avatar>
+            <img [src]="friend.userimage">
+          </ion-avatar>
+        </ion-col>
+        <ion-col col-9>
+          <ion-card>
+            <ion-card-content>
+              <p text-wrap text-left *ngIf="message.type==='text'">{{message.content}}</p>
+              <img text-wrap text-left *ngIf="message.type==='images'" src="assets/icon/favicon.ico">
+              <div *ngIf="message.type==='locations'" (click)="mapDetail(message.content[0])">
+                <img [src]="message.content[3]">
+                <ion-item>
+                  <ion-icon name="compass" item-left large></ion-icon>
+                  <p>地点</p>
+                  <h2>{{message.content[1]}}</h2>
+                </ion-item>
+                <ion-item>
+                  <ion-icon name="navigate" item-left large></ion-icon>
+                  <p>最近的路口</p>
+                  <h2>{{message.content[2]}}</h2>
+                </ion-item>
+              </div>
+
+              <div *ngIf="message.type==='moment'" (click)="momentDetail(message.content)">
+                <img [src]="message.content['location'][3]">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                      <p>
+                        {{message.content["text"]}}
+                      </p>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="message.content['images'].length>=1">
+                    <ion-col col-4>
+                      <img [src]="message.content['images'][0]" (click)="viewImage(message.content['images'],0)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=2" [src]="message.content['images'][1]"
+                           (click)="viewImage(message.content['images'],1)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=3" [src]="message.content['images'][2]"
+                           (click)="viewImage(message.content['images'],2)">
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="message.content['images'].length>3">
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=4" [src]="message.content['images'][3]"
+                           (click)="viewImage(message.content['images'],3)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=5" [src]="message.content['images'][4]"
+                           (click)="viewImage(message.content['images'],4)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=6" [src]="message.content['images'][5]"
+                           (click)="viewImage(message.content['images'],5)">
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="message.content['images'].length>6">
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=7" [src]="message.content['images'][6]"
+                           (click)="viewImage(message.content['images'],6)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=8" [src]="message.content['images'][7]"
+                           (click)="viewImage(message.content['images'],7)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length==9" [src]="message.content['images'][8]"
+                           (click)="viewImage(message.content['images'],8)">
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <p>
+                      {{message.content["position"]}}
+                      <br/>
+                      {{message.content["emotion"]}}
+                      <br/>
+                      {{message.content["emotion"]}}
+                    </p>
+                  </ion-row>
+                </ion-grid>
+              </div>
+
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-1>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
+
+
+<ion-footer>
+  <form (ngSubmit)="submitInput()" #sessionForm="ngForm">
+    <ion-grid padding-right>
+      <ion-row>
+        <ion-col col-10>
+          <ion-input placeholder="请输入" required [(ngModel)]="inputContent" name="inputContent" #inputTem></ion-input>
+        </ion-col>
+        <!--
+        <ion-col col-1>
+          <button clear ion-button icon-only>
+            <ion-icon  name="home"></ion-icon>
+          </button>
+        </ion-col>
+        -->
+        <ion-col col-2>
+          <button ion-button type="submit" color="secondary" [disabled]="!sessionForm.form.valid"
+                  [hidden]="inputTem.value===''">发送
+          </button>
+
+          <ion-fab [hidden]="inputTem.value!==''">
+            <button ion-fab mini type="button" clear icon-only [hidden]="inputTem.value!==''">
+              <ion-icon name="add"></ion-icon>
+            </button>
+            <ion-fab-list side="left">
+              <button ion-fab color="dark" type="button" (click)="takeCamera()">
+                <ion-icon name="camera"></ion-icon>
+              </button>
+              <button ion-fab color="primary" type="button" (click)="pickImg()">
+                <ion-icon name="images"></ion-icon>
+              </button>
+              <button ion-fab color="light" type="button" (click)="sendLoc()">
+                <ion-icon name="navigate"></ion-icon>
+              </button>
+              <button ion-fab color="secondary" type="button" (click)="postMoment()">
+                <ion-icon name="color-wand"></ion-icon>
+              </button>
+            </ion-fab-list>
+          </ion-fab>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-footer>

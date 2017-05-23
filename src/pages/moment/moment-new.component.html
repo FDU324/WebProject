@@ -1,67 +1,44 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{user.nickname}}</ion-title>
+    <ion-title>位置与心情</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-right (click)="locEmotion()" color="primary">
+        确认
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
-
-
-  <ion-card>
-
-    <ion-item>
-      <ion-avatar item-left>
-        <img src="../assets/icon/favicon.ico">
-      </ion-avatar>
-      <h2>{{user.nickname}}</h2>
-      <p>November 5, 1955</p>
-    </ion-item>
-
-    <img src="../assets/icon/favicon.ico">
-
-    <ion-card-content>
-      <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a
-        DeLorean?! Whoa. This is heavy.</p>
-    </ion-card-content>
-
-    <ion-row>
-      <ion-fab right top>
-        <button ion-fab>
-          <ion-icon name="pin"></ion-icon>
-        </button>
-      </ion-fab>
-    </ion-row>
-
-    <ion-row>
-      <ion-col>
-        <button ion-button icon-left clear small>
-          <ion-icon name="thumbs-up"></ion-icon>
-          <div>12 Likes</div>
-        </button>
-      </ion-col>
-      <ion-col>
-        <button ion-button icon-left clear small>
-          <ion-icon name="text"></ion-icon>
-          <div>4 Comments</div>
-        </button>
-      </ion-col>
-      <ion-col center text-center>
-        <ion-note>
-          11h ago
-        </ion-note>
-      </ion-col>
-    </ion-row>
-
-  </ion-card>
-
-
+<ion-content>
+  <div id="mapContainer"></div>
 </ion-content>
+
+<ion-footer>
+  <ion-list>
+    <ion-list-header>
+      当前位置
+      <p hidden id="position"></p>
+    </ion-list-header>
+    <ion-item>
+      地址
+      <p id="address"></p>
+    </ion-item>
+    <ion-item>
+      最近的路口
+      <p id="nearestJunction"></p>
+    </ion-item>
+    <ion-item>
+      <ion-label>心情</ion-label>
+      <ion-select [(ngModel)]="chooseEmotion" interface="action-sheet" cancelText="取消">
+        <ion-option *ngFor="let emotion of emotions" [value]="emotion.value">{{emotion.text}}</ion-option>
+      </ion-select>
+      <ion-icon *ngIf="chooseEmotion==='like'" name="thumbs-up" item-right></ion-icon>
+      <ion-icon *ngIf="chooseEmotion==='love'" name="heart" item-right></ion-icon>
+      <ion-icon *ngIf="chooseEmotion==='haha'" name="happy" item-right></ion-icon>
+      <ion-icon *ngIf="chooseEmotion==='wow'" name="outlet" item-right></ion-icon>
+      <ion-icon *ngIf="chooseEmotion==='sad'" name="sad" item-right></ion-icon>
+      <ion-icon *ngIf="chooseEmotion==='angry'" name="thumbs-down" item-right></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-footer>

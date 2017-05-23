@@ -30,12 +30,20 @@
         <ion-input type="text" name="nickname" [(ngModel)]="user.nickname" required></ion-input>
       </ion-item>
 
-      <ion-item>
+      <button ion-item>
         <ion-label>国家/地区</ion-label>
-        <ion-select interface="action-sheet" cancelText="取消" [(ngModel)]='user.location' name='location' required>
-          <ion-option *ngFor="let loc of locations" [value]="loc">{{loc}}</ion-option>
-        </ion-select>
-      </ion-item>
+        <city-picker item-content
+                     [cancelText]="'取消'"
+                     [doneText]="'完成'"
+                     [separator]="'-'"
+                     [citiesData]="cityData"
+                     [(ngModel)]="cityName"
+                     (ionChange)="cityChange($event)"
+                     style = "margin-top: 7px"
+                     item-right=""
+                    name = "location">
+        </city-picker>
+      </button>
 
       <ion-thumbnail item-right>
         <img src="img/thumbnail-totoro.png">

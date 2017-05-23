@@ -2,8 +2,9 @@ import {Component} from '@angular/core';
 import {ViewController, NavParams, App} from 'ionic-angular';
 import {User} from '../../entities/user';
 
-import {SessionPage} from '../chat/session.component';
+import {ChatSessionPage} from '../chat/chat-session.component';
 import {MomentListPage} from '../moment/moment-list.component';
+import {FriendMapPage} from './friend-map.component';
 
 import {LocalUserService} from '../../service/local-user.service'
 import {ChatService} from '../../service/chat.service'
@@ -25,17 +26,14 @@ export class FriendDetailPage {
   // 进入和某一好友的聊天页面
   gotoSession(friend) {
     //this.appCtrl.getRootNav().remove(this.appCtrl.getRootNav().length()-1);
-
-
     //console.log(this.appCtrl.getRootNav().length());
-
     //console.log('dismiss');
-    this.appCtrl.getRootNav().push(SessionPage, {
+    this.appCtrl.getRootNav().push(ChatSessionPage, {
       localUser: this.localUserService.getLocalUser(),
       friend: friend
     });
 
-    setTimeout(() => this.viewCtrl.dismiss(),1000);
+    setTimeout(() => this.viewCtrl.dismiss(), 1000);
 
   }
 
@@ -46,8 +44,11 @@ export class FriendDetailPage {
     })
   }
 
-  gotoMomentMap(friend) {
+  gotoMomentMap() {
     console.log('map');
+    this.appCtrl.getRootNav().push(FriendMapPage,{
+      friend: this.friend
+    });
   }
 
 

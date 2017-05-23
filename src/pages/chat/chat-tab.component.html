@@ -18,8 +18,8 @@
       <p *ngIf="lastSession.messageList[0].type==='text'">{{lastSession.messageList[0].content}}</p>
       <p *ngIf="lastSession.messageList[0].type==='images'">[图片]</p>
       <p *ngIf="lastSession.messageList[0].type==='locations'">[位置]</p>
-      <p *ngIf="lastSession.messageList[0].type==='momennt'">[动态]</p>
-      <ion-note item-right>{{lastSession.messageList[0].time}}</ion-note>
+      <p *ngIf="lastSession.messageList[0].type==='moment'">[动态]</p>
+      <ion-note item-right>{{lastSession.messageList[0].time | myDatePipe}}</ion-note>
     </button>
   </ion-list>
 

@@ -5,7 +5,6 @@ export class Message {
   constructor(public from: string,    // me friend
               public type: string,    // text, images, maps-locations, momennt
               public content,
-              public time: string,) {
+              public time: number,) {
   }
 }
- 
