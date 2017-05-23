@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { ChatService } from '../../service/chat.service';
 import { User } from "../../entities/user";
@@ -10,6 +10,10 @@ import { User } from "../../entities/user";
 export class MapSendLocationPage {
   localUser: User;
   friend: User;
+
+  @Output() nearestJunction: string;
+  @Output() address: string;
+  @Output() position: string;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -27,6 +31,7 @@ export class MapSendLocationPage {
   }
 
   initialMap() {
+    let self = this;
     //加载PositionPicker，loadUI的路径参数为模块名中 'ui/' 之后的部分
     AMapUI.loadUI(['misc/PositionPicker'], function (PositionPicker) {
       let map = new AMap.Map('mapContainer', {
@@ -41,24 +46,24 @@ export class MapSendLocationPage {
       positionPicker.start();
 
       positionPicker.on('success', function (positionResult) {
-        document.getElementById('nearestJunction').innerHTML = positionResult.nearestJunction;
-        document.getElementById('address').innerHTML = positionResult.address;
-        document.getElementById('position').innerHTML = positionResult.position;
+        self.nearestJunction = positionResult.nearestJunction;
+        self.address = positionResult.address;
+        self.position = positionResult.position;
+
+        //console.log(self.address);
       });
 
       positionPicker.on('fail', function (positionResult) {
-        document.getElementById('nearestJunction').innerHTML = '';
-        document.getElementById('address').innerHTML = '海上或海外无法获得地址信息';
+        self.nearestJunction = '';
+        self.address = '海上或海外无法获得地址信息';
       });
 
     });
   }
 
   sendLoc() {
-    let position = document.getElementById('position').innerHTML;
-    let address = document.getElementById('address').innerHTML;
-    let nearestJunction = document.getElementById('nearestJunction').innerHTML;
-    let outputInfo = [position, address, nearestJunction];
+    console.log(this.address);
+    let outputInfo = [this.position, this.address, this.nearestJunction];
     this.chatService.sendMessage(this.friend, 'locations', outputInfo).then(
       () => { this.viewCtrl.dismiss(); }
     );

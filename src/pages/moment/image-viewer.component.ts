@@ -27,10 +27,12 @@ export class ImageViewer {
         this.currentIndex = navParams.get('currentIndex');
     }
 
+    // 单击图片，离开页面
     leave() {
         this.appCtrl.getRootNav().pop();
     }
 
+    //左划屏幕
     swipeLeft() {
         console.log(this.currentIndex);
         if(this.currentIndex < this.images.length-1)
@@ -38,6 +40,7 @@ export class ImageViewer {
         
     }
 
+    //右划屏幕
     swipeRight() {
         console.log(this.currentIndex);
         

@@ -12,12 +12,12 @@ import {MomentDetailComponent} from './moment-detail.component';
 import {ImageViewer} from './image-viewer.component';
 
 @Component({
-  selector: 'page-moment-zone',
-  templateUrl: 'moment-zone.component.html',
+  selector: 'page-moment-map',
+  templateUrl: 'moment-map.component.html',
 })
 
 
-export class MomentZonePage {
+export class MomentMapPage {
 
   momentList: Moment[];
   //commentList: Comment[];
@@ -37,7 +37,6 @@ export class MomentZonePage {
     //console.log(this.momentList);
   }
 
-  // 根据moment获取相关的comment
   getComments(moment: Moment) {
     return this.commentService.getCommentByMoment(moment);
   }
@@ -57,7 +56,6 @@ export class MomentZonePage {
       
   }
 
-  // 发评论，关联moment，以及评论的对象to
   addComment(moment: Moment, to: string) {
     this.currentMoment = moment;
     
