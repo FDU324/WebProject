@@ -1,12 +1,11 @@
-import {Component, ViewChild} from '@angular/core';
-import {Tabs} from 'ionic-angular'
+import {Component} from '@angular/core';
+import {Tabs, NavParams} from 'ionic-angular'
 
 import {AboutTabPage} from '../about/about-tab.component';
 import {FriendsTabPage} from '../friends/friends-tab.component';
 import {MomentTabPage} from '../moment/moment-tab.component';
 import {ChatTabPage} from '../chat/chat-tab.component';
 
-import {TabSwitchService} from '../../service/tab-switch.service'
 
 @Component({
   templateUrl: 'tabs.html'
@@ -20,18 +19,16 @@ export class TabsPage {
   tab3Root = AboutTabPage;
 
   selected: number = 0;
+  public tabId: number;
+  
+  constructor(public params: NavParams) {
+    this.tabId = params.get("tabId");
+    if(this.tabId != undefined || this.tabId !=null) {
+      this.selected = this.tabId;
+    }
+}
 
-  @ViewChild('myTabs') tabs: Tabs;
 
-  constructor(public tabSwitchService: TabSwitchService) {
-
-  }
-
-  // 页面加载完成后，将tabs与tabSwitchService中的tabs对象绑定
-  ionViewDidLoad() {
-    this.tabSwitchService.bindTabs(this.tabs);
-    //console.log(this.tabs);
-  }
 
   /*
    ionViewCanEnter() {

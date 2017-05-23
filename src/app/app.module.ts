@@ -40,7 +40,6 @@ import {ImageViewer} from '../pages/moment/image-viewer.component';
 import {FriendListService} from '../service/friend-list.service';
 import {LocalUserService} from '../service/local-user.service';
 import {ChatService} from '../service/chat.service';
-import {TabSwitchService} from '../service/tab-switch.service';
 import {MomentService} from '../service/moment.service';
 import {CommentService} from '../service/comment.service'
 import {ImgService} from '../service/img.service'
@@ -119,7 +118,6 @@ import {MyDatePipe} from './my-date.pipe';
     FriendListService,
     LocalUserService,
     ChatService,
-    TabSwitchService,
     CityPickerService,
     MomentService,
     CommentService,

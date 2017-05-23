@@ -2,16 +2,17 @@
  * Created by kadoufall on 2017/4/30.
  */
 import {Component, ViewChild} from '@angular/core';
-import {NavController, NavParams, Content, App} from 'ionic-angular';
+import {NavController, ViewController, NavParams, Content, App} from 'ionic-angular';
 
 import {Session} from '../../entities/session';
 import {User} from '../../entities/user';
+
+import {TabsPage} from '../tabs/tabs';
 import {ChatSessionSearchPage} from './chat-session-search.component';
 import {ChatMapSendLocationPage} from './chat-map-send-location.component';
 import {ChatMapSeeDetailPage} from './chat-map-see-detail.component';
 import {MomentNewPage} from "../moment/moment-new.component";
 
-import {TabSwitchService} from '../../service/tab-switch.service';
 import {ChatService} from '../../service/chat.service';
 import {ImgService} from '../../service/img.service';
 
@@ -29,9 +30,9 @@ export class ChatSessionPage {
   inputContent: string;
 
   constructor(public navCtrl: NavController,
+              public viewCtrl: ViewController,
               public navParams: NavParams,
               public appCtrl: App,
-              public tabSwitchService: TabSwitchService,
               public chatService: ChatService,
               public imgService: ImgService) {
     this.friend = navParams.get('friend');
@@ -41,14 +42,13 @@ export class ChatSessionPage {
 
   ionViewWillEnter() {
     this.session = this.chatService.getSession(this.friend);
+    
+    // 把stack中之前的page全部删除，并将root设为tabsPage
+    this.navCtrl.remove(0, this.navCtrl.length()-1);
+    this.navCtrl.insertPages(0, [{page: TabsPage, params:{tabId:0}}]);
+   
+    
   }
-
-
-  ionViewCanLeave() {
-    //console.log("leave chat page");
-    this.tabSwitchService.switchTab(0);
-  }
-
 
   submitInput() {
     this.chatService.sendMessage(this.friend, 'text', this.inputContent).then(

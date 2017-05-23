@@ -33,7 +33,6 @@ export class FriendDetailPage {
       friend: friend
     });
 
-    setTimeout(() => this.viewCtrl.dismiss(), 1000);
 
   }
 
