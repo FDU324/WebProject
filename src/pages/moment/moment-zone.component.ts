@@ -8,7 +8,6 @@ import {Comment} from '../../entities/comment';
 import {CommentService} from '../../service/comment.service';
 import {MomentService} from '../../service/moment.service';
 
-import {MomentDetailComponent} from './moment-detail.component';
 import {ImageViewer} from './image-viewer.component';
 
 @Component({

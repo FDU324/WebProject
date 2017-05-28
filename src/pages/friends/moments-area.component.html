@@ -1,0 +1,52 @@
+<ion-item *ngFor="let moment of momentList">    <!-- 每个item是一条动态-->
+          <p text-wrap>{{moment.text}}</p>
+
+          <img padding *ngIf="moment.images!=undefined&&moment.images.length==1" [src]="moment.images[0]">
+
+          <ion-grid padding *ngIf="moment.images!=undefined&&moment.images.length>1">
+            <ion-row>
+              <ion-col col-4>
+                <img [src]="moment.images[0]">
+              </ion-col>
+              <ion-col col-4>
+                <img [src]="moment.images[1]">
+              </ion-col>
+              <ion-col col-4>
+                <img *ngIf="moment.images.length>=3" [src]="moment.images[2]">
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="moment.images.length>3">
+              <ion-col col-4>
+                <img *ngIf="moment.images.length>=4" [src]="moment.images[3]">
+              </ion-col>
+              <ion-col col-4>
+                <img *ngIf="moment.images.length>=5" [src]="moment.images[4]">
+              </ion-col>
+              <ion-col col-4>
+                <img *ngIf="moment.images.length>=6" [src]="moment.images[5]">
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="moment.images.length>6">
+              <ion-col col-4>
+                <img *ngIf="moment.images.length>=7" [src]="moment.images[6]">
+              </ion-col>
+              <ion-col col-4>
+                <img *ngIf="moment.images.length>=8" [src]="moment.images[7]">
+              </ion-col>
+              <ion-col col-4>
+                <img *ngIf="moment.images.length==9" [src]="moment.images[8]">
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row>
+              <ion-col col-8>
+                    <ion-icon [name]="moment.emotion[3]" clear></ion-icon>
+                    <ion-note>
+                        {{moment.emotion[0]}}
+                    </ion-note>
+              </ion-col>
+              <ion-col col-4>
+                  <a (click)="showDetail(moment)">detail &gt;&gt;</a>
+              </ion-col>
+          </ion-row>
+</ion-item>

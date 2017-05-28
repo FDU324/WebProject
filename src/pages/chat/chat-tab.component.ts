@@ -27,6 +27,7 @@ export class ChatTabPage {
 
   ionViewDidEnter() {
     this.lastSessionList = this.chatService.getLastSessionList();
+    console.log('enter chat tab!');
   }
 
   // 进入和某一好友的聊天页面

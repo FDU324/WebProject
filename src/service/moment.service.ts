@@ -27,15 +27,15 @@ export class MomentService {
       ['121.320205,31.193935', '上海虹桥站', '上海虹桥站', 'http://restapi.amap.com/v3/staticmap?location=121.320205,31.193935&zoom=15&size=750*300&markers=mid,,:121.320205,31.193935&key=a55c3c970ecab69b1f6e51374a467bba'],
       ['121.33976,31.1961', '上海虹桥国际机场', '上海虹桥国际机场', 'http://restapi.amap.com/v3/staticmap?location=121.33976,31.1961&zoom=15&size=750*300&markers=mid,,:121.33976,31.1961&key=a55c3c970ecab69b1f6e51374a467bba'],
     ];
-    let temText = 'fsdajflsakdjffffffffffffffffffffffffffffffffffffffffffffffffffffffffffweijrnfkslakgajoijiigjfsdh';
-    let temImg = ['assets/icon/favicon.ico'];
+    let temText = '皮皮凯，我们走！！';
+    let temImg = ['assets/icon/test.jpg'];
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 5; i++) {
       let moment = new Moment('public', user, Date.now(), temLocation[i], temEmotion, i, null, temText, temImg);
 
-      if (i === 5) {
-        moment.images = ['assets/icon/bg.jpg',
-          'assets/icon/favicon.ico',
+      if (i === 4) {
+        moment.images = ['assets/icon/test.jpg',
+          'assets/icon/test.jpg',
           'assets/icon/favicon.ico',
           'assets/icon/bg.jpg',
           'assets/icon/favicon.ico',
@@ -46,8 +46,10 @@ export class MomentService {
 
       this.memonetDatabase.push(moment);
     }
-
+    let moment = new Moment('public', user, Date.now(), temLocation[5], temEmotion, 5, null, temText);
+    this.memonetDatabase.push(moment);
   }
+  
 
   getMomentByUser(user: User): Moment[] {
     return this.memonetDatabase.filter(item => {
