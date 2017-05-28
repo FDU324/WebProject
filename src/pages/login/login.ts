@@ -1,8 +1,11 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, LoadingController} from 'ionic-angular';
+import {NavController, NavParams, LoadingController, AlertController} from 'ionic-angular';
 
 import {TabsPage} from '../tabs/tabs';
 import {SighupPage} from "../signup/signup";
+
+import {SignupLoginService} from '../../service/signup-login.service';
+import {LocalUserService} from "../../service/local-user.service";
 
 @Component({
   selector: 'page-login',
@@ -15,14 +18,16 @@ export class LoginPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public loadingCtrl: LoadingController,) {
-    //this.username = '';
-    this.username = this.navParams.get('username');
+              public alertCtrl: AlertController,
+              public loadingCtrl: LoadingController,
+              public localUserService: LocalUserService,
+              public signupLoginService: SignupLoginService) {
+    this.username = this.navParams.get('username') || '';
     this.password = '';
     this.showPsw = false;
   }
 
-  changeShowPsw(){
+  changeShowPsw() {
     this.showPsw = !this.showPsw;
   }
 
@@ -33,20 +38,30 @@ export class LoginPage {
 
     loading.present();
 
-    // get information from background
-    // then dismiss the loading
-    // then nav to the TabsPage
-    setTimeout(() => {
-      loading.dismiss();
-    }, 2000);
-
-    this.navCtrl.setRoot(TabsPage);
+    this.signupLoginService.login(this.username, this.password).then((user) => {
+      if (typeof user === 'object') {
+        this.localUserService.setLocalUser(user);
+        loading.dismiss();
+        this.navCtrl.setRoot(TabsPage);
+      } else {
+        let alert = this.alertCtrl.create({
+          title: '登录失败',
+          subTitle: '账号或密码错误，请检查后重试',
+          buttons: ['确定']
+        });
+        loading.dismiss();
+        alert.present();
+      }
+    }).catch((error) => {
+      console.log('LoginPage-onSubmit', error);
+    });
   }
-  gotoRegister(){
+
+  gotoRegister() {
     this.navCtrl.push(SighupPage);
   }
 
-  forget(){
+  forget() {
 
   }
 

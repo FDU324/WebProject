@@ -44,6 +44,8 @@ import {ChatService} from '../service/chat.service';
 import {MomentService} from '../service/moment.service';
 import {CommentService} from '../service/comment.service'
 import {ImgService} from '../service/img.service'
+import {SignupLoginService} from '../service/signup-login.service'
+import {SocketService} from '../service/socket.service'
 import {CityPickerService} from "../service/city-picker.service";
 
 import {MyDatePipe} from './my-date.pipe';
@@ -124,7 +126,9 @@ import {MyDatePipe} from './my-date.pipe';
     CityPickerService,
     MomentService,
     CommentService,
-    ImgService
+    ImgService,
+    SignupLoginService,
+    SocketService
   ]
 })
 export class AppModule {
