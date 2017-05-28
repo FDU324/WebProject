@@ -33,6 +33,7 @@ import {MomentTabPage} from '../pages/moment/moment-tab.component';
 import {MomentListPage} from '../pages/moment/moment-list.component';
 import {MomentNewPage} from '../pages/moment/moment-new.component';
 import {MomentNewThenPage} from '../pages/moment/moment-new-then.component';
+import {MomentNewThenChooseGroupPage} from "../pages/moment/moment-new-then-choose-group.component";
 import {MomentDetailComponent} from '../pages/moment/moment-detail.component';
 import {MomentPage} from '../pages/moment/moment.component';
 import {MomentZonePage} from '../pages/moment/moment-zone.component';
@@ -47,6 +48,7 @@ import {ImgService} from '../service/img.service'
 import {CityPickerService} from "../service/city-picker.service";
 
 import {MyDatePipe} from './my-date.pipe';
+import {Transfer} from "@ionic-native/transfer";
 
 @NgModule({
   declarations: [
@@ -73,6 +75,7 @@ import {MyDatePipe} from './my-date.pipe';
     MomentListPage,
     MomentNewPage,
     MomentNewThenPage,
+    MomentNewThenChooseGroupPage,
     MomentDetailComponent,
     MomentPage,
     MomentZonePage,
@@ -109,10 +112,11 @@ import {MyDatePipe} from './my-date.pipe';
     MomentListPage,
     MomentNewPage,
     MomentNewThenPage,
+    MomentNewThenChooseGroupPage,
     MomentDetailComponent,
     MomentPage,
     MomentZonePage,
-    ImageViewer
+    ImageViewer,
   ],
   providers: [
     StatusBar,
@@ -124,7 +128,8 @@ import {MyDatePipe} from './my-date.pipe';
     CityPickerService,
     MomentService,
     CommentService,
-    ImgService
+    ImgService,
+    Transfer
   ]
 })
 export class AppModule {
