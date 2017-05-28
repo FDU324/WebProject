@@ -12,6 +12,7 @@ import {ChatSessionSearchPage} from './chat-session-search.component';
 import {ChatMapSendLocationPage} from './chat-map-send-location.component';
 import {ChatMapSeeDetailPage} from './chat-map-see-detail.component';
 import {MomentNewPage} from "../moment/moment-new.component";
+import {FriendDetailPage} from '../friends/friend-detail.component'
 
 import {ChatService} from '../../service/chat.service';
 import {ImgService} from '../../service/img.service';
@@ -40,7 +41,7 @@ export class ChatSessionPage {
     this.inputContent = "";
   }
 
-  ionViewWillEnter() {
+  ionViewDidLoad() {
     this.session = this.chatService.getSession(this.friend);
     
     // 把stack中之前的page全部删除，并将root设为tabsPage
@@ -124,6 +125,17 @@ export class ChatSessionPage {
 
   momentDetail(moment) {
 
+  }
+
+  showUserDetail(userType:string) {
+    let user: User;
+    if(userType === 'me')
+      user = this.localUser;
+    else
+      user = this.friend;
+     this.navCtrl.push(FriendDetailPage, {
+      friend: user
+    });
   }
 
 }

@@ -10,7 +10,26 @@
 <ion-content padding>
 
   <ion-list>
-    <button ion-item *ngFor="let lastSession of lastSessionList" (click)="gotoSession(lastSession.friend)">
+      <ion-item-sliding *ngFor="let lastSession of lastSessionList">
+
+          <button ion-item (click)="gotoSession(lastSession.friend)">
+            <ion-avatar item-left>
+              <img [src]="lastSession.friend.userimage">
+            </ion-avatar>
+            <h2>{{lastSession.friend.nickname}}</h2>
+            <p *ngIf="lastSession.messageList[0].type==='text'">{{lastSession.messageList[0].content}}</p>
+            <p *ngIf="lastSession.messageList[0].type==='images'">[图片]</p>
+            <p *ngIf="lastSession.messageList[0].type==='locations'">[位置]</p>
+            <p *ngIf="lastSession.messageList[0].type==='moment'">[动态]</p>
+            <ion-note item-right>{{lastSession.messageList[0].time | myDatePipe}}</ion-note>
+          </button>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="deleteSession(lastSession)">删除</button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+  <!--
+    <button ion-item *ngFor="let lastSession of lastSessionList" (click)="gotoSession(lastSession.friend)" (swipeleft)="swipeLeft()" (swiperight)="swipeRight()">
       <ion-avatar item-left>
         <img [src]="lastSession.friend.userimage">
       </ion-avatar>
@@ -21,6 +40,7 @@
       <p *ngIf="lastSession.messageList[0].type==='moment'">[动态]</p>
       <ion-note item-right>{{lastSession.messageList[0].time | myDatePipe}}</ion-note>
     </button>
+  -->
   </ion-list>
 
 </ion-content>
