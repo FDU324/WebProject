@@ -125,8 +125,6 @@ export class MomentNewPage {
       friend: this.friend
     });
 
-    setTimeout(() => this.viewCtrl.dismiss(), 1000);
-
   }
 
 }

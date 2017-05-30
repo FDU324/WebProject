@@ -13,6 +13,7 @@ import {User} from "../../entities/user";
 import {AboutNicknameChangePage} from "./about-nickname-change.component";
 import {LoginPage} from "../login/login";
 import {StartPage} from "../start/start";
+import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 
 @Component({
   templateUrl: 'about-user-info.component.html',
@@ -27,7 +28,8 @@ export class AboutUserInfoPage {
               public actionSheetCtrl: ActionSheetController,
               public cityPickerService: CityPickerService,
               public imgService: ImgService,
-              public appCtrl: App) {
+              public appCtrl: App,
+              public transfer: Transfer) {
     this.localUser = navParams.get('localUser');
     this.setCityPickerData();//得到城市数据
     this.cityName = this.localUser.location;//初始化城市名
@@ -82,13 +84,31 @@ export class AboutUserInfoPage {
     });
     actionSheet.present();
   }
+  /**
+   * 传入一个file对象，将其以二进制流的方式传给服务器
 
+  sendFile(url){
+    var fileTransfer : TransferObject = this.transfer.create();
+    const dest = "http://120.25.238.161:3000/upload.json";
+    var options = {
+      user:this.localUser.username,
+      filename:"test.jpg",
+    }
+    fileTransfer.upload(url,dest,options).then((data) => {
+      alert("正在上传");
+    }, (err) => {
+      alert("出错啦");
+    });
+
+  }
+  */
   pickImg() {
     this.imgService.openImgPickerSingle().then((url) => {
       if (url[0] === 'error') {
         console.log('error');
       } else {
         // TODO；上传到服务器
+        this.imgService.sendFile(this.localUser,url);
         console.log(url);
         this.localUser.userimage = url[0];
       }
@@ -101,8 +121,10 @@ export class AboutUserInfoPage {
         console.log('error');
       } else {
         // TODO；上传到服务器
-        console.log(url);
+        this.imgService.sendFile(this.localUser,url);
         this.localUser.userimage = url;
+        //console.log(url);
+
       }
     });
   }
@@ -122,4 +144,6 @@ export class AboutUserInfoPage {
   cancelAccount() {
     this.navCtrl.push(StartPage);
   }
+
+
 }

@@ -3,7 +3,7 @@
  */
 import {Injectable} from "@angular/core";
 import {Camera, ImagePicker} from "ionic-native";
-
+import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 @Injectable()
 export class ImgService {
 
@@ -113,6 +113,23 @@ export class ImgService {
       //console.log();
     }).then(() => {
       return re
+    });
+
+  }
+  /**
+   * 传入一个file对象，将其以二进制流的方式传给服务器
+   */
+  sendFile(user,url){
+    var fileTransfer : TransferObject = new Transfer().create();//this.transfer.create();
+    const dest = "http://120.25.238.161:3000/upload.json";
+    var options = {
+      user:user,
+      filename:"test.jpg",
+    }
+    fileTransfer.upload(url,dest,options).then((data) => {
+      alert("正在上传");
+    }, (err) => {
+      alert("出错啦");
     });
 
   }

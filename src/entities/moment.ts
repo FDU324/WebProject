@@ -12,7 +12,7 @@ export class Moment {
               public location: string[],    // 位置    ['经纬度', '地址', '最近的路口'，'静态地图url']
               public emotion: string[],   // 心情    ['text','value','iconName']
               public id?: number,
-              public group?: string[],
+              public group?: User[],
               public text?: string,
               public images?: string[],
               public comments?: Comment[],

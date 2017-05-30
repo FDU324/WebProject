@@ -6,6 +6,7 @@ import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
+import {Transfer} from "@ionic-native/transfer";
 
 import {MyApp} from './app.component';
 import {SighupPage} from '../pages/signup/signup';
@@ -33,6 +34,7 @@ import {MomentTabPage} from '../pages/moment/moment-tab.component';
 import {MomentListPage} from '../pages/moment/moment-list.component';
 import {MomentNewPage} from '../pages/moment/moment-new.component';
 import {MomentNewThenPage} from '../pages/moment/moment-new-then.component';
+import {MomentNewThenChooseGroupPage} from "../pages/moment/moment-new-then-choose-group.component";
 import {MomentDetailComponent} from '../pages/moment/moment-detail.component';
 import {MomentPage} from '../pages/moment/moment.component';
 import {MomentZonePage} from '../pages/moment/moment-zone.component';
@@ -75,6 +77,7 @@ import {MyDatePipe} from './my-date.pipe';
     MomentListPage,
     MomentNewPage,
     MomentNewThenPage,
+    MomentNewThenChooseGroupPage,
     MomentDetailComponent,
     MomentPage,
     MomentZonePage,
@@ -111,10 +114,11 @@ import {MyDatePipe} from './my-date.pipe';
     MomentListPage,
     MomentNewPage,
     MomentNewThenPage,
+    MomentNewThenChooseGroupPage,
     MomentDetailComponent,
     MomentPage,
     MomentZonePage,
-    ImageViewer
+    ImageViewer,
   ],
   providers: [
     StatusBar,
@@ -129,6 +133,7 @@ import {MyDatePipe} from './my-date.pipe';
     ImgService,
     SignupLoginService,
     SocketService
+    Transfer
   ]
 })
 export class AppModule {
