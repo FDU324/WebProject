@@ -7,27 +7,40 @@ import {Injectable} from '@angular/core';
 export class SocketService {
   socket;
 
-  initialSocket() {
-    this.socket = io('http://localhost:3000');
-
-    this.socket.on('connect', () => {
-      console.log('client_connects_success');
-    });
-
-    this.socket.on('connect_error', () => {
-      console.log('connect_error');
-    });
-
-    return this.socket;
+  setSocketNull() {
+    this.socket = null;
   }
 
   getSocket() {
     return this.socket;
   }
 
-  emitPromise(socket, command, data) {
+  socketConnect() {
+    this.socket = io('http://localhost:3000', {'force new connection': true});
+    this.socket.on('connect', () => {
+      console.log('client_connects_success');
+    });
+    this.socket.on('connect_error', () => {
+      console.log('connect_error');
+    });
+
+    // 确保socket成功建立再返回
+    return this.emitPromise('confirmConnect', '').then(data => {
+      console.log(data);
+      if (data === 'success') {
+        return Promise.resolve('success');
+      } else {
+        return Promise.resolve('error');
+      }
+    }).catch(error => {
+      console.log('SocketService-socketConnect:', error);
+    });
+  }
+
+
+  emitPromise(command, data) {
     return new Promise((resolve, reject) => {
-      socket.emit(command, data, (response) => {
+      this.socket.meit(command, data, (response) => {
         if (typeof response === 'object') {
           if (response.success === true) {
             resolve(response.data);

@@ -132,7 +132,7 @@ import {MyDatePipe} from './my-date.pipe';
     CommentService,
     ImgService,
     SignupLoginService,
-    SocketService
+    SocketService,
     Transfer
   ]
 })

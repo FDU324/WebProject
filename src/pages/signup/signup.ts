@@ -1,9 +1,14 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, LoadingController} from 'ionic-angular';
+import {
+  NavController, NavParams,
+  LoadingController, ActionSheetController,
+  AlertController, ToastController
+} from 'ionic-angular';
 
 import {LoginPage} from '../login/login';
 import {CityPickerService} from "../../service/city-picker.service";
 import {SignupLoginService} from "../../service/signup-login.service";
+import {ImgService} from "../../service/img.service";
 
 @Component({
   selector: 'page-signup',
@@ -20,7 +25,11 @@ export class SighupPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public actionSheetCtrl: ActionSheetController,
               public loadingCtrl: LoadingController,
+              public toastCtrl: ToastController,
+              public alertCtrl: AlertController,
+              public imgService: ImgService,
               public cityPickerService: CityPickerService,
               public signupLoginService: SignupLoginService) {
     this.username = '';
@@ -46,10 +55,56 @@ export class SighupPage {
     this.showPsw = !this.showPsw;
   }
 
-  pickImage(){
-
+  changeImage() {
+    let actionSheet = this.actionSheetCtrl.create({
+      buttons: [
+        {
+          text: '拍照',
+          role: 'destructive',
+          handler: () => {
+            this.takeCamera();
+          }
+        }, {
+          text: '从手机相册选择',
+          handler: () => {
+            this.pickImg();
+          }
+        }, {
+          text: '取消',
+          role: 'cancel',
+          handler: () => {
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 
+  pickImg() {
+    this.imgService.openImgPickerSingle().then((url) => {
+      if (url[0] === 'error') {
+        console.log('error');
+      } else {
+        // TODO；上传到服务器
+        //this.imgService.sendFile(this.localUser, url);
+        console.log(url);
+        //this.localUser.userimage = url[0];
+      }
+    });
+  }
+
+  takeCamera() {
+    this.imgService.openCamara().then((url) => {
+      if (url === 'error') {
+        console.log('error');
+      } else {
+        // TODO；上传到服务器
+        //this.imgService.sendFile(this.localUser, url);
+        //this.localUser.userimage = url;
+        console.log(url);
+      }
+    });
+  }
 
   onSubmit() {
     let loading = this.loadingCtrl.create({
@@ -58,17 +113,32 @@ export class SighupPage {
 
     loading.present();
 
-    this.signupLoginService.signup(this.username, this.password, this.nickname, '', this.cityName);
+    this.signupLoginService.signup(this.username, this.password, this.nickname, this.userImage, this.cityName)
+      .then((data) => {
+        if (data === 'success') {
+          let toast = this.toastCtrl.create({
+            message: '注册成功',
+            duration: 1500,
+            position: 'middle'
+          });
+          toast.onDidDismiss(() => {
+            this.navCtrl.setRoot(LoginPage);
+          });
 
-    // get information from background
-    // then dismiss the loading
-    // then nav to the LoginPage
+          loading.dismiss();
+          toast.present();
+        }
+        else {
+          let alert = this.alertCtrl.create({
+            title: '注册失败',
+            subTitle: '账号已被注册或服务器错误，请重试',
+            buttons: ['确定']
+          });
+          loading.dismiss();
+          alert.present();
+        }
+      });
 
-    setTimeout(() => {
-      loading.dismiss();
-    }, 2000);
-
-    this.navCtrl.setRoot(LoginPage);
 
   }
 
