@@ -38,5 +38,10 @@ export class ChatTabPage {
     });
   }
 
+  deleteSession(session: Session) {
+    //TODO:从本地缓存中删除聊天记录
+    console.log('delete session');
+  }
+
 
 }

@@ -27,10 +27,10 @@
           <p><b>{{moment.user.nickname}}</b></p>
           <p text-wrap>{{moment.text}}</p>
 
-          <img padding *ngIf="moment.images!=undefined&&moment.images.length==1" [src]="moment.images[0]"
+          <img *ngIf="moment.images!=undefined&&moment.images.length==1" [src]="moment.images[0]"
                (click)="viewImage(moment,0)">
 
-          <ion-grid padding *ngIf="moment.images!=undefined&&moment.images.length>1">
+          <ion-grid *ngIf="moment.images!=undefined&&moment.images.length>1">
             <ion-row>
               <ion-col col-4>
                 <img [src]="moment.images[0]" (click)="viewImage(moment,0)">

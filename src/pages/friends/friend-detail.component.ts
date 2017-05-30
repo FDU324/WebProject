@@ -16,11 +16,13 @@ import {ChatService} from '../../service/chat.service'
 
 export class FriendDetailPage {
   friend: User;
+  localUser: User;
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams, public appCtrl: App,
               public localUserService: LocalUserService,
               public chatService: ChatService) {
     this.friend = navParams.get('friend');
+    this.localUser = localUserService.getLocalUser();
   }
 
   // 进入和某一好友的聊天页面
@@ -48,6 +50,11 @@ export class FriendDetailPage {
     this.appCtrl.getRootNav().push(FriendMapPage,{
       friend: this.friend
     });
+  }
+
+  deleteFriend() {
+    //TODO:删除好友
+    console.log('delete friend');
   }
 
 
