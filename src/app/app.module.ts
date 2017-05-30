@@ -28,6 +28,7 @@ import {FriendAddPage} from '../pages/friends/friend-add.component';
 import {FriendDetailPage} from '../pages/friends/friend-detail.component'
 import {FriendMapPage} from '../pages/friends/friend-map.component';
 import {MomentsAreaPage} from '../pages/friends/moments-area.component'
+import {FriendReqPage} from '../pages/friends/friend-request.component'
 
 import {MomentTabPage} from '../pages/moment/moment-tab.component';
 import {MomentListPage} from '../pages/moment/moment-list.component';
@@ -65,6 +66,7 @@ import {Transfer} from "@ionic-native/transfer";
     FriendAddPage,
     FriendDetailPage,
     FriendMapPage,
+    FriendReqPage,
     MomentsAreaPage,
     ChatTabPage,
     ChatSessionPage,
@@ -102,6 +104,7 @@ import {Transfer} from "@ionic-native/transfer";
     FriendAddPage,
     FriendDetailPage,
     FriendMapPage,
+    FriendReqPage,
     MomentsAreaPage,
     ChatTabPage,
     ChatSessionPage,

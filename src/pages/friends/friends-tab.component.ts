@@ -3,6 +3,7 @@ import { NavController, NavParams, App} from 'ionic-angular';
 
 import {FriendAddPage} from './friend-add.component';
 import {FriendDetailPage} from './friend-detail.component';
+import {FriendReqPage} from './friend-request.component'
 
 import {User} from "../../entities/user";
 import {FriendListService} from '../../service/friend-list.service';
@@ -17,6 +18,7 @@ import {ChatService} from '../../service/chat.service';
 export class FriendsTabPage {
   friendList: User[];
   localUser: User;        // 当前的玩家
+  friendReqList: User[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public appCtrl: App,
               public localUserService: LocalUserService,
@@ -25,6 +27,7 @@ export class FriendsTabPage {
               ) {
     this.friendList = friendListService.getFriendList();
     this.localUser = localUserService.getLocalUser();
+    this.friendReqList = friendListService.getFriendReqList();
   }
 
   searchFriends(ev) {
@@ -57,6 +60,8 @@ export class FriendsTabPage {
     })
   }
 
-
+  gotoFriendReqPage() {
+    this.appCtrl.getRootNav().push(FriendReqPage);
+  }
 
 }

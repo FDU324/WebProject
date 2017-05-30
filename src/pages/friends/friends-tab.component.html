@@ -23,6 +23,10 @@
   -->
 
   <ion-searchbar (ionInput)="searchFriends($event)"></ion-searchbar>
+  <button ion-item block="true" color="light" *ngIf="friendReqList.length>0" (click)="gotoFriendReqPage()">
+    新的朋友
+    <ion-badge item-right color="danger">{{friendReqList.length}}</ion-badge>
+  </button>
   <ion-list>
     <button ion-item *ngFor="let friend of friendList" (click)="showDetail(friend)">
       <ion-avatar item-left>

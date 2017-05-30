@@ -14,8 +14,9 @@
 
           <button ion-item (click)="gotoSession(lastSession.friend)">
             <ion-avatar item-left>
-              <img [src]="lastSession.friend.userimage">
+                <img [src]="lastSession.friend.userimage">    
             </ion-avatar>
+            <ion-badge *ngIf="lastSession.newMessageCount>0" item-right color="danger">{{lastSession.newMessageCount}}</ion-badge>
             <h2>{{lastSession.friend.nickname}}</h2>
             <p *ngIf="lastSession.messageList[0].type==='text'">{{lastSession.messageList[0].content}}</p>
             <p *ngIf="lastSession.messageList[0].type==='images'">[图片]</p>
