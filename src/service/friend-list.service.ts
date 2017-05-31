@@ -27,8 +27,12 @@ export class FriendListService {
         this.friendList.push(friend);
       }
     }
+    let friend = new User('asd', 'asd',  'assets/icon/favicon.ico', '北京市-北京市-东城区')
+    this.friendList.push(friend);
+    friend = new User('asda', 'asda',  'assets/icon/favicon.ico', '北京市-北京市-东城区')
+    this.friendList.push(friend);
     this.friendReqList = [];
-    let friend = new User('username--50', 'fake--50',  'assets/icon/favicon.ico', '北京市-北京市-东城区');
+    friend = new User('username--50', 'fake--50',  'assets/icon/favicon.ico', '北京市-北京市-东城区');
     this.friendReqList.push(friend); 
   }
 
@@ -54,7 +58,7 @@ export class FriendListService {
       }
     }
   }
-  
+
   searchUser(myUsername, friendUsername) {
     let url = 'http://localhost:3000/user/findUser?myUsername=' + myUsername + '&friendUsername=' + friendUsername;
     return this.http.get(url).toPromise()

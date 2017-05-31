@@ -5,6 +5,8 @@ import {Message} from '../entities/message';
 import {Session} from '../entities/session';
 
 import {LocalUserService} from './local-user.service'
+import {SocketService} from './socket.service'
+import {FriendListService} from './friend-list.service'
 
 @Injectable()
 export class ChatService {
@@ -16,7 +18,7 @@ export class ChatService {
   observers: any[];
   
 
-  constructor(public localUserService: LocalUserService) {
+  constructor(public localUserService: LocalUserService, public socketService: SocketService, public friendListService: FriendListService) {
     this.localUser = localUserService.getLocalUser();
     this.initializeSissions();
   }
@@ -28,7 +30,7 @@ export class ChatService {
     // 添加50个模拟的好友及其聊天内容
 
     this.totalNewMessageCount = 0;
-    
+/* 
       let friend = new User('username--0', 'fake--0', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
 
       // 添加50条模拟的聊天记录
@@ -45,8 +47,8 @@ export class ChatService {
       }
 
       let temSession = new Session(friend, messages,3);
-      this.sessionList.push(temSession);
-      this.totalNewMessageCount += temSession.newMessageCount;
+      //this.sessionList.push(temSession);
+      //this.totalNewMessageCount += temSession.newMessageCount;
 
       friend = new User('username--1', 'fake--1', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
 
@@ -64,24 +66,43 @@ export class ChatService {
       }
 
       temSession = new Session(friend, messages,1);
-      this.sessionList.push(temSession);
-      this.totalNewMessageCount += temSession.newMessageCount;
+      //this.sessionList.push(temSession);
+      //this.totalNewMessageCount += temSession.newMessageCount;
 
+*/
+      this.socketService.getSocket().on('receiveMessage', (data)=>{
+          let jsonData = JSON.parse(data);
+          let temSession = this.sessionList.find((item) => item.friend.username === jsonData['from']);
+          if (temSession === undefined) {
+            let friend = this.friendListService.getFriendList().find(item => item.username === jsonData['from']);
+            jsonData['message'].from = 'friend';
+            let newSession = new Session(friend, [jsonData['message']], 1);
+            temSession = newSession;
+            this.sessionList.unshift(newSession);
+          } 
+          else {
+            jsonData['message'].from = 'friend';
+            temSession.messageList.push(jsonData['message']);
+            temSession.newMessageCount++;
+          }
+          this.totalNewMessageCount++;
+          this.update();
+      })
 
   }
 
   registerComponent(component: any) {
     this.observers.push(component);
-    component.log('register!');
+    //component.log('register!');
   }
 
   removeComponent(component: any) {
     this.observers.splice(this.observers.indexOf(component), 1);
-    component.log('remove!');
+    //component.log('remove!');
   }
 
   update() {
-
+      this.observers.forEach(item=> item.update());
   }
 
   getSession(friend: User) {
@@ -114,8 +135,27 @@ export class ChatService {
     } else {
       temSession.messageList.push(message);
     }
-    return Promise.resolve(temSession);
+    let data = {
+      from: this.localUser.username,
+      to: friend.username,
+      message: message
+    }
+
+    return this.socketService.emitPromise('sendMessage', JSON.stringify(data)).then((data)=>{
+        if (data === 'success') {
+            return Promise.resolve(temSession);
+        }
+        return Promise.resolve('SendMessage-error');
+    }).catch(error => {
+        console.log('SendMessage-error:', error);
+        return Promise.resolve('SendMessage-error');
+    });
+    //return Promise.resolve(temSession);
   }
+
+  
+
+
 
   sendImg(friend: User, url: string) {
     //TODO: 这里将本地图片路径上传到服务器，得到该图片在服务器的路径

@@ -55,6 +55,11 @@ export class ChatSessionPage {
     this.chatService.removeComponent(this);
   }
 
+  update() {
+    this.session = this.chatService.getSession(this.friend);
+    this.chatService.clearNewMessages(this.friend);
+    }
+
   log(text: string) {
     console.log(text);
   }
@@ -62,10 +67,13 @@ export class ChatSessionPage {
   submitInput() {
     this.chatService.sendMessage(this.friend, 'text', this.inputContent).then(
       (session) => {
-        this.session = session;
-        //console.log(this.session);
-        this.inputContent = '';
-        this.content.scrollToBottom(3000);
+        if(typeof session !== 'string') {
+            this.session = session;
+          //console.log(this.session);
+          this.inputContent = '';
+          this.content.scrollToBottom(3000);
+        }
+        
       }
     );
   }
@@ -101,8 +109,10 @@ export class ChatSessionPage {
         console.log(urls);
         urls.forEach(url => {
           this.chatService.sendImg(this.friend, url).then((session) => {
-            this.session = session;
-            this.content.scrollToBottom(3000);
+            if(typeof session !== 'string') {
+              this.session = session;
+              this.content.scrollToBottom(3000);
+            }
           });
         });
       }
@@ -117,8 +127,11 @@ export class ChatSessionPage {
         // TODO；上传到服务器
         console.log(url);
         this.chatService.sendImg(this.friend, url).then((session) => {
-          this.session = session;
-          this.content.scrollToBottom(3000);
+          if(typeof session !== 'string') {
+            this.session = session;
+         
+            this.content.scrollToBottom(3000);
+          }
         });
       }
     });

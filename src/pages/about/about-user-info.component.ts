@@ -166,7 +166,7 @@ export class AboutUserInfoPage {
    * 退出账号的点击事件
    */
   cancelAccount() {
-    this.socketService.emitPromise(this.socketService.getSocket(), 'logout', this.localUser.username)
+    this.socketService.emitPromise('logout', this.localUser.username)
       .then(() => {
         this.socketService.getSocket().disconnect();
         this.socketService.setSocketNull();
