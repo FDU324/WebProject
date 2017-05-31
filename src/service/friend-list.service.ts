@@ -11,12 +11,11 @@ export class FriendListService {
   friendList: User[];
   friendReqList: User[];
 
-
   constructor(public http: Http,
               public socketService: SocketService) {
     this.friendList = [];
     for (let i = 0; i < 50; i++) {
-      let friend = new User('username--' + i, 'fake--' + i,  'assets/icon/favicon.ico', '北京市-北京市-东城区');
+      let friend = new User('username--' + i, 'fake--' + i, 'assets/icon/favicon.ico', '北京市-北京市-东城区');
       this.friendList.push(friend);
     }
     this.friendReqList = [];
@@ -67,8 +66,8 @@ export class FriendListService {
 
   acceptRequest(friend: User) {
     //TODO: 接受好友请求
-    for(let i=0; i<this.friendReqList.length; i++) {
-      if(this.friendReqList[i].username === friend.username) {
+    for (let i = 0; i < this.friendReqList.length; i++) {
+      if (this.friendReqList[i].username === friend.username) {
         this.friendReqList.splice(i, 1);
         break;
       }
