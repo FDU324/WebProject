@@ -1,6 +1,6 @@
 <ion-tabs selectedIndex={{selected}}>
-  <ion-tab [root]="tab0Root" tabTitle="聊天" tabIcon="chatbubbles"></ion-tab>
-  <ion-tab [root]="tab1Root" tabTitle="好友" tabIcon="contacts"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="盆友圈" tabIcon="color-wand" tabBadge="22" tabBadgeStyl="danger"></ion-tab>
+  <ion-tab [root]="tab0Root" tabTitle="聊天" tabIcon="chatbubbles" [tabBadge]="totalNewMessageCount" tabBadgeStyle="danger"></ion-tab>
+  <ion-tab [root]="tab1Root" tabTitle="好友" tabIcon="contacts" [tabBadge]="friendReqCount" tabBadgeStyle="danger"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="盆友圈" tabIcon="color-wand" [tabBadge]="totalNewMomentCount" tabBadgeStyle="danger"></ion-tab>
   <ion-tab [root]="tab3Root" tabTitle="我" tabIcon="person"></ion-tab>
 </ion-tabs>
