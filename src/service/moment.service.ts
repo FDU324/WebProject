@@ -8,6 +8,7 @@ export class MomentService {
 
 
   memonetDatabase: Moment[];
+  newMomnentCount: number;
 
   constructor() {
     //this.localUser = new User('Me', 'Who am I', 'sdfadsfas', '../assets/icon/favicon.ico', '中国大陆');
@@ -16,6 +17,7 @@ export class MomentService {
 
   initMemonetDatabase() {
     this.memonetDatabase = [];
+    this.newMomnentCount = 3;
 
     let user = new User('username--0', 'fake--0', 'assets/icon/favicon.ico', '北京市-北京市-东城区',[]);
     let temEmotion = ['happy', '高兴', 'happy'];
@@ -69,5 +71,13 @@ export class MomentService {
     this.memonetDatabase.unshift(moment);
 
     return Promise.resolve(this.memonetDatabase);
+  }
+
+  getNewMomentCount() {
+    return this.newMomnentCount;
+  }
+
+  clearNewMomentCount() {
+    this.newMomnentCount = 0;
   }
 }

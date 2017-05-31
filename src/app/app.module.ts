@@ -27,10 +27,11 @@ import {FriendsTabPage} from '../pages/friends/friends-tab.component';
 import {FriendAddPage} from '../pages/friends/friend-add.component';
 import {FriendDetailPage} from '../pages/friends/friend-detail.component';
 import {FriendMapPage} from '../pages/friends/friend-map.component';
-import {MomentsAreaPage} from '../pages/friends/moments-area.component';
 import {GroupsDetailPage} from '../pages/friends/groups-detail.component';
 import {GroupEditPage} from '../pages/friends/group-edit.component';
 import {GroupEditAddPage} from '../pages/friends/group-edit-add.component';
+import {MomentsAreaPage} from '../pages/friends/moments-area.component'
+import {FriendReqPage} from '../pages/friends/friend-request.component'
 
 import {MomentTabPage} from '../pages/moment/moment-tab.component';
 import {MomentListPage} from '../pages/moment/moment-list.component';
@@ -71,6 +72,7 @@ import {Transfer} from "@ionic-native/transfer";
     GroupsDetailPage,
     GroupEditPage,
     GroupEditAddPage,
+    FriendReqPage,
     MomentsAreaPage,
     ChatTabPage,
     ChatSessionPage,
@@ -111,6 +113,7 @@ import {Transfer} from "@ionic-native/transfer";
     GroupsDetailPage,
     GroupEditPage,
     GroupEditAddPage,
+    FriendReqPage,
     MomentsAreaPage,
     ChatTabPage,
     ChatSessionPage,

@@ -89,7 +89,7 @@
         </ion-col>
         <ion-col col-2>
           <ion-avatar>
-            <img [src]="localUser.userimage">
+            <img [src]="localUser.userimage"  (click)="showUserDetail('me')">
           </ion-avatar>
         </ion-col>
       </ion-row>
@@ -97,7 +97,7 @@
       <ion-row *ngIf="message.from === 'friend'">
         <ion-col col-2>
           <ion-avatar>
-            <img [src]="friend.userimage">
+            <img [src]="friend.userimage" (click)="showUserDetail('friend')">
           </ion-avatar>
         </ion-col>
         <ion-col col-9>

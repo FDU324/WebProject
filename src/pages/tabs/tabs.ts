@@ -6,6 +6,10 @@ import {FriendsTabPage} from '../friends/friends-tab.component';
 import {MomentTabPage} from '../moment/moment-tab.component';
 import {ChatTabPage} from '../chat/chat-tab.component';
 
+import {ChatService} from '../../service/chat.service'
+import {FriendListService} from '../../service/friend-list.service'
+import {MomentService} from '../../service/moment.service'
+
 
 @Component({
   templateUrl: 'tabs.html'
@@ -20,8 +24,16 @@ export class TabsPage {
 
   selected: number = 0;
   public tabId: number;
+
+  totalNewMessageCount: number = 0;
+  totalNewMomentCount: number = 0;
+  friendReqCount: number = 0;
   
-  constructor(public params: NavParams) {
+  constructor(public params: NavParams,
+              public chatService: ChatService,
+              public friendListService: FriendListService,
+              public momentService: MomentService
+              ) {
     this.tabId = params.get("tabId");
     if(this.tabId != undefined || this.tabId !=null) {
       this.selected = this.tabId;
@@ -30,18 +42,13 @@ export class TabsPage {
 
 
 
-  /*
-   ionViewCanEnter() {
+  
+  ionViewCanEnter() {
+    this.totalNewMessageCount = this.chatService.getTotalNewMessageCount();
+    this.friendReqCount = this.friendListService.getReqCount();
+    this.totalNewMomentCount = this.momentService.getNewMomentCount();
+  }
 
-   this.selected = this.tabSwitchService.getSelected();
-   //console.log('enter tabs'+this.selected);
-   this.tabs.select(this.selected);
-   }
-
-   ionViewCanLeave() {
-   //console.log('leave tabs'+this.selected);
-   this.tabSwitchService.setSelected(this.selected);
-   }
-   */
+   
 
 }

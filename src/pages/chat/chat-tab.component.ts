@@ -28,15 +28,27 @@ export class ChatTabPage {
   ionViewDidEnter() {
     this.lastSessionList = this.chatService.getLastSessionList();
     console.log('enter chat tab!');
+    for(let session of this.lastSessionList) {
+      console.log(session.newMessageCount);
+    }
+    
   }
 
   // 进入和某一好友的聊天页面
   gotoSession(friend) {
+    this.chatService.clearNewMessages(friend);
     this.appCtrl.getRootNav().push(ChatSessionPage, {
       localUser: this.localUser,
       friend: friend
     });
   }
+
+  deleteSession(session: Session) {
+    //TODO:从本地缓存中删除聊天记录
+    console.log('delete session');
+  }
+
+  
 
 
 }
