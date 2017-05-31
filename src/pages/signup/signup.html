@@ -13,12 +13,12 @@
 
       <ion-item>
         <ion-label floating>用户名(不可修改)</ion-label>
-        <ion-input type="text" name="username" [(ngModel)]='user.username' required></ion-input>
+        <ion-input type="text" name="username" [(ngModel)]='username' required></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label floating>密码</ion-label>
-        <ion-input [type]="showPsw? 'text' : 'password'" name="password" [(ngModel)]="user.password"
+        <ion-input [type]="showPsw? 'text' : 'password'" name="password" [(ngModel)]="password"
                    required></ion-input>
         <button type="button" ion-button clear item-right (click)="changeShowPsw()">
           <ion-icon [name]="showPsw? 'eye' : 'eye-off'"></ion-icon>
@@ -27,7 +27,7 @@
 
       <ion-item>
         <ion-label floating>昵称</ion-label>
-        <ion-input type="text" name="nickname" [(ngModel)]="user.nickname" required></ion-input>
+        <ion-input type="text" name="nickname" [(ngModel)]="nickname" required></ion-input>
       </ion-item>
 
       <button ion-item type="button">
@@ -38,16 +38,18 @@
                      [separator]="'-'"
                      [citiesData]="cityData"
                      [(ngModel)]="cityName"
-                     (ionChange)="cityChange($event)"
-                     style = "margin-top: 7px"
+                     style="margin-top: 7px"
                      item-right=""
-                    name = "location">
+                     name="location">
         </city-picker>
       </button>
 
-      <ion-thumbnail item-right>
-        <img src="img/thumbnail-totoro.png">
-      </ion-thumbnail>
+      <button ion-item type="button" (click)="changeImage()">
+        <ion-label>头像</ion-label>
+        <ion-thumbnail item-right>
+          <img [src]="userImage">
+        </ion-thumbnail>
+      </button>
 
     </ion-list>
 

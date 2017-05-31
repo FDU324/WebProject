@@ -89,11 +89,11 @@ export class ImgService {
    * 成功返回: Promise: 图片的路径
    * 失败返回： Promise: 'error'
    */
-  openCamara() {
-    let reURL = '';
+  openCamara(type?:string) {
+    let re;
     let options = {
       quality: 100,
-      destinationType: Camera.DestinationType.FILE_URI,
+      destinationType: type==='base64'?Camera.DestinationType.DATA_URL:Camera.DestinationType.FILE_URI,
       sourceType: Camera.PictureSourceType.CAMERA,
       encodingType: Camera.EncodingType.JPEG,
       mediaType: Camera.MediaType.PICTURE,
@@ -102,13 +102,17 @@ export class ImgService {
     };
 
     return Camera.getPicture(options).then((imageData) => {
-      reURL = imageData;
+      if (type === 'base64') {
+        re = "data:image/jpeg;base64," + imageData;
+      } else {
+        re = imageData;
+      }
       //console.log(imageData);
     }, (err) => {
-      reURL = 'error';
+      re = 'error';
       //console.log();
     }).then(() => {
-      return reURL
+      return re
     });
 
   }

@@ -1,26 +1,41 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, LoadingController} from 'ionic-angular';
+import {
+  NavController, NavParams,
+  LoadingController, ActionSheetController,
+  AlertController, ToastController
+} from 'ionic-angular';
 
 import {LoginPage} from '../login/login';
-import {User} from '../../entities/user';
 import {CityPickerService} from "../../service/city-picker.service";
+import {SignupLoginService} from "../../service/signup-login.service";
+import {ImgService} from "../../service/img.service";
+
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',
 })
 export class SighupPage {
-  user: User;
-  locations: string[];
+  username: string;
+  password: string;
+  nickname: string;
+  userImage: string;
   showPsw: boolean;
   cityData: any[]; //城市数据
   cityName: string;
-  
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public actionSheetCtrl: ActionSheetController,
               public loadingCtrl: LoadingController,
-              public cityPickerService: CityPickerService,) {
-    this.user = new User('', '', '');
-    //this.locations = ['中国大陆', '中国香港', '中国澳门', '中国台湾', '新加坡'];
+              public toastCtrl: ToastController,
+              public alertCtrl: AlertController,
+              public imgService: ImgService,
+              public cityPickerService: CityPickerService,
+              public signupLoginService: SignupLoginService) {
+    this.username = '';
+    this.password = '';
+    this.nickname = '';
+    this.userImage = 'assets/icon/favicon.ico';
     this.cityName = "北京市-北京市-东城区";
     this.setCityPickerData();//得到城市数据
     this.showPsw = false;
@@ -29,23 +44,66 @@ export class SighupPage {
   /**
    * 获取城市数据
    */
-  setCityPickerData(){
+  setCityPickerData() {
     this.cityPickerService.getCitiesData()
-      .then( data => {
+      .then(data => {
         this.cityData = data;
       });
   }
 
-  /**
-   * 城市选择器被改变时触发的事件
-   * @param event
-   */
-  cityChange(event){
-    this.user.location = this.cityName;
-  }
-
   changeShowPsw() {
     this.showPsw = !this.showPsw;
+  }
+
+  changeImage() {
+    let actionSheet = this.actionSheetCtrl.create({
+      buttons: [
+        {
+          text: '拍照',
+          role: 'destructive',
+          handler: () => {
+            this.takeCamera();
+          }
+        }, {
+          text: '从手机相册选择',
+          handler: () => {
+            this.pickImg();
+          }
+        }, {
+          text: '取消',
+          role: 'cancel',
+          handler: () => {
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  pickImg() {
+    this.imgService.openImgPickerSingle().then((url) => {
+      if (url[0] === 'error') {
+        console.log('error');
+      } else {
+        // TODO；上传到服务器
+        //this.imgService.sendFile(this.localUser, url);
+        console.log(url);
+        //this.localUser.userimage = url[0];
+      }
+    });
+  }
+
+  takeCamera() {
+    this.imgService.openCamara().then((url) => {
+      if (url === 'error') {
+        console.log('error');
+      } else {
+        // TODO；上传到服务器
+        //this.imgService.sendFile(this.localUser, url);
+        //this.localUser.userimage = url;
+        console.log(url);
+      }
+    });
   }
 
   onSubmit() {
@@ -55,15 +113,32 @@ export class SighupPage {
 
     loading.present();
 
-    // get information from background
-    // then dismiss the loading
-    // then nav to the LoginPage
+    this.signupLoginService.signup(this.username, this.password, this.nickname, this.userImage, this.cityName)
+      .then((data) => {
+        if (data === 'success') {
+          let toast = this.toastCtrl.create({
+            message: '注册成功',
+            duration: 1500,
+            position: 'middle'
+          });
+          toast.onDidDismiss(() => {
+            this.navCtrl.setRoot(LoginPage);
+          });
 
-    setTimeout(() => {
-      loading.dismiss();
-    }, 2000);
+          loading.dismiss();
+          toast.present();
+        }
+        else {
+          let alert = this.alertCtrl.create({
+            title: '注册失败',
+            subTitle: '账号已被注册或服务器错误，请重试',
+            buttons: ['确定']
+          });
+          loading.dismiss();
+          alert.present();
+        }
+      });
 
-    this.navCtrl.setRoot(LoginPage);
 
   }
 

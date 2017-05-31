@@ -31,7 +31,17 @@ export class ChatTabPage {
     for(let session of this.lastSessionList) {
       console.log(session.newMessageCount);
     }
+
+    this.chatService.registerComponent(this); 
     
+  }
+
+  ionViewDidLeave() {
+    this.chatService.removeComponent(this);
+  }
+
+  update() {
+    this.lastSessionList = this.chatService.getLastSessionList();
   }
 
   // 进入和某一好友的聊天页面

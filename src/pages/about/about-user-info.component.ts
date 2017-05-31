@@ -1,19 +1,19 @@
 /**
  * Created by wangziheng on 2017/5/3.
  */
-import {Component, ApplicationModule} from '@angular/core';
-import {NavController, NavParams, ActionSheetController, App} from "ionic-angular";
-import {Camera} from 'ionic-native';
-
-import {CityPickerService} from "../../service/city-picker.service";
-import {ImgService} from "../../service/img.service";
+import {Component} from '@angular/core';
+import {NavController, NavParams, ActionSheetController, App, ToastController} from "ionic-angular";
+import {Transfer, FileUploadOptions, TransferObject} from '@ionic-native/transfer';
 
 import {User} from "../../entities/user";
 
 import {AboutNicknameChangePage} from "./about-nickname-change.component";
-import {LoginPage} from "../login/login";
 import {StartPage} from "../start/start";
-import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
+
+import {LocalUserService} from "../../service/local-user.service";
+import {CityPickerService} from "../../service/city-picker.service";
+import {ImgService} from "../../service/img.service";
+import {SocketService} from "../../service/socket.service";
 
 @Component({
   templateUrl: 'about-user-info.component.html',
@@ -26,14 +26,18 @@ export class AboutUserInfoPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public actionSheetCtrl: ActionSheetController,
-              public cityPickerService: CityPickerService,
-              public imgService: ImgService,
               public appCtrl: App,
-              public transfer: Transfer) {
+              public toastCtrl: ToastController,
+              public transfer: Transfer,
+              public cityPickerService: CityPickerService,
+              public localUserService: LocalUserService,
+              public imgService: ImgService,
+              public socketService: SocketService,) {
     this.localUser = navParams.get('localUser');
     this.setCityPickerData();//得到城市数据
     this.cityName = this.localUser.location;//初始化城市名
   }
+
 
   /**
    * 获取城市数据
@@ -47,10 +51,29 @@ export class AboutUserInfoPage {
 
   /**
    * 城市选择器被改变时触发的事件
-   * @param event
    */
   cityChange(event) {
-    this.localUser.location = this.cityName;
+    this.localUserService.modifyLocation(this.cityName).then(data => {
+      if (data === 'success') {
+        let toast = this.toastCtrl.create({
+          message: '修改成功',
+          duration: 1000,
+          position: 'middle'
+        });
+        toast.onDidDismiss(() => {
+          this.localUser.location = this.cityName;
+        });
+        toast.present();
+      } else {
+        let toast = this.toastCtrl.create({
+          message: '修改失败，请重试',
+          duration: 1500,
+          position: 'middle'
+        });
+
+        toast.present();
+      }
+    });
   }
 
   /**
@@ -84,10 +107,11 @@ export class AboutUserInfoPage {
     });
     actionSheet.present();
   }
+
   /**
    * 传入一个file对象，将其以二进制流的方式传给服务器
 
-  sendFile(url){
+   sendFile(url){
     var fileTransfer : TransferObject = this.transfer.create();
     const dest = "http://120.25.238.161:3000/upload.json";
     var options = {
@@ -101,14 +125,14 @@ export class AboutUserInfoPage {
     });
 
   }
-  */
+   */
   pickImg() {
     this.imgService.openImgPickerSingle().then((url) => {
       if (url[0] === 'error') {
         console.log('error');
       } else {
         // TODO；上传到服务器
-        this.imgService.sendFile(this.localUser,url);
+        this.imgService.sendFile(this.localUser, url);
         console.log(url);
         this.localUser.userimage = url[0];
       }
@@ -121,7 +145,7 @@ export class AboutUserInfoPage {
         console.log('error');
       } else {
         // TODO；上传到服务器
-        this.imgService.sendFile(this.localUser,url);
+        this.imgService.sendFile(this.localUser, url);
         this.localUser.userimage = url;
         //console.log(url);
 
@@ -142,7 +166,15 @@ export class AboutUserInfoPage {
    * 退出账号的点击事件
    */
   cancelAccount() {
-    this.navCtrl.push(StartPage);
+    this.socketService.emitPromise('logout', this.localUser.username)
+      .then(() => {
+        this.socketService.getSocket().disconnect();
+        this.socketService.setSocketNull();
+        this.navCtrl.setRoot(StartPage);
+      })
+      .catch(error => {
+        console.log('AboutUserInfoPage-cancelAccount:', error);
+      });
   }
 
 

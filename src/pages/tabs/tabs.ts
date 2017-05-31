@@ -47,6 +47,15 @@ export class TabsPage {
     this.totalNewMessageCount = this.chatService.getTotalNewMessageCount();
     this.friendReqCount = this.friendListService.getReqCount();
     this.totalNewMomentCount = this.momentService.getNewMomentCount();
+
+    this.chatService.registerComponent(this);
+  }
+
+  update() {
+    this.totalNewMessageCount = this.chatService.getTotalNewMessageCount();
+    this.friendReqCount = this.friendListService.getReqCount();
+    this.totalNewMomentCount = this.momentService.getNewMomentCount();
+
   }
 
    
