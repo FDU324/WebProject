@@ -67,7 +67,4 @@ export class LocalUserService {
         return Promise.resolve('error');
       });
   }
-
-
->>>>>>> origin/master
 }
