@@ -9,22 +9,17 @@ import {SocketService} from "./socket.service";
 @Injectable()
 export class FriendListService {
   friendList: User[];
+  friendReqList: User[];
+
 
   constructor(public http: Http,
               public socketService: SocketService) {
     this.friendList = [];
     for (let i = 0; i < 50; i++) {
-      if (i === 0) {
-        let friend = new User('123' + i, '123' + i, 'assets/icon/favicon.ico', '北京市-北京市-东城区');
-        this.friendList.push(friend);
-      } else if (i === 1) {
-        let friend = new User('aaa' + i, 'aaa' + i, 'assets/icon/favicon.ico', '北京市-北京市-东城区');
-        this.friendList.push(friend);
-      } else {
-        let friend = new User('username--' + i, 'fake--' + i, 'assets/icon/favicon.ico', '北京市-北京市-东城区');
-        this.friendList.push(friend);
-      }
+      let friend = new User('username--' + i, 'fake--' + i,  'assets/icon/favicon.ico', '北京市-北京市-东城区');
+      this.friendList.push(friend);
     }
+    this.friendReqList = [];
   }
 
   getFriendList() {
@@ -60,6 +55,24 @@ export class FriendListService {
         console.log(error);
         return Promise.resolve('FriendListService-searchUser:');
       });
+  }
+
+  getFriendReqList() {
+    return this.friendReqList;
+  }
+
+  getReqCount() {
+    return this.friendReqList.length;
+  }
+
+  acceptRequest(friend: User) {
+    //TODO: 接受好友请求
+    for(let i=0; i<this.friendReqList.length; i++) {
+      if(this.friendReqList[i].username === friend.username) {
+        this.friendReqList.splice(i, 1);
+        break;
+      }
+    }
   }
 
 }
