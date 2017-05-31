@@ -48,7 +48,15 @@ export class ChatSessionPage {
     this.navCtrl.remove(0, this.navCtrl.length()-1);
     this.navCtrl.insertPages(0, [{page: TabsPage, params:{tabId:0}}]);
    
-    
+    this.chatService.registerComponent(this); 
+  }
+
+  ionViewDidLeave() {
+    this.chatService.removeComponent(this);
+  }
+
+  log(text: string) {
+    console.log(text);
   }
 
   submitInput() {

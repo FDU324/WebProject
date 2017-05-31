@@ -15,3 +15,5 @@ declare module '*';
 
 declare const AMap: any;
 declare const AMapUI: any;
+
+declare const io: any;

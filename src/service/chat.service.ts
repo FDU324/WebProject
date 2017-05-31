@@ -13,6 +13,9 @@ export class ChatService {
 
   totalNewMessageCount: number;
 
+  observers: any[];
+  
+
   constructor(public localUserService: LocalUserService) {
     this.localUser = localUserService.getLocalUser();
     this.initializeSissions();
@@ -20,6 +23,7 @@ export class ChatService {
 
   // sessions
   initializeSissions() {
+    this.observers  = [];
     this.sessionList = [];
     // 添加50个模拟的好友及其聊天内容
 
@@ -63,6 +67,20 @@ export class ChatService {
       this.sessionList.push(temSession);
       this.totalNewMessageCount += temSession.newMessageCount;
 
+
+  }
+
+  registerComponent(component: any) {
+    this.observers.push(component);
+    component.log('register!');
+  }
+
+  removeComponent(component: any) {
+    this.observers.splice(this.observers.indexOf(component), 1);
+    component.log('remove!');
+  }
+
+  update() {
 
   }
 
