@@ -40,4 +40,9 @@ export class GroupsDetailPage{
       });
     }
   }
+  deleteGroup(group){
+    // TODO:在数组中删掉这个group并发送给服务器
+    //let index = this.groups.indexOf(group);
+    //this.groups.splice(index,1);
+  }
 }

@@ -12,9 +12,14 @@
     <ion-item-divider color="light">
       已有分组({{groups.length}})
     </ion-item-divider>
-    <button ion-item *ngFor="let group of groups" (click)="editGroup(1,group)">
-      <h2>{{group.groupname}}({{group.members.length}})</h2>
-      <p>{{group.members[0].nickname}} ...</p>
-    </button>
+    <ion-item-sliding *ngFor= "let group of groups">
+      <button ion-item  (click)="editGroup(1,group)">
+        <h2>{{group.groupname}}({{group.members.length}})</h2>
+        <p>{{group.members[0].nickname}} ...</p>
+      </button>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="deleteGroup(group)">删除</button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>
