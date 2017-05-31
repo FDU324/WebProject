@@ -17,7 +17,7 @@ export class MomentService {
   initMemonetDatabase() {
     this.memonetDatabase = [];
 
-    let user = new User('username--0', 'fake--0', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
+    let user = new User('username--0', 'fake--0', 'assets/icon/favicon.ico', '北京市-北京市-东城区',[]);
     let temEmotion = ['happy', '高兴', 'happy'];
     let temLocation = [
       ['121.598457,31.190464', '复旦大学张江校区', '复旦大学张江校区', 'http://restapi.amap.com/v3/staticmap?location=121.598457,31.190464&zoom=15&size=750*300&markers=mid,,:121.598457,31.190464&key=a55c3c970ecab69b1f6e51374a467bba'],
@@ -49,7 +49,7 @@ export class MomentService {
     let moment = new Moment('public', user, Date.now(), temLocation[5], temEmotion, 5, null, temText);
     this.memonetDatabase.push(moment);
   }
-  
+
 
   getMomentByUser(user: User): Moment[] {
     return this.memonetDatabase.filter(item => {

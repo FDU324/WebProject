@@ -5,7 +5,7 @@
     </ion-title>
     <ion-buttons right>
       <button ion-button (click)="confirm()" color="primary">
-        确认({{chosenGroup.length}})
+        确认
         <ion-icon name="arrow-forward"></ion-icon>
       </button>
     </ion-buttons>
@@ -14,8 +14,19 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let friend of friendList" (click)="addFriend(friend)">
-      {{friend.nickname}}<ion-note item-right *ngIf="findByUsername(chosenGroup,friend) >= 0"><ion-icon name = "checkmark-circle"></ion-icon></ion-note>
+    <ion-item-divider color="light">
+      分组
+    </ion-item-divider>
+    <button ion-item *ngFor="let group of groups" (click)="addGroup(group)">
+      <h2>{{group.groupname}}({{group.members.length}})</h2>
+      <p>{{group.members[0].nickname}} ...</p>
+      <ion-note item-right *ngIf="findByGroupName(chosenGroups,group) >= 0"><ion-icon name = "checkmark-circle"></ion-icon></ion-note>
+    </button>
+    <ion-item-divider color="light">
+      好友
+    </ion-item-divider>
+    <button ion-item *ngFor="let friend of friendList" (click)="addFriend(tempChosenUsers,friend)">
+      {{friend.nickname}}<ion-note item-right *ngIf="findByUsername(tempChosenUsers,friend) >= 0"><ion-icon name = "checkmark-circle"></ion-icon></ion-note>
     </button>
   </ion-list>
 </ion-content>

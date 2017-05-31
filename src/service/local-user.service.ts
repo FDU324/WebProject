@@ -7,11 +7,14 @@ export class LocalUserService {
   localUser: User;
 
   constructor() {
-    this.localUser = new User('Me', 'Who am I', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
+    this.localUser = new User('Me', 'Who am I', 'assets/icon/favicon.ico', '北京市-北京市-东城区',[]);
 
   }
 
   getLocalUser() {
     return this.localUser;
+  }
+  getGroups(){
+    return this.localUser.groups;
   }
 }
