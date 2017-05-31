@@ -24,6 +24,11 @@ export class SocketService {
       console.log('connect_error');
     });
 
+    this.socket.on('receiveNewFriendApply',(data)=>{
+      console.log(data);
+      console.log(typeof data);
+    });
+
     // 确保socket成功建立再返回
     return this.emitPromise('confirmConnect', '').then(data => {
       console.log(data);
@@ -40,7 +45,7 @@ export class SocketService {
 
   emitPromise(command, data) {
     return new Promise((resolve, reject) => {
-      this.socket.meit(command, data, (response) => {
+      this.socket.emit(command, data, (response) => {
         if (typeof response === 'object') {
           if (response.success === true) {
             resolve(response.data);

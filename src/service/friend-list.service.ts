@@ -41,10 +41,9 @@ export class FriendListService {
             myUsername: myUsername,
             friendUsername: friendUsername
           };
-          this.socketService.emitPromise('newFriendApply', JSON.stringify(tem)).then(data => {
-
+          return this.socketService.emitPromise('newFriendApply', JSON.stringify(tem)).then(data => {
+            return Promise.resolve('success');
           });
-
         } else if (res.json().data === 'friend') {
           // 已经是好友
           return Promise.resolve('friend');
@@ -58,6 +57,7 @@ export class FriendListService {
         }
 
       }).catch(error => {
+        console.log(error);
         return Promise.resolve('FriendListService-searchUser:');
       });
   }
