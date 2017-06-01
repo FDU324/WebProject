@@ -10,7 +10,6 @@ import {GroupEditPage} from "./group-edit.component";
 @Component({
   selector: 'page-groups-detail',
   templateUrl: 'groups-detail.component.html',
-  //providers:[FriendListService]
 })
 export class GroupsDetailPage{
   localUser:User;
@@ -20,7 +19,10 @@ export class GroupsDetailPage{
               public navParams: NavParams,
               public appCtrl: App,){
     this.localUser = localUserService.getLocalUser();
-    this.groups = localUserService.getGroups();// TODO：groups应该是从数据库中得到的
+    this.groups = localUserService.getGroups();
+  }
+  ionViewDidEnter(){
+    this.groups = this.localUserService.getGroups();
   }
   editGroup(type,group){
     if(type == 0){// 0 表示新建标签
@@ -40,8 +42,20 @@ export class GroupsDetailPage{
       });
     }
   }
-  deleteGroup(group){
+  deleteGroup(group:Group){
     // TODO:在数组中删掉这个group并发送给服务器
+    let tempGroups:Group[] = this.groups.slice();
+    let i: number;
+    for (i = 0 ; i < tempGroups.length ; i++){
+      if (tempGroups[i].groupname === group.groupname) {
+        tempGroups.splice(i, 1);
+        break;
+      }
+    }
+    this.localUserService.updateGroups(tempGroups).then((data)=>{
+      if (data === 'success')
+        this.groups.splice(i, 1);
+    });
     //let index = this.groups.indexOf(group);
     //this.groups.splice(index,1);
   }

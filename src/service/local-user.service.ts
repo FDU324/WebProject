@@ -15,6 +15,7 @@ export class LocalUserService {
     return this.localUser;
   }
   getGroups(){
+    console.log(this.localUser.groups.length);
     return this.localUser.groups;
   }
 
@@ -64,6 +65,27 @@ export class LocalUserService {
         return Promise.resolve('error');
       }).catch((error) => {
         console.log('LocalUserService-modifyLocation', error);
+        return Promise.resolve('error');
+      });
+  }
+  updateGroups(groups){
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    let url = 'http://localhost:3000/user/updateGroups';
+    let info = {
+      username: this.localUser.username,
+      groups: JSON.stringify(groups),
+    }
+    return this.http.put(url,JSON.stringify(info),options)
+      .toPromise()
+      .then(res => {
+        if (res.json().data === 'success') {
+          this.localUser.groups = groups;
+          return Promise.resolve('success');
+        }
+        return Promise.resolve('error');
+      }).catch((error) => {
+        console.log('LocalUserService-updateGroups',error);
         return Promise.resolve('error');
       });
   }

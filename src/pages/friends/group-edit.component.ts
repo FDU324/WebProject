@@ -47,20 +47,33 @@ export class GroupEditPage{
   };
   confirm(){
     for (let i = 0 ; i < this.groups.length ; i++){
+      if (this.type == 1 && this.groups[i].groupname === this.group.groupname)
+        continue;
       if (this.groups[i].groupname === this.title){
         alert("已存在相同的组名，请修改");
         return;
       }
     }
+    let tempGroups: Group[];
+    tempGroups = this.groups.slice();
     // TODO:将tempGroupMembers和title传给服务器，作为这个分组新的members和groupname
     if (this.type == 1) {
-      this.group.members = this.tempGroupMembers;
-      this.group.groupname = this.title;
+      //this.group.members = this.tempGroupMembers;
+      //this.group.groupname = this.title;
+      for (let i = 0 ; i < tempGroups.length ; i++){
+        if (tempGroups[i].groupname === this.group.groupname) {
+          tempGroups[i].groupname = this.title;
+          tempGroups[i].members = this.tempGroupMembers;
+          break;
+        }
+      }
     }
     else {
       let t = new Group(this.title,this.tempGroupMembers);
-      this.localUser.groups.push(t);
+      tempGroups.push(t);
+      //this.localUser.groups.push(t);
     }
+    this.localUserService.updateGroups(tempGroups);
     this.navCtrl.pop();
   }
 }
