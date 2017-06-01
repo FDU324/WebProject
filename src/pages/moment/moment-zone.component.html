@@ -19,7 +19,7 @@
 
       <ion-row>   <!--显示动态的详情 -->
         <ion-col col-2>
-          <ion-avatar>
+          <ion-avatar (click)="seeUserInfo(moment.user)">
             <img [src]="moment.user.userimage">
           </ion-avatar>
         </ion-col>
@@ -82,11 +82,10 @@
               <ion-note>
                 {{moment.emotion[0]}}
               </ion-note>
-
             </ion-col>
             <ion-col col-1>
-              <button ion-button icon-left clear small>
-                <ion-icon name="thumbs-up"></ion-icon>
+              <button ion-button icon-left clear small (click)="changeLike(moment,moment.like)">
+                <ion-icon name="thumbs-up" [color]="moment.like?'danger':'primary'"></ion-icon>
               </button>
             </ion-col>
             <ion-col col-1>
@@ -94,8 +93,16 @@
                 <ion-icon name="text"></ion-icon>
               </button>
             </ion-col>
-
           </ion-row>
+
+          <ion-row *ngIf="moment.likeuser&&moment.likeuser.length>0">
+            <ion-icon name="heart" item-left></ion-icon>
+            <button ion-button clear type="button" *ngFor="let user of moment.likeuser; let i = index"
+                    (click)="seeUserInfo(user)">
+              {{user.nickname}}
+            </button>
+          </ion-row>
+
           <div *ngIf="getComments(moment).length>0" style="border-top:1px solid gray" padding-top>
             <ion-list>
               <button ion-item no-padding *ngFor="let comment of getComments(moment)"

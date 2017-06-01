@@ -26,8 +26,11 @@ import {ChatSessionSearchPage} from '../pages/chat/chat-session-search.component
 
 import {FriendsTabPage} from '../pages/friends/friends-tab.component';
 import {FriendAddPage} from '../pages/friends/friend-add.component';
-import {FriendDetailPage} from '../pages/friends/friend-detail.component'
+import {FriendDetailPage} from '../pages/friends/friend-detail.component';
 import {FriendMapPage} from '../pages/friends/friend-map.component';
+import {GroupsDetailPage} from '../pages/friends/groups-detail.component';
+import {GroupEditPage} from '../pages/friends/group-edit.component';
+import {GroupEditAddPage} from '../pages/friends/group-edit-add.component';
 import {MomentsAreaPage} from '../pages/friends/moments-area.component'
 import {FriendReqPage} from '../pages/friends/friend-request.component'
 
@@ -68,6 +71,9 @@ import {MyDatePipe} from './my-date.pipe';
     FriendAddPage,
     FriendDetailPage,
     FriendMapPage,
+    GroupsDetailPage,
+    GroupEditPage,
+    GroupEditAddPage,
     FriendReqPage,
     MomentsAreaPage,
     ChatTabPage,
@@ -106,6 +112,9 @@ import {MyDatePipe} from './my-date.pipe';
     FriendAddPage,
     FriendDetailPage,
     FriendMapPage,
+    GroupsDetailPage,
+    GroupEditPage,
+    GroupEditAddPage,
     FriendReqPage,
     MomentsAreaPage,
     ChatTabPage,

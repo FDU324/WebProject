@@ -145,7 +145,7 @@ export class MomentNewThenPage {
       );
     } else if (this.type === 'group') {
       // TODO: 分组
-      let moment = new Moment(this.type,this.localUser,-1,momentLocation,momentEmotion,-1,this.group,this.inputContent,this.images,null,0);
+      let moment = new Moment(this.type,this.localUser,-1,momentLocation,momentEmotion,-1,this.group,this.inputContent,this.images,null,[]);
       console.log(moment);
       this.momentService.sendMoment(moment,this.group).then(
         () => {
@@ -154,7 +154,7 @@ export class MomentNewThenPage {
       );
     } else {
       // public
-      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, null, this.inputContent, this.images, null, 0);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, null, this.inputContent, this.images, null, []);
       console.log(moment);
       this.momentService.sendMoment(moment, null).then(
         () => {
@@ -174,7 +174,7 @@ export class MomentNewThenPage {
   pickGroup(){
     console.log("选择分组");
     this.navCtrl.push(MomentNewThenChooseGroupPage,{
-      chosenGroup:this.group,
+      chosenUsers:this.group,
       type:this.type,
       friend:this.friend,
       locInfo:[this.position,this.address,this.nearestJunction,this.staticMapUrl],

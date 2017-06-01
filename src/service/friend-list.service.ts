@@ -11,34 +11,28 @@ export class FriendListService {
   friendList: User[];
   friendReqList: User[];
 
-
   constructor(public http: Http,
               public socketService: SocketService) {
     this.friendList = [];
     for (let i = 0; i < 50; i++) {
-      if (i === 0) {
-        let friend = new User('123' + i, '123' + i, 'assets/icon/favicon.ico', '北京市-北京市-东城区');
-        this.friendList.push(friend);
-      } else if (i === 1) {
-        let friend = new User('aaa' + i, 'aaa' + i, 'assets/icon/favicon.ico', '北京市-北京市-东城区');
-        this.friendList.push(friend);
-      } else {
-        let friend = new User('username--' + i, 'fake--' + i, 'assets/icon/favicon.ico', '北京市-北京市-东城区');
-        this.friendList.push(friend);
-      }
+      let friend = new User('username--' + i, 'fake--' + i, 'assets/icon/favicon.ico', '北京市-北京市-东城区');
+      this.friendList.push(friend);
     }
     let friend = new User('asd', 'asd',  'assets/icon/favicon.ico', '北京市-北京市-东城区')
     this.friendList.push(friend);
     friend = new User('asda', 'asda',  'assets/icon/favicon.ico', '北京市-北京市-东城区')
     this.friendList.push(friend);
     this.friendReqList = [];
+
     friend = new User('username--50', 'fake--50',  'assets/icon/favicon.ico', '北京市-北京市-东城区');
     this.friendReqList.push(friend); 
+
   }
 
   getFriendList() {
     return this.friendList;
   }
+
 
 
   getFriendReqList() {
@@ -59,6 +53,7 @@ export class FriendListService {
     }
   }
 
+
   searchUser(myUsername, friendUsername) {
     let url = 'http://localhost:3000/user/findUser?myUsername=' + myUsername + '&friendUsername=' + friendUsername;
     return this.http.get(url).toPromise()
@@ -69,10 +64,9 @@ export class FriendListService {
             myUsername: myUsername,
             friendUsername: friendUsername
           };
-          this.socketService.emitPromise('newFriendApply', JSON.stringify(tem)).then(data => {
-
+          return this.socketService.emitPromise('newFriendApply', JSON.stringify(tem)).then(data => {
+            return Promise.resolve('success');
           });
-
         } else if (res.json().data === 'friend') {
           // 已经是好友
           return Promise.resolve('friend');
@@ -86,6 +80,7 @@ export class FriendListService {
         }
 
       }).catch(error => {
+        console.log(error);
         return Promise.resolve('FriendListService-searchUser:');
       });
 

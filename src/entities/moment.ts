@@ -16,6 +16,8 @@ export class Moment {
               public text?: string,
               public images?: string[],
               public comments?: Comment[],
-              public likeNum?: number,) {
+              public likeuser?: User[],
+              public like?: boolean,      // 只用于前端标记
+  ) {
   }
 }

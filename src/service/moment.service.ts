@@ -3,14 +3,15 @@ import {Injectable} from '@angular/core';
 import {User} from '../entities/user';
 import {Moment} from '../entities/moment';
 
+import {LocalUserService} from './local-user.service';
+
 @Injectable()
 export class MomentService {
-
 
   memonetDatabase: Moment[];
   newMomnentCount: number;
 
-  constructor() {
+  constructor(public localUserService: LocalUserService) {
     //this.localUser = new User('Me', 'Who am I', 'sdfadsfas', '../assets/icon/favicon.ico', '中国大陆');
     this.initMemonetDatabase();
   }
@@ -19,7 +20,7 @@ export class MomentService {
     this.memonetDatabase = [];
     this.newMomnentCount = 3;
 
-    let user = new User('username--0', 'fake--0', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
+    let user = new User('username--0', 'fake--0', 'assets/icon/favicon.ico', '北京市-北京市-东城区',[]);
     let temEmotion = ['happy', '高兴', 'happy'];
     let temLocation = [
       ['121.598457,31.190464', '复旦大学张江校区', '复旦大学张江校区', 'http://restapi.amap.com/v3/staticmap?location=121.598457,31.190464&zoom=15&size=750*300&markers=mid,,:121.598457,31.190464&key=a55c3c970ecab69b1f6e51374a467bba'],
@@ -51,7 +52,7 @@ export class MomentService {
     let moment = new Moment('public', user, Date.now(), temLocation[5], temEmotion, 5, null, temText);
     this.memonetDatabase.push(moment);
   }
-  
+
 
   getMomentByUser(user: User): Moment[] {
     return this.memonetDatabase.filter(item => {
@@ -60,6 +61,18 @@ export class MomentService {
   }
 
   getMomentList() {
+    // TODO: get data from server
+    this.memonetDatabase.forEach(moment => {
+      if (moment.likeuser && moment.likeuser.length > 0) {
+        if (moment.likeuser.indexOf(this.localUserService.getLocalUser()) >= 0) {
+          moment.like = true;
+        } else {
+          moment.like = false;
+        }
+      } else {
+        moment.like = false;
+      }
+    });
     return this.memonetDatabase;
   }
 
@@ -80,4 +93,24 @@ export class MomentService {
   clearNewMomentCount() {
     this.newMomnentCount = 0;
   }
+
+  changeLike(moment: Moment, to: boolean) {
+    if(to){
+      // 赞
+      if(moment.likeuser){
+        moment.likeuser.push(this.localUserService.getLocalUser());
+      }else{
+        moment.likeuser = [this.localUserService.getLocalUser()];
+      }
+      return Promise.resolve(this.getMomentList());
+    }else{
+      // 取消赞
+      let index = moment.likeuser.indexOf(this.localUserService.getLocalUser());
+      moment.likeuser.splice(index, 1);
+      return Promise.resolve(this.getMomentList());
+    }
+
+  }
+
+
 }

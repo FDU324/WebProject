@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      {{title}}
+    </ion-title>
+    <ion-buttons right>
+      <button ion-button (click)="confirm()" color="primary" [disabled] = "tempGroupMembers.length == 0">
+        确认({{tempGroupMembers.length}})
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-item-divider color="light">分组名字</ion-item-divider>
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="title" clearInput></ion-input>
+  </ion-item>
+  <ion-item-divider color="light">
+    分组成员({{tempGroupMembers.length}})
+  </ion-item-divider>
+  <button ion-item (click)="addUser()">
+    <ion-icon item-left name="add-circle"></ion-icon>
+    <h2>添加成员</h2>
+  </button>
+  <!--ion-list *ngIf="group != null"!-->
+    <button ion-item *ngFor="let member of tempGroupMembers">
+      <ion-avatar item-left>
+        <img [src]="member.userimage">
+      </ion-avatar>
+      <h2>{{member.nickname}}</h2>
+    </button>
+  <!--/ion-list!-->
+</ion-content>
