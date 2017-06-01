@@ -16,7 +16,7 @@ export class ChatService {
   totalNewMessageCount: number;
 
   observers: any[];
-  
+
 
   constructor(public localUserService: LocalUserService, public socketService: SocketService, public friendListService: FriendListService) {
     this.localUser = localUserService.getLocalUser();
@@ -28,9 +28,13 @@ export class ChatService {
     this.observers  = [];
     this.sessionList = [];
     // 添加50个模拟的好友及其聊天内容
+    for (let i = 0; i < 50; i++) {
+      let friend = new User('username--' + i, 'fake--' + i, 'assets/icon/favicon.ico', '北京市-北京市-东城区', []);
+    }
 
     this.totalNewMessageCount = 0;
-/* 
+/*
+>>>>>>> origin/master
       let friend = new User('username--0', 'fake--0', 'assets/icon/favicon.ico', '北京市-北京市-东城区');
 
       // 添加50条模拟的聊天记录
@@ -79,7 +83,7 @@ export class ChatService {
             let newSession = new Session(friend, [jsonData['message']], 1);
             temSession = newSession;
             this.sessionList.unshift(newSession);
-          } 
+          }
           else {
             jsonData['message'].from = 'friend';
             temSession.messageList.push(jsonData['message']);
@@ -153,7 +157,7 @@ export class ChatService {
     //return Promise.resolve(temSession);
   }
 
-  
+
 
 
 
@@ -174,7 +178,7 @@ export class ChatService {
         break;
       }
     }
-    
+
   }
 
 

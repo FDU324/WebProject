@@ -174,7 +174,7 @@ export class MomentNewThenPage {
   pickGroup(){
     console.log("选择分组");
     this.navCtrl.push(MomentNewThenChooseGroupPage,{
-      chosenGroup:this.group,
+      chosenUsers:this.group,
       type:this.type,
       friend:this.friend,
       locInfo:[this.position,this.address,this.nearestJunction,this.staticMapUrl],
