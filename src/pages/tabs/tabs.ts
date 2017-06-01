@@ -38,9 +38,12 @@ export class TabsPage {
     if(this.tabId != undefined || this.tabId !=null) {
       this.selected = this.tabId;
     }
-}
+  }
 
-
+  ionViewDidLoad() {
+    this.chatService.registerPage(this);
+    this.friendListService.registerPage(this);
+  }
 
   
   ionViewCanEnter() {
@@ -48,7 +51,7 @@ export class TabsPage {
     this.friendReqCount = this.friendListService.getReqCount();
     this.totalNewMomentCount = this.momentService.getNewMomentCount();
 
-    this.chatService.registerComponent(this);
+    
   }
 
   update() {
