@@ -9,6 +9,7 @@ import 'rxjs/add/operator/toPromise';
 import {User} from "../entities/user";
 
 import {SocketService} from './socket.service';
+import {Group} from "../entities/group";
 
 
 @Injectable()
@@ -33,7 +34,9 @@ export class SignupLoginService {
       .then((res) => {
         if (res.json().data === 'success') {
           let infoGet = JSON.parse(res.json().user);
-          let user = new User(infoGet.username, infoGet.nickname, infoGet.userImage, infoGet.location);
+          //let groups = [];
+          let groupInfo = JSON.parse(infoGet.groups);
+          let user = new User(infoGet.username, infoGet.nickname, infoGet.userImage, infoGet.location,groupInfo);
 
           return this.socketService.socketConnect().then(data => {
             if (data === 'success') {
@@ -59,7 +62,7 @@ export class SignupLoginService {
       });
   }
 
-  signup(username, password, nickname, userImage, location) {
+  signup(username, password, nickname, userImage, location, groups) {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
     let url = 'http://localhost:3000/user/addUser';
@@ -69,6 +72,7 @@ export class SignupLoginService {
       nickname: nickname,
       userImage: userImage,
       location: location,
+      groups: JSON.stringify(groups),
     };
 
     return this.http.post(url, JSON.stringify(user), options)

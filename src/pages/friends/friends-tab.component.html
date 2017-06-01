@@ -23,6 +23,10 @@
   -->
 
   <ion-searchbar (ionInput)="searchFriends($event)"></ion-searchbar>
+  <button ion-item (click)="showGroupInfo()">
+    <ion-icon item-left name="pricetag"></ion-icon>
+    <h2>分组</h2>
+  </button>
   <button ion-item block="true" color="light" *ngIf="friendReqList.length>0" (click)="gotoFriendReqPage()">
     新的朋友
     <ion-badge item-right color="danger">{{friendReqList.length}}</ion-badge>
@@ -40,6 +44,6 @@
     </button>
   </ion-list>
 
-  
+
 
 </ion-content>

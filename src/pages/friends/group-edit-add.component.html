@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      选择好友
+    </ion-title>
+    <ion-buttons right>
+      <button ion-button (click)="confirm()" color="primary">
+        确认({{currentAddedMembers.length}})
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button ion-item *ngFor="let friend of friendList" (click)="addIntoGroup(friend)" >
+      <ion-avatar item-left>
+        <img [src]="friend.userimage">
+      </ion-avatar>
+      <h2>{{friend.nickname}}</h2><ion-note item-right *ngIf="findByUsername(currentAddedMembers,friend) >= 0"><ion-icon name = "checkmark-circle"></ion-icon></ion-note>
+    </button>
+  </ion-list>
+</ion-content>

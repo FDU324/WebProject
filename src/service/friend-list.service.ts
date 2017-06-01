@@ -15,7 +15,7 @@ export class FriendListService {
               public socketService: SocketService) {
     this.friendList = [];
     for (let i = 0; i < 50; i++) {
-      let friend = new User('username--' + i, 'fake--' + i, 'assets/icon/favicon.ico', '北京市-北京市-东城区');
+      let friend = new User('username--' + i, 'fake--' + i,  'assets/icon/favicon.ico', '北京市-北京市-东城区',[]);
       this.friendList.push(friend);
     }
     let friend = new User('asd', 'asd',  'assets/icon/favicon.ico', '北京市-北京市-东城区')
@@ -25,7 +25,7 @@ export class FriendListService {
     this.friendReqList = [];
 
     friend = new User('username--50', 'fake--50',  'assets/icon/favicon.ico', '北京市-北京市-东城区');
-    this.friendReqList.push(friend); 
+    this.friendReqList.push(friend);
 
   }
 

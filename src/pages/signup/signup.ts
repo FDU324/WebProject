@@ -9,6 +9,7 @@ import {LoginPage} from '../login/login';
 import {CityPickerService} from "../../service/city-picker.service";
 import {SignupLoginService} from "../../service/signup-login.service";
 import {ImgService} from "../../service/img.service";
+import {Group} from "../../entities/group";
 
 @Component({
   selector: 'page-signup',
@@ -22,7 +23,7 @@ export class SighupPage {
   showPsw: boolean;
   cityData: any[]; //城市数据
   cityName: string;
-
+  groups: Group[];
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public actionSheetCtrl: ActionSheetController,
@@ -37,6 +38,7 @@ export class SighupPage {
     this.nickname = '';
     this.userImage = 'assets/icon/favicon.ico';
     this.cityName = "北京市-北京市-东城区";
+    this.groups = [];
     this.setCityPickerData();//得到城市数据
     this.showPsw = false;
   }
@@ -113,7 +115,7 @@ export class SighupPage {
 
     loading.present();
 
-    this.signupLoginService.signup(this.username, this.password, this.nickname, this.userImage, this.cityName)
+    this.signupLoginService.signup(this.username, this.password, this.nickname, this.userImage, this.cityName, this.groups)
       .then((data) => {
         if (data === 'success') {
           let toast = this.toastCtrl.create({
