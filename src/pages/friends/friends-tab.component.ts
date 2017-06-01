@@ -9,6 +9,7 @@ import {User} from "../../entities/user";
 import {FriendListService} from '../../service/friend-list.service';
 import {LocalUserService} from '../../service/local-user.service';
 import {ChatService} from '../../service/chat.service';
+import {GroupsDetailPage} from "./groups-detail.component";
 
 @Component({
   selector: 'page-friends-tab',
@@ -72,6 +73,9 @@ export class FriendsTabPage {
     })
   }
 
+  showGroupInfo() {
+    this.appCtrl.getRootNav().push(GroupsDetailPage);
+  }
   gotoFriendReqPage() {
     this.appCtrl.getRootNav().push(FriendReqPage);
   }

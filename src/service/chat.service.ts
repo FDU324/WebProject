@@ -16,7 +16,7 @@ export class ChatService {
   totalNewMessageCount: number;
 
   observers: any[];
-  
+
 
   constructor(public localUserService: LocalUserService, public socketService: SocketService, public friendListService: FriendListService) {
     this.localUser = localUserService.getLocalUser();
@@ -25,6 +25,7 @@ export class ChatService {
     this.totalNewMessageCount = 0;
     this.receiverOn();
   }
+
 
   // sessions
   receiverOn() {
@@ -50,6 +51,7 @@ export class ChatService {
       this.totalNewMessageCount++;
       this.update();
     })
+
   }
 
   registerPage(page: any) {
@@ -115,7 +117,7 @@ export class ChatService {
     //return Promise.resolve(temSession);
   }
 
-  
+
 
 
 
@@ -127,6 +129,7 @@ export class ChatService {
   getTotalNewMessageCount() {
     return this.totalNewMessageCount;
   }
+
 
   clearNewMessages(session: Session) {
     this.totalNewMessageCount -= session.newMessageCount;

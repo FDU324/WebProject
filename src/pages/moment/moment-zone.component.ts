@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
-import {NavParams, App} from 'ionic-angular';
+import {NavParams, App, NavController} from 'ionic-angular';
 
 import {User} from '../../entities/user';
 import {Moment} from '../../entities/moment';
 import {Comment} from '../../entities/comment';
+
+import {FriendDetailPage} from '../friends/friend-detail.component';
 
 import {CommentService} from '../../service/comment.service';
 import {MomentService} from '../../service/moment.service';
@@ -26,14 +28,31 @@ export class MomentZonePage {
   currentMoment: Moment;
   commentTo: string;
 
-  constructor(public appCtrl: App, public momentService: MomentService, public commentService: CommentService) {
+  constructor(public appCtrl: App,
+              public navCtrl: NavController,
+              public momentService: MomentService,
+              public commentService: CommentService) {
     //this.commentList = commentService.getCommentByMoment(this.moment);
-    this.momentList = momentService.getMomentList(); 
-    this.inputContent='';
+    this.momentList = momentService.getMomentList();
+    this.inputContent = '';
     this.commentTo = '';
     this.isFooterHidden = true;
     //this.momentList = momentService.getMomentByUser(this.user);
     //console.log(this.momentList);
+  }
+
+  // 进入用户详情页
+  seeUserInfo(user: User) {
+    this.navCtrl.push(FriendDetailPage, {
+      friend: user,
+    });
+  }
+
+  // 赞与取消赞
+  changeLike(moment: Moment, from: boolean) {
+    this.momentService.changeLike(moment, !from).then(momentList => {
+      this.momentList = momentList;
+    });
   }
 
   // 根据moment获取相关的comment
@@ -42,24 +61,24 @@ export class MomentZonePage {
   }
 
   onSubmit() {
-      console.log(this.currentMoment.id);
-      console.log(this.inputContent);
-      
-    this.commentService.addComment(this.currentMoment.id, this.commentTo, this.inputContent).then((commentList)=>{
-          this.momentList = this.momentService.getMomentList(); 
-          this.inputContent = "";
-          this.commentTo = '';
-          this.isFooterHidden = true;
-      }).catch(()=>
-        console.log('err')
-      );   
-      
+    console.log(this.currentMoment.id);
+    console.log(this.inputContent);
+
+    this.commentService.addComment(this.currentMoment.id, this.commentTo, this.inputContent).then((commentList) => {
+      this.momentList = this.momentService.getMomentList();
+      this.inputContent = "";
+      this.commentTo = '';
+      this.isFooterHidden = true;
+    }).catch(() =>
+      console.log('err')
+    );
+
   }
 
   // 发评论，关联moment，以及评论的对象to
   addComment(moment: Moment, to: string) {
     this.currentMoment = moment;
-    
+
     this.commentTo = to;
     //console.log(this.currentMoment.id);
     //console.log(this.inputContent);
@@ -68,10 +87,10 @@ export class MomentZonePage {
   }
 
   hideFooter() {
-      this.isFooterHidden=true;
+    this.isFooterHidden = true;
   }
 
-  viewImage(moment: Moment,currentIndex: number) {
+  viewImage(moment: Moment, currentIndex: number) {
     this.appCtrl.getRootNav().push(ImageViewer, {
       images: moment.images,
       currentIndex: currentIndex

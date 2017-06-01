@@ -14,16 +14,12 @@ export class FriendListService {
 
   constructor(public http: Http, public socketService: SocketService) {
     this.friendList = [];
+
     this.friendReqList = [];
 
     this.observers  = [];
-/*
-    let friend = new User('asd', 'asd',  'assets/icon/favicon.ico', '北京市-北京市-东城区')
-    this.friendList.push(friend);
-    friend = new User('asda', 'asda',  'assets/icon/favicon.ico', '北京市-北京市-东城区')
-    this.friendList.push(friend);
- */   
     this.receiverOn();
+
 
   }
 
