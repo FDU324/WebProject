@@ -25,9 +25,21 @@ export class FriendReqPage {
     this.friendReqList = friendListService.getFriendReqList();
   }
 
+  ionViewDidEnter() {
+    this.friendListService.registerPage(this);
+  }
+
+  ionViewDidLeave() {
+    this.friendListService.removePage(this);
+  }
+
+  update() {
+    this.friendReqList = this.friendListService.getFriendReqList();
+  }
+
   acceptRequest(friend: User) {
     //TODO: 接受好友请求
-    this.friendListService.acceptRequest(friend);
+    this.friendListService.acceptRequest(this.localUser.username, friend);
     console.log('accept request!');
   }
 

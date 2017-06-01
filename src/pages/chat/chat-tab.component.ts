@@ -32,12 +32,12 @@ export class ChatTabPage {
       console.log(session.newMessageCount);
     }
 
-    this.chatService.registerComponent(this); 
+    this.chatService.registerPage(this); 
     
   }
 
   ionViewDidLeave() {
-    this.chatService.removeComponent(this);
+    this.chatService.removePage(this);
   }
 
   update() {
