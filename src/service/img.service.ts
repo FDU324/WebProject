@@ -138,13 +138,15 @@ export class ImgService {
     var img = document.createElement('img');
     img.crossOrigin = 'Anonymous';
     img.src = url;
-    canvas.width = img.width;
-    canvas.height = img.height;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, img.width, img.height);
-    var dataURL = canvas.toDataURL("image/png");
-    console.log(dataURL);
-    return dataURL;
+    img.onload = function () {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      var dataURL = canvas.toDataURL("image/jpeg");
+      console.log(dataURL);
+      return dataURL;
+    }
   }
 
 }
