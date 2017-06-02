@@ -53,7 +53,6 @@ import {ImgService} from '../service/img.service'
 import {SignupLoginService} from '../service/signup-login.service'
 import {SocketService} from '../service/socket.service'
 import {CityPickerService} from "../service/city-picker.service";
-
 import {MyDatePipe} from './my-date.pipe';
 
 @NgModule({
