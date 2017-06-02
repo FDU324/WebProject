@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {NativeStorage} from '@ionic-native/native-storage';
 
 import {User} from '../entities/user';
 import {Message} from '../entities/message';
@@ -18,24 +19,48 @@ export class ChatService {
   observers: any[];
 
 
-  constructor(public localUserService: LocalUserService, public socketService: SocketService, public friendListService: FriendListService) {
+  constructor(public nativeStorage: NativeStorage,
+              public localUserService: LocalUserService,
+              public socketService: SocketService,
+              public friendListService: FriendListService) {
     this.localUser = localUserService.getLocalUser();
-    this.observers  = [];
+    this.observers = [];
+    this.totalNewMessageCount = 0;
     this.sessionList = [];
 
-    this.totalNewMessageCount = 0;
+
+    nativeStorage.getItem('totalNewMessageCount').then(value=>{
+      if(value){
+        this.totalNewMessageCount = value.data;
+      }
+      nativeStorage.keys().then(keys => {
+        return keys.forEach(key => {
+          if (key.substr(0, 8) === 'session_') {
+            nativeStorage.getItem(key).then(value => {
+              if(value){
+                this.sessionList.push(JSON.parse(value.data));
+              }
+            });
+          }
+        });
+      }).then(() => {
+        this.receiverOn();
+      });
+    }).catch(error=>{
+      console.log('ChatService-constructor:', error);
+    });
+
     this.receiverOn();
   }
 
 
-
   // sessions
   receiverOn() {
-    
+
     // 添加50个模拟的好友及其聊天内容
 
-    
-    this.socketService.getSocket().on('receiveMessage', (data)=>{
+
+    this.socketService.getSocket().on('receiveMessage', (data) => {
       let jsonData = JSON.parse(data);
       let temSession = this.sessionList.find((item) => item.friend.username === jsonData['from']);
       if (temSession === undefined) {
@@ -44,7 +69,7 @@ export class ChatService {
         let newSession = new Session(friend, [jsonData['message']], 1);
         temSession = newSession;
         this.sessionList.unshift(newSession);
-      } 
+      }
       else {
         jsonData['message'].from = 'friend';
         temSession.messageList.push(jsonData['message']);
@@ -68,7 +93,7 @@ export class ChatService {
   }
 
   update() {
-      this.observers.forEach(item => item.update());
+    this.observers.forEach(item => item.update());
   }
 
   getSession(friend: User) {
@@ -93,14 +118,14 @@ export class ChatService {
     //console.log(content);
     //console.log(this.sessionList);
     //console.log(friend);
-    
+
     let sendData = {
       from: this.localUser.username,
       to: friend.username,
       message: message
-    }
+    };
 
-    return this.socketService.emitPromise('sendMessage', JSON.stringify(sendData)).then((data)=>{
+    return this.socketService.emitPromise('sendMessage', JSON.stringify(sendData)).then((data) => {
       if (data === 'success') {
         let temSession = this.sessionList.find((item) => item.friend.username === friend.username);
         if (temSession === undefined) {
@@ -120,10 +145,6 @@ export class ChatService {
     //return Promise.resolve(temSession);
   }
 
-
-
-
-
   sendImg(friend: User, url: string) {
     //TODO: 这里将本地图片路径上传到服务器，得到该图片在服务器的路径
     return this.sendMessage(friend, 'images', url);
@@ -132,8 +153,6 @@ export class ChatService {
   getTotalNewMessageCount() {
     return this.totalNewMessageCount;
   }
-
-
 
   clearNewMessages(session: Session) {
     this.totalNewMessageCount -= session.newMessageCount;

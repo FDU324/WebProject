@@ -7,6 +7,9 @@ import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Transfer} from "@ionic-native/transfer";
+import {NativeStorage} from '@ionic-native/native-storage';
+
+import {MockStorage} from '../mockNative/mock-storage';
 
 import {MyApp} from './app.component';
 import {SighupPage} from '../pages/signup/signup';
@@ -145,7 +148,8 @@ import {MyDatePipe} from './my-date.pipe';
     ImgService,
     SignupLoginService,
     SocketService,
-    Transfer
+    Transfer,
+    {provide: NativeStorage, useClass: MockStorage}
   ]
 })
 export class AppModule {
