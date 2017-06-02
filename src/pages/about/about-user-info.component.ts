@@ -14,7 +14,7 @@ import {LocalUserService} from "../../service/local-user.service";
 import {CityPickerService} from "../../service/city-picker.service";
 import {ImgService} from "../../service/img.service";
 import {SocketService} from "../../service/socket.service";
-
+import {DomSanitizer} from '@angular/platform-browser';
 @Component({
   templateUrl: 'about-user-info.component.html',
 })
@@ -32,7 +32,8 @@ export class AboutUserInfoPage {
               public cityPickerService: CityPickerService,
               public localUserService: LocalUserService,
               public imgService: ImgService,
-              public socketService: SocketService,) {
+              public socketService: SocketService,
+              public sanitizer: DomSanitizer,) {
     this.localUser = navParams.get('localUser');
     this.setCityPickerData();//得到城市数据
     this.cityName = this.localUser.location;//初始化城市名
@@ -127,6 +128,7 @@ export class AboutUserInfoPage {
   }
    */
   pickImg() {
+    /*
     this.imgService.openImgPickerSingle().then((url) => {
       if (url[0] === 'error') {
         console.log('error');
@@ -137,6 +139,11 @@ export class AboutUserInfoPage {
         this.localUser.userimage = url[0];
       }
     });
+    */
+    this.imgService.sendImgAsBase64ByURL('assets/emoji/0x1f600.png');
+    console.log("between");
+    //this.localUser.userimage = src;
+
   }
 
   takeCamera() {
