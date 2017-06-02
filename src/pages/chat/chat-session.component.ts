@@ -48,16 +48,16 @@ export class ChatSessionPage {
     this.navCtrl.remove(0, this.navCtrl.length()-1);
     this.navCtrl.insertPages(0, [{page: TabsPage, params:{tabId:0}}]);
    
-    this.chatService.registerComponent(this); 
+    this.chatService.registerPage(this); 
   }
 
   ionViewDidLeave() {
-    this.chatService.removeComponent(this);
+    this.chatService.removePage(this);
   }
 
   update() {
     this.session = this.chatService.getSession(this.friend);
-    this.chatService.clearNewMessages(this.friend);
+    this.chatService.clearNewMessages(this.session);
     }
 
   log(text: string) {

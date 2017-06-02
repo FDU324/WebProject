@@ -31,6 +31,18 @@ export class FriendsTabPage {
     this.friendReqList = friendListService.getFriendReqList();
   }
 
+  ionViewDidEnter() {
+    this.friendListService.registerPage(this);
+  }
+
+  ionViewDidLeave() {
+    this.friendListService.removePage(this);
+  }
+
+  update() {
+    this.friendReqList = this.friendListService.getFriendReqList();
+  }
+
   searchFriends(ev) {
     // Reset items back to all of the items
     this.friendList = this.friendListService.getFriendList();
