@@ -32,7 +32,11 @@ export class FriendsTabPage {
   }
 
   ionViewDidEnter() {
-    this.friendListService.registerPage(this);
+    this.friendListService.updateFriendList().then(friends=>{
+      this.friendList = friends;
+      this.friendListService.registerPage(this);
+    });
+
   }
 
   ionViewDidLeave() {
@@ -40,7 +44,10 @@ export class FriendsTabPage {
   }
 
   update() {
-    this.friendReqList = this.friendListService.getFriendReqList();
+    this.friendListService.updateFriendList().then(friends=>{
+      this.friendList = friends;
+      this.friendReqList = this.friendListService.getFriendReqList();
+    });
   }
 
   searchFriends(ev) {

@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 
 import {User} from '../entities/user';
 import {SocketService} from "./socket.service";
+import {LocalUserService} from './local-user.service';
 
 
 @Injectable()
@@ -12,20 +13,20 @@ export class FriendListService {
   friendReqList: User[];
   observers: any[];
 
-  constructor(public http: Http, public socketService: SocketService) {
+  constructor(public http: Http,
+              public localUserService: LocalUserService,
+              public socketService: SocketService) {
     this.friendList = [];
-
+    this.observers = [];
     this.friendReqList = [];
-
-    this.observers  = [];
     this.receiverOn();
-
-
+    this.updateFriendList().then(friends=>{
+      this.friendList = friends;
+    });
   }
 
   receiverOn() {
     this.socketService.getSocket().on('receiveFriendReq', (user) => {
-      console.log(JSON.parse(user));
       this.friendReqList.push(JSON.parse(user));
       this.update();
     });
@@ -48,14 +49,32 @@ export class FriendListService {
   }
 
   update() {
-      this.observers.forEach(item => item.update());
+    this.observers.forEach(item => item.update());
   }
 
+  // 重新从服务器获取好友列表
+  updateFriendList(){
+    let url = 'http://localhost:3000/user/getFriends?username=' + this.localUserService.localUser.username;
+    return this.http.get(url).toPromise()
+      .then(res => {
+        if (res.json().data === 'success') {
+          this.friendList = JSON.parse(res.json().friends);
+          return this.friendList;
+        } else {
+          // 服务器错误
+          console.log('FriendListService-searchUser:', res.json().data);
+          return [];
+        }
+      }).catch(error => {
+        console.log(error);
+        return [];
+      });
+  }
+
+  // 获得当前的好友列表
   getFriendList() {
     return this.friendList;
   }
-
-
 
   getFriendReqList() {
     return this.friendReqList;
@@ -65,14 +84,14 @@ export class FriendListService {
     return this.friendReqList.length;
   }
 
-  acceptRequest(myUsername: string, friend: User){
+  acceptRequest(myUsername: string, friend: User) {
     //TODO: 接受好友请求
     this.socketService.emitPromise('acceptFriendReq', JSON.stringify({
       friendUsername: friend.username,
       myUsername: myUsername
     })).then(data => {
       console.log('data:', data);
-      if(data === 'success') {
+      if (data === 'success') {
         this.friendReqList.splice(this.friendReqList.indexOf(friend), 1);
         this.friendList.push(friend);
         this.update();
@@ -83,9 +102,8 @@ export class FriendListService {
     }).catch(err => {
       console.log('err:', err);
     })
-       
-  }
 
+  }
 
   searchUser(myUsername, friendUsername) {
     let url = 'http://localhost:3000/user/findUser?myUsername=' + myUsername + '&friendUsername=' + friendUsername;
@@ -97,6 +115,7 @@ export class FriendListService {
             myUsername: myUsername,
             friendUsername: friendUsername
           };
+
           return this.socketService.emitPromise('friendReq', JSON.stringify(tem)).then(data => {
             return Promise.resolve('success');
           });
