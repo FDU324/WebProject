@@ -143,7 +143,12 @@ export class ImgService {
       canvas.height = img.height;
       var ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0, img.width, img.height);
-      var dataURL = canvas.toDataURL("image/jpeg");
+      var ext = img.src.substring(url.lastIndexOf(".")+1).toLowerCase();
+      if (ext === 'jpg')
+        ext = 'jpeg';
+      else if (ext === 'ico')
+        ext = 'png';
+      var dataURL = canvas.toDataURL("image/"+ext);
       console.log(dataURL);
       return dataURL;
     }
