@@ -4,22 +4,21 @@
 import {NativeStorage} from '@ionic-native/native-storage';
 
 export class MockStorage extends NativeStorage {
-  getPicture(options) {
-    return new Promise((resolve, reject) => {
-      resolve("BASE_64_ENCODED_DATA_GOES_HERE");
-    })
-  }
 
   setItem(reference, value) {
     return new Promise((resolve, reject) => {
-      localStorage[reference] = value;
+      localStorage[reference] = JSON.stringify(value);
       resolve('success');
     });
   }
 
   getItem(reference) {
     return new Promise((resolve, reject) => {
-      resolve(localStorage[reference]);
+      if(localStorage[reference]){
+        resolve(JSON.parse(localStorage[reference]));
+      }else{
+        resolve(localStorage[reference]);
+      }
     });
   }
 

@@ -51,16 +51,18 @@ export class ChatSessionPage {
     this.navCtrl.insertPages(0, [{page: TabsPage, params: {tabId: 0}}]);
 
     this.chatService.registerPage(this);
+    this.chatService.clearNewMessages(this.session);
   }
 
   ionViewDidLeave() {
     this.chatService.removePage(this);
-    let keyName = 'session_' + this.friend.username;
+    let keyName = this.localUser.username + '_' + 'session_' + this.friend.username;
     let value = JSON.stringify(this.session);
 
     this.nativeStorage.setItem(keyName, {data: value}).then(
       () => {
-        this.nativeStorage.setItem('totalNewMessageCount', {data: this.chatService.totalNewMessageCount}).then(
+        keyName = this.localUser.username + '_totalNewMessageCount';
+        this.nativeStorage.setItem(keyName, {data: this.chatService.totalNewMessageCount}).then(
           () => {
           },
           error => {

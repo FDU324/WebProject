@@ -13,11 +13,8 @@ import {FriendListService} from './friend-list.service'
 export class ChatService {
   localUser: User;
   sessionList: Session[];
-
   totalNewMessageCount: number;
-
   observers: any[];
-
 
   constructor(public nativeStorage: NativeStorage,
               public localUserService: LocalUserService,
@@ -28,16 +25,18 @@ export class ChatService {
     this.totalNewMessageCount = 0;
     this.sessionList = [];
 
-
-    nativeStorage.getItem('totalNewMessageCount').then(value=>{
+    nativeStorage.getItem(this.localUser.username + '_totalNewMessageCount').then(value=>{
       if(value){
         this.totalNewMessageCount = value.data;
       }
       nativeStorage.keys().then(keys => {
         return keys.forEach(key => {
-          if (key.substr(0, 8) === 'session_') {
+          console.log(key);
+          if (key.substr(0, 9+this.localUser.username.length) === this.localUser.username + '_' + 'session_') {
             nativeStorage.getItem(key).then(value => {
+              console.log(JSON.stringify(value));
               if(value){
+                console.log(value.data);
                 this.sessionList.push(JSON.parse(value.data));
               }
             });
@@ -49,17 +48,11 @@ export class ChatService {
     }).catch(error=>{
       console.log('ChatService-constructor:', error);
     });
-
-    this.receiverOn();
   }
 
 
   // sessions
   receiverOn() {
-
-    // 添加50个模拟的好友及其聊天内容
-
-
     this.socketService.getSocket().on('receiveMessage', (data) => {
       let jsonData = JSON.parse(data);
       let temSession = this.sessionList.find((item) => item.friend.username === jsonData['from']);
