@@ -2,7 +2,7 @@
  * Created by wangziheng on 2017/5/3.
  */
 import {Component} from '@angular/core';
-import {NavController, NavParams, ActionSheetController, App, ToastController} from "ionic-angular";
+import {NavController, NavParams, ActionSheetController, App, ToastController,ViewController} from "ionic-angular";
 import {Transfer, FileUploadOptions, TransferObject} from '@ionic-native/transfer';
 
 import {User} from "../../entities/user";
@@ -33,7 +33,8 @@ export class AboutUserInfoPage {
               public localUserService: LocalUserService,
               public imgService: ImgService,
               public socketService: SocketService,
-              public sanitizer: DomSanitizer,) {
+              public sanitizer: DomSanitizer,
+              public viewCtrl: ViewController,) {
     this.localUser = navParams.get('localUser');
     this.setCityPickerData();//得到城市数据
     this.cityName = this.localUser.location;//初始化城市名
@@ -128,21 +129,46 @@ export class AboutUserInfoPage {
   }
    */
   pickImg() {
-    /*
     this.imgService.openImgPickerSingle().then((url) => {
-      if (url[0] === 'error') {
+      if (url === 'error') {
         console.log('error');
       } else {
-        // TODO；上传到服务器
-        this.imgService.sendFile(this.localUser, url);
         console.log(url);
-        this.localUser.userimage = url[0];
+        this.imgService.sendFile(this.localUser, url,'userimage')
+          .then( (data) => {
+            if (data !== 'error'){// 上传成功，data返回图片在服务器的url
+              this.localUserService.modifyUserimage(data)
+                .then( res => {
+                  if(res === 'success'){// 修改数据库成功，res返回success
+                    let toast = this.toastCtrl.create({
+                      message: '修改成功',
+                      duration: 1000,
+                      position: 'middle'
+                    });
+
+                    toast.present();
+                  }else{
+                    let toast = this.toastCtrl.create({
+                      message: '修改失败，请重试',
+                      duration: 1500,
+                      position: 'middle'
+                    });
+
+                    toast.present();
+                  }
+                });
+            }else {
+              let toast = this.toastCtrl.create({
+                message: '上传图片失败，请重试',
+                duration: 1500,
+                position: 'middle'
+              });
+
+              toast.present();
+            }
+          });
       }
     });
-    */
-    this.imgService.sendImgAsBase64ByURL('assets/emoji/0x1f600.png');
-    console.log("between");
-    //this.localUser.userimage = src;
 
   }
 
@@ -151,10 +177,40 @@ export class AboutUserInfoPage {
       if (url === 'error') {
         console.log('error');
       } else {
-        // TODO；上传到服务器
-        this.imgService.sendFile(this.localUser, url);
-        this.localUser.userimage = url;
-        //console.log(url);
+        console.log(url);
+        this.imgService.sendFile(this.localUser, url,'userimage')
+          .then( (data) => {
+            if (data !== 'error'){// 上传成功，data返回图片在服务器的url
+              this.localUserService.modifyUserimage(data)
+                .then( res => {
+                  if(res === 'success'){// 修改数据库成功，res返回success
+                    let toast = this.toastCtrl.create({
+                      message: '修改成功',
+                      duration: 1000,
+                      position: 'middle'
+                    });
+
+                    toast.present();
+                  }else{
+                    let toast = this.toastCtrl.create({
+                      message: '修改失败，请重试',
+                      duration: 1500,
+                      position: 'middle'
+                    });
+
+                    toast.present();
+                  }
+                });
+            }else {
+              let toast = this.toastCtrl.create({
+                message: '上传图片失败，请重试',
+                duration: 1500,
+                position: 'middle'
+              });
+
+              toast.present();
+            }
+          });
 
       }
     });

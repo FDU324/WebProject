@@ -6,6 +6,7 @@ import {Moment} from '../entities/moment';
 
 import {LocalUserService} from './local-user.service';
 import {SocketService} from "./socket.service";
+import {ImgService} from "./img.service";
 
 @Injectable()
 export class MomentService {
@@ -15,7 +16,9 @@ export class MomentService {
 
   constructor(public http: Http,
               public localUserService: LocalUserService,
-              public socketService: SocketService,) {
+              public socketService: SocketService,
+              public imgService: ImgService) {
+    //this.initMemonetDatabase();
     this.memonetDatabase = [];
     this.newMomnentCount = 0;
 
@@ -62,7 +65,13 @@ export class MomentService {
 
   sendMoment(moment: Moment) {
     moment.time = Date.now();
-
+    for ( let i = 0 ; i < moment.images.length ; i++){
+      this.imgService.sendFile(moment.user,moment.images[i],'moment')
+        .then( (data) => {
+          if (data !== 'error')
+            moment.images[i] = data;
+        });
+    }
     return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
       if (data === 'success') {
         this.memonetDatabase.unshift(moment);

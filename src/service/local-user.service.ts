@@ -45,6 +45,26 @@ export class LocalUserService {
         return Promise.resolve('error');
       });
   }
+  modifyUserimage(imageURL) {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    let url = 'http://localhost:3000/user/modifyUserImage';
+    let info = {
+      userImage:imageURL,
+    };
+    return this.http.put(url,JSON.stringify(info),options)
+      .toPromise()
+      .then( res => {
+        if (res.json().data === 'success') {
+          this.localUser.userimage = imageURL;
+          return Promise.resolve('success');
+        }
+        return Promise.resolve('error');
+      }).catch((error) => {
+        console.log('LocalUserService-modifyUserimage', error);
+        return Promise.resolve('error');
+      })
+  }
 
   modifyLocation(location) {
     let headers = new Headers({'Content-Type': 'application/json'});
