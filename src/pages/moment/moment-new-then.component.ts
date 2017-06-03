@@ -1,23 +1,22 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, App, AlertController, ViewController} from 'ionic-angular';
+import {NavController, NavParams, App, ViewController, ToastController} from 'ionic-angular';
 
 import {User} from '../../entities/user';
 import {Moment} from "../../entities/moment";
 import {ChatMapSeeDetailPage} from '../chat/chat-map-see-detail.component';
 import {ImageViewer} from './image-viewer.component';
+import {MomentNewThenChooseGroupPage} from "./moment-new-then-choose-group.component";
 
 import {LocalUserService} from '../../service/local-user.service';
 import {ImgService} from '../../service/img.service';
 import {ChatService} from "../../service/chat.service";
 import {MomentService} from "../../service/moment.service";
-import {MomentNewThenChooseGroupPage} from "./moment-new-then-choose-group.component";
 
 /**
  * 在选定位置和心情后，选择动态内容或图片，以及分组
  * TODO: 在Android机上的硬件返回键处理
  */
 @Component({selector: 'page-moment-new-then', templateUrl: 'moment-new-then.component.html'})
-
 export class MomentNewThenPage {
   localUser: User;
   type: string;
@@ -32,7 +31,7 @@ export class MomentNewThenPage {
   emotionValue: string;
   emotionIconName: string;
   //  分组信息
-  group : User[];
+  group: User[];
   inputContent: string;
   images: string[];
 
@@ -40,7 +39,7 @@ export class MomentNewThenPage {
               public navParams: NavParams,
               public appCtrl: App,
               public viewCtrl: ViewController,
-              public alertCtrl: AlertController,
+              public toastCtrl: ToastController,
               public localUserService: LocalUserService,
               public imgService: ImgService,
               public momentService: MomentService,
@@ -69,37 +68,11 @@ export class MomentNewThenPage {
      */
   }
 
-  /*
-   ionViewWillLeave() {
-   let self = this;
-   if (!this.sendOrNot){
-   let confirm = this.alertCtrl.create({
-   title: '退出动态编辑',
-   message: '!!您当前的输入将不会被保存',
-   buttons: [
-   {
-   text: '取消',
-   handler: () => {
-   //console.log('Disagree clicked');
-   }
-   },
-   {
-   text: '退出',
-   handler: () => {
-   self.sendOrNot = true;
+  // 重写生命周期函数，使得进入new-then时从栈中删除上一个页面
+  ionViewDidLoad() {
+    this.navCtrl.remove(this.navCtrl.length() - 2);
+  }
 
-   }
-   }
-   ]
-   });
-   confirm.present();
-   }
-   if (this.sendOrNot){
-   this.tabSwitchService.switchTab(0);
-   }
-
-   }
-   */
   pickImg() {
     this.images = [];
     this.imgService.openImgPicker().then((urls) => {
@@ -115,7 +88,6 @@ export class MomentNewThenPage {
     });
   }
 
-
   viewImage(images, index) {
     this.navCtrl.push(ImageViewer, {
       images: this.images,
@@ -129,14 +101,13 @@ export class MomentNewThenPage {
     });
   }
 
-  // 这里所有的单发和未分组，moment的group都设成了null
   // 所有moment的id都为-1，时间都为-1
   sendMoment() {
     let momentLocation = [this.position, this.address, this.nearestJunction, this.staticMapUrl];
     let momentEmotion = [this.emotionText, this.emotionValue, this.emotionIconName];
 
     if (this.type === 'single') {
-      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, null, this.inputContent, this.images);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, [], this.inputContent, this.images);
       // console.log(moment);
       this.chatService.sendMessage(this.friend, 'moment', moment).then(
         () => {
@@ -144,46 +115,59 @@ export class MomentNewThenPage {
         }
       );
     } else if (this.type === 'group') {
-      // TODO: 分组
-      let moment = new Moment(this.type,this.localUser,-1,momentLocation,momentEmotion,-1,this.group,this.inputContent,this.images,null,[]);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, this.group, this.inputContent, this.images, null, []);
       console.log(moment);
-      this.momentService.sendMoment(moment,this.group).then(
-        () => {
-          this.viewCtrl.dismiss();
+      this.momentService.sendMoment(moment).then(
+        (data) => {
+          if (data === 'success') {
+            this.viewCtrl.dismiss();
+          } else {
+            let toast = this.toastCtrl.create({
+              message: '修改失败，请重试',
+              duration: 1500,
+              position: 'middle'
+            });
+            toast.present();
+          }
         }
       );
     } else {
       // public
-      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, null, this.inputContent, this.images, null, []);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, [], this.inputContent, this.images, null, []);
       console.log(moment);
-      this.momentService.sendMoment(moment, null).then(
-        () => {
-          this.viewCtrl.dismiss();
+      this.momentService.sendMoment(moment).then(
+        (data) => {
+          if (data === 'success') {
+            this.viewCtrl.dismiss();
+          } else {
+            let toast = this.toastCtrl.create({
+              message: '发送失败，请重试',
+              duration: 1500,
+              position: 'middle'
+            });
+            toast.present();
+          }
         });
     }
+  }
 
-  }
-  // 重写生命周期函数，使得进入new-then时从栈中删除上一个页面
-  ionViewDidLoad(){
-    this.navCtrl.remove(this.navCtrl.length()-2);
-  }
 
   /**
    * 选择分组的按钮事件，点击后看到所有的好友，来选择分组
    */
-  pickGroup(){
+  pickGroup() {
     console.log("选择分组");
-    this.navCtrl.push(MomentNewThenChooseGroupPage,{
-      chosenUsers:this.group,
-      type:this.type,
-      friend:this.friend,
-      locInfo:[this.position,this.address,this.nearestJunction,this.staticMapUrl],
-      emotionInfo:[this.emotionText,this.emotionValue,this.emotionIconName],
-      callback:this.getData
+    this.navCtrl.push(MomentNewThenChooseGroupPage, {
+      chosenUsers: this.group,
+      type: this.type,
+      friend: this.friend,
+      locInfo: [this.position, this.address, this.nearestJunction, this.staticMapUrl],
+      emotionInfo: [this.emotionText, this.emotionValue, this.emotionIconName],
+      callback: this.getData
     });
   }
-  getData = (g) =>
-  {
+
+  getData = (g) => {
     return new Promise((resolve, reject) => {
       this.group = g;
       if (this.group.length > 1)

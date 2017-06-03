@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
+import {Http} from "@angular/http";
 
 import {User} from '../entities/user';
 import {Moment} from '../entities/moment';
 
 import {LocalUserService} from './local-user.service';
+import {SocketService} from "./socket.service";
 
 @Injectable()
 export class MomentService {
@@ -11,16 +13,28 @@ export class MomentService {
   memonetDatabase: Moment[];
   newMomnentCount: number;
 
-  constructor(public localUserService: LocalUserService) {
-    //this.localUser = new User('Me', 'Who am I', 'sdfadsfas', '../assets/icon/favicon.ico', '中国大陆');
+  constructor(public http: Http,
+              public localUserService: LocalUserService,
+              public socketService: SocketService,) {
+    //this.initMemonetDatabase();
+    this.memonetDatabase = [];
+
     this.initMemonetDatabase();
+
+    /*
+    this.updatePartialMoment().then(moments=>{
+      this.memonetDatabase.push(moments);
+    }).catch(err=>{
+      console.log('MomentService-constructor:', err);
+    });
+    */
   }
 
   initMemonetDatabase() {
     this.memonetDatabase = [];
     this.newMomnentCount = 3;
 
-    let user = new User('username--0', 'fake--0', 'assets/icon/favicon.ico', '北京市-北京市-东城区',[]);
+    let user = new User('username--0', 'fake--0', 'assets/icon/favicon.ico', '北京市-北京市-东城区', []);
     let temEmotion = ['happy', '高兴', 'happy'];
     let temLocation = [
       ['121.598457,31.190464', '复旦大学张江校区', '复旦大学张江校区', 'http://restapi.amap.com/v3/staticmap?location=121.598457,31.190464&zoom=15&size=750*300&markers=mid,,:121.598457,31.190464&key=a55c3c970ecab69b1f6e51374a467bba'],
@@ -60,8 +74,26 @@ export class MomentService {
     })
   }
 
+  // 记载10条新动态
+  updatePartialMoment() {
+    let url = 'http://localhost:3000/moment/getMoments?username=' + this.localUserService.localUser.username;
+    return this.http.get(url).toPromise().then(res => {
+      if (res.json().success) {
+        return res.json().data;
+      } else {
+        // 服务器错误
+        console.log('MomentService-updatePartialMoment:', res.json().data);
+        return [];
+      }
+    }).catch(error => {
+      console.log('MomentService-updatePartialMoment:', error);
+      return [];
+    });
+  }
+
   getMomentList() {
-    // TODO: get data from server
+
+    /*
     this.memonetDatabase.forEach(moment => {
       if (moment.likeuser && moment.likeuser.length > 0) {
         if (moment.likeuser.indexOf(this.localUserService.getLocalUser()) >= 0) {
@@ -73,17 +105,21 @@ export class MomentService {
         moment.like = false;
       }
     });
+    */
     return this.memonetDatabase;
   }
 
-  sendMoment(moment: Moment, group) {
-    // 这里moment的id都是-1,time都是空值
-    // 设置time
+  sendMoment(moment: Moment) {
     moment.time = Date.now();
 
-    this.memonetDatabase.unshift(moment);
+    return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
+      if(data === 'success'){
+        this.memonetDatabase.unshift(moment);
+      }
+      return data;
+    });
 
-    return Promise.resolve(this.memonetDatabase);
+    //return Promise.resolve(this.memonetDatabase);
   }
 
   getNewMomentCount() {
@@ -95,15 +131,15 @@ export class MomentService {
   }
 
   changeLike(moment: Moment, to: boolean) {
-    if(to){
+    if (to) {
       // 赞
-      if(moment.likeuser){
+      if (moment.likeuser) {
         moment.likeuser.push(this.localUserService.getLocalUser());
-      }else{
+      } else {
         moment.likeuser = [this.localUserService.getLocalUser()];
       }
       return Promise.resolve(this.getMomentList());
-    }else{
+    } else {
       // 取消赞
       let index = moment.likeuser.indexOf(this.localUserService.getLocalUser());
       moment.likeuser.splice(index, 1);

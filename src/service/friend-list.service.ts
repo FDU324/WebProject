@@ -20,7 +20,7 @@ export class FriendListService {
     this.observers = [];
     this.friendReqList = [];
     this.receiverOn();
-    this.updateFriendList().then(friends=>{
+    this.updateFriendList().then(friends => {
       this.friendList = friends;
     });
   }
@@ -53,22 +53,21 @@ export class FriendListService {
   }
 
   // 重新从服务器获取好友列表
-  updateFriendList(){
+  updateFriendList() {
     let url = 'http://localhost:3000/user/getFriends?username=' + this.localUserService.localUser.username;
-    return this.http.get(url).toPromise()
-      .then(res => {
-        if (res.json().data === 'success') {
-          this.friendList = JSON.parse(res.json().friends);
-          return this.friendList;
-        } else {
-          // 服务器错误
-          console.log('FriendListService-searchUser:', res.json().data);
-          return [];
-        }
-      }).catch(error => {
-        console.log(error);
+    return this.http.get(url).toPromise().then(res => {
+      if (res.json().data === 'success') {
+        this.friendList = JSON.parse(res.json().friends);
+        return this.friendList;
+      } else {
+        // 服务器错误
+        console.log('FriendListService-searchUser:', res.json().data);
         return [];
-      });
+      }
+    }).catch(error => {
+      console.log(error);
+      return [];
+    });
   }
 
   // 获得当前的好友列表

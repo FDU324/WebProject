@@ -57,8 +57,8 @@ export class SocketService {
           if (response.success === true) {
             resolve(response.data);
           } else {
-            if (typeof response.message === "string") {
-              reject(response.message);
+            if (typeof response.data === "string") {
+              reject(response.data);
             } else {
               reject("The request was not successful.")
             }
