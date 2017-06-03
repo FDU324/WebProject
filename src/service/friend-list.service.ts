@@ -20,11 +20,9 @@ export class FriendListService {
     this.friendList = [];
     this.observers = [];
     this.friendReqList = [];
-<<<<<<< HEAD
+
     this.newFriendReqCount = 0;
-    this.observers  = [];
-=======
->>>>>>> 487e9fc3ab4021db8fecaa19ed1f836cd02a3077
+
     this.receiverOn();
     this.updateFriendList().then(friends=>{
       this.friendList = friends;
@@ -111,7 +109,7 @@ export class FriendListService {
       console.log('err:', err);
     })
   }
-  
+
   clearNewFriendReq() {
     this.newFriendReqCount = 0;
   }
