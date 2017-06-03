@@ -10,6 +10,7 @@ import {SocketService} from "./socket.service";
 export class FriendListService {
   friendList: User[];
   friendReqList: User[];
+  newFriendReqCount: number;
   observers: any[];
 
 
@@ -17,7 +18,7 @@ export class FriendListService {
     this.friendList = [];
 
     this.friendReqList = [];
-
+    this.newFriendReqCount = 0;
     this.observers  = [];
     this.receiverOn();
 
@@ -28,6 +29,7 @@ export class FriendListService {
     this.socketService.getSocket().on('receiveFriendReq', (user) => {
       console.log(JSON.parse(user));
       this.friendReqList.push(JSON.parse(user));
+      this.newFriendReqCount++;
       this.update();
     });
 
@@ -62,8 +64,8 @@ export class FriendListService {
     return this.friendReqList;
   }
 
-  getReqCount() {
-    return this.friendReqList.length;
+  getNewReqCount() {
+    return this.newFriendReqCount;
   }
 
   acceptRequest(myUsername: string, friend: User){
@@ -72,7 +74,7 @@ export class FriendListService {
       friendUsername: friend.username,
       myUsername: myUsername
     })).then(data => {
-      console.log('data:', data);
+      //console.log('data:', data);
       if(data === 'success') {
         this.friendReqList.splice(this.friendReqList.indexOf(friend), 1);
         this.friendList.push(friend);
@@ -85,6 +87,10 @@ export class FriendListService {
       console.log('err:', err);
     })
        
+  }
+
+  clearNewFriendReq() {
+    this.newFriendReqCount = 0;
   }
 
 

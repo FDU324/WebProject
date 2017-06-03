@@ -1,6 +1,9 @@
 import {Component} from '@angular/core';
 import {NavController, App} from 'ionic-angular';
 
+
+import {File} from '@ionic-native/file'
+
 import {User} from "../../entities/user";
 
 import {AboutUserInfoPage} from "./about-user-info.component";
