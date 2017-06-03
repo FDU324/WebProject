@@ -141,5 +141,25 @@ export class ImgService {
     });
     
   }
+  sendImgAsBase64ByURL(url){
+    var canvas = document.createElement("canvas");
+    var img = document.createElement('img');
+    img.crossOrigin = 'Anonymous';
+    img.src = url;
+    img.onload = function () {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      var ext = img.src.substring(url.lastIndexOf(".")+1).toLowerCase();
+      if (ext === 'jpg')
+        ext = 'jpeg';
+      else if (ext === 'ico')
+        ext = 'png';
+      var dataURL = canvas.toDataURL("image/"+ext);
+      console.log(dataURL);
+      return dataURL;
+    }
+  }
 
 }

@@ -3,6 +3,7 @@
  */
 import {Component, ViewChild} from '@angular/core';
 import {NavController, ViewController, NavParams, Content, App} from 'ionic-angular';
+import {NativeStorage} from '@ionic-native/native-storage';
 
 import {Session} from '../../entities/session';
 import {User} from '../../entities/user';
@@ -34,6 +35,7 @@ export class ChatSessionPage {
               public viewCtrl: ViewController,
               public navParams: NavParams,
               public appCtrl: App,
+              public nativeStorage: NativeStorage,
               public chatService: ChatService,
               public imgService: ImgService) {
     this.friend = navParams.get('friend');
@@ -43,22 +45,42 @@ export class ChatSessionPage {
 
   ionViewDidLoad() {
     this.session = this.chatService.getSession(this.friend);
-    
+
     // 把stack中之前的page全部删除，并将root设为tabsPage
-    this.navCtrl.remove(0, this.navCtrl.length()-1);
-    this.navCtrl.insertPages(0, [{page: TabsPage, params:{tabId:0}}]);
-   
-    this.chatService.registerPage(this); 
+    this.navCtrl.remove(0, this.navCtrl.length() - 1);
+    this.navCtrl.insertPages(0, [{page: TabsPage, params: {tabId: 0}}]);
+
+    this.chatService.registerPage(this);
+    this.chatService.clearNewMessages(this.session);
   }
 
   ionViewDidLeave() {
     this.chatService.removePage(this);
+    let keyName = this.localUser.username + '_' + 'session_' + this.friend.username;
+    let value = JSON.stringify(this.session);
+
+    this.nativeStorage.setItem(keyName, {data: value}).then(
+      () => {
+        keyName = this.localUser.username + '_totalNewMessageCount';
+        this.nativeStorage.setItem(keyName, {data: this.chatService.totalNewMessageCount}).then(
+          () => {
+          },
+          error => {
+            console.log('Error storing totalNewMessageCount : ' + error);
+          }
+        );
+      },
+      error => {
+        console.log('Error storing ' + keyName + ' : ' + error);
+      }
+    );
+
   }
 
   update() {
     this.session = this.chatService.getSession(this.friend);
     this.chatService.clearNewMessages(this.session);
-    }
+  }
 
   log(text: string) {
     console.log(text);
@@ -67,13 +89,13 @@ export class ChatSessionPage {
   submitInput() {
     this.chatService.sendMessage(this.friend, 'text', this.inputContent).then(
       (session) => {
-        if(typeof session !== 'string') {
-            this.session = session;
+        if (typeof session !== 'string') {
+          this.session = session;
           //console.log(this.session);
           this.inputContent = '';
           this.content.scrollToBottom(3000);
         }
-        
+
       }
     );
   }
@@ -109,7 +131,7 @@ export class ChatSessionPage {
         console.log(urls);
         urls.forEach(url => {
           this.chatService.sendImg(this.friend, url).then((session) => {
-            if(typeof session !== 'string') {
+            if (typeof session !== 'string') {
               this.session = session;
               this.content.scrollToBottom(3000);
             }
@@ -127,9 +149,9 @@ export class ChatSessionPage {
         // TODO；上传到服务器
         console.log(url);
         this.chatService.sendImg(this.friend, url).then((session) => {
-          if(typeof session !== 'string') {
+          if (typeof session !== 'string') {
             this.session = session;
-         
+
             this.content.scrollToBottom(3000);
           }
         });
@@ -148,13 +170,13 @@ export class ChatSessionPage {
 
   }
 
-  showUserDetail(userType:string) {
+  showUserDetail(userType: string) {
     let user: User;
-    if(userType === 'me')
+    if (userType === 'me')
       user = this.localUser;
     else
       user = this.friend;
-     this.navCtrl.push(FriendDetailPage, {
+    this.navCtrl.push(FriendDetailPage, {
       friend: user
     });
   }
