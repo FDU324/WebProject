@@ -128,12 +128,12 @@ export class ChatService {
         } else {
           temSession.messageList.push(message);
         }
-        return Promise.resolve(temSession);
+        return Promise.resolve<any>(temSession);
       }
-      return Promise.resolve('SendMessage-error');
+      return Promise.resolve<any>('SendMessage-error');
     }).catch(error => {
       console.log('SendMessage-error:', error);
-      return Promise.resolve('SendMessage-error');
+      return Promise.resolve<any>('SendMessage-error');
     });
     //return Promise.resolve(temSession);
   }

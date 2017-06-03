@@ -48,7 +48,7 @@ export class TabsPage {
   
   ionViewCanEnter() {
     this.totalNewMessageCount = this.chatService.getTotalNewMessageCount();
-    this.friendReqCount = this.friendListService.getReqCount();
+    this.friendReqCount = this.friendListService.getNewReqCount();
     this.totalNewMomentCount = this.momentService.getNewMomentCount();
 
     
@@ -56,7 +56,7 @@ export class TabsPage {
 
   update() {
     this.totalNewMessageCount = this.chatService.getTotalNewMessageCount();
-    this.friendReqCount = this.friendListService.getReqCount();
+    this.friendReqCount = this.friendListService.getNewReqCount();
     this.totalNewMomentCount = this.momentService.getNewMomentCount();
 
   }

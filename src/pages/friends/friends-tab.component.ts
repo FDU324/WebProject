@@ -83,7 +83,9 @@ export class FriendsTabPage {
   showGroupInfo() {
     this.appCtrl.getRootNav().push(GroupsDetailPage);
   }
+
   gotoFriendReqPage() {
+    this.friendListService.clearNewFriendReq();
     this.appCtrl.getRootNav().push(FriendReqPage);
   }
 
