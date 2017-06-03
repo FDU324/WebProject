@@ -28,7 +28,6 @@ export class ImgService {
         width: 800,
         height: 800,
         quality: 80,
-        outputType: 1
       };
 
       return ImagePicker.getPictures(options).then(

@@ -14,14 +14,20 @@ export class MomentService {
   memonetDatabase: Moment[];
   newMomnentCount: number;
 
+
+  observers: any[];
+
   constructor(public http: Http,
               public localUserService: LocalUserService,
               public socketService: SocketService,
               public imgService: ImgService) {
     //this.initMemonetDatabase();
     this.memonetDatabase = [];
-
+    this.newMomnentCount = 0;
+    this.observers = [];
     this.initMemonetDatabase();
+
+    this.receiverOn();
 
     /*
     this.updatePartialMoment().then(moments=>{
@@ -33,8 +39,6 @@ export class MomentService {
   }
 
   initMemonetDatabase() {
-    this.memonetDatabase = [];
-    this.newMomnentCount = 3;
 
     let user = new User('username--0', 'fake--0', 'assets/icon/favicon.ico', '北京市-北京市-东城区', []);
     let temEmotion = ['happy', '高兴', 'happy'];
@@ -68,6 +72,33 @@ export class MomentService {
     let moment = new Moment('public', user, Date.now(), temLocation[5], temEmotion, 5, null, temText);
     this.memonetDatabase.push(moment);
   }
+
+  receiverOn() {
+    this.socketService.getSocket().on('receiveMoment', data => {
+      console.log(data)
+      let moment = JSON.parse(data);
+      console.log(moment)
+      this.memonetDatabase.unshift(moment);
+      this.newMomnentCount++;
+      this.update();
+    })
+  }
+
+  registerPage(page: any) {
+    this.observers.push(page);
+    //component.log('register!');
+  }
+
+  removePage(page: any) {
+    this.observers.splice(this.observers.indexOf(page), 1);
+    //component.log('remove!');
+  }
+
+  update() {
+    this.observers.forEach(item => item.update());
+  }
+
+
 
 
   getMomentByUser(user: User): Moment[] {

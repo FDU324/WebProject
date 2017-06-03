@@ -43,6 +43,7 @@ export class TabsPage {
   ionViewDidLoad() {
     this.chatService.registerPage(this);
     this.friendListService.registerPage(this);
+    this.momentService.registerPage(this);
   }
 
   
