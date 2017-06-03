@@ -57,7 +57,7 @@ export class ImgService {
    * 失败返回： Promise: ['error']
    */
   openImgPickerSingle() {
-    let reURL = ['error'];
+    let reURL = 'error';
     if (!ImagePicker.hasReadPermission()) {
       ImagePicker.requestReadPermission();
     }
@@ -75,7 +75,7 @@ export class ImgService {
           reURL = results[0];
           console.log(results[0]);
         }, (err) => {
-          reURL = ['error'];
+          reURL = 'error';
           console.log(err);
         }).then(() => {
         return reURL;
@@ -118,28 +118,41 @@ export class ImgService {
     });
 
   }
+
   /**
-   * 传入一个file对象，将其以二进制流的方式传给服务器
+   *
+   * @param user:传文件的user
+   * @param url:文件的url
+   * @param type:"userimage"表示用作头像,"moment"表示用作动态
    */
-  sendFile(user,url){
-    /*
-    let fileData: string;
-    let file = new File();
-    file.readAsBinaryString(url, fileData);
-    console.log(fileData);
-    */
+  sendFile(user,url,type){
     var fileTransfer : TransferObject = new Transfer().create();//this.transfer.create();
     const dest = "http://120.25.238.161:3000/upload.json";
+    //let dest = "http://localhost:3000";
+    //var op :FileUploadOptions = new FileUploadOptions();
     var options = {
-      user:user,
-      filename:"test.jpg",
-    }
-    fileTransfer.upload(url,dest,options).then((data) => {
-      alert("正在上传");
-    }, (err) => {
-      alert("出错啦");
+      username:user.username,
+      type:type,
+    };
+    var op : FileUploadOptions = {
+      params : options,
+    };
+    return fileTransfer.upload(url,dest,op)
+      .then( (data) => {
+        console.log(data.response);
+        var resp = JSON.parse(data.response);
+        if (resp.status == 0) {
+          // TODO:将传回的res解析出图片在服务器上的url，作为参数返回
+          let newURL = '';
+          //this.localUser.groups = groups;
+          return Promise.resolve(newURL);
+        }
+        return Promise.resolve('error');
+      }).catch((error) => {
+      console.log('ImgService-sendFile',error);
+      return Promise.resolve('error');
     });
-    
+
   }
   sendImgAsBase64ByURL(url){
     var canvas = document.createElement("canvas");

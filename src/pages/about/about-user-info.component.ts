@@ -128,20 +128,21 @@ export class AboutUserInfoPage {
   }
    */
   pickImg() {
-    /*
     this.imgService.openImgPickerSingle().then((url) => {
-      if (url[0] === 'error') {
+      if (url === 'error') {
         console.log('error');
       } else {
-        // TODO；上传到服务器
-        this.imgService.sendFile(this.localUser, url);
         console.log(url);
-        this.localUser.userimage = url[0];
+        // TODO；上传到服务器
+        this.imgService.sendFile(this.localUser, url,'userimage')
+          .then( (data) => {
+            if (data !== 'error')
+              this.localUser.userimage = data;
+          });
       }
     });
-    */
-    this.imgService.sendImgAsBase64ByURL('assets/emoji/0x1f600.png');
-    console.log("between");
+    //this.imgService.sendFile(this.localUser,this.localUser.userimage);
+    //this.imgService.sendImgAsBase64ByURL('assets/emoji/0x1f600.png');
     //this.localUser.userimage = src;
 
   }
@@ -151,9 +152,13 @@ export class AboutUserInfoPage {
       if (url === 'error') {
         console.log('error');
       } else {
+        console.log(url);
         // TODO；上传到服务器
-        this.imgService.sendFile(this.localUser, url);
-        this.localUser.userimage = url;
+        this.imgService.sendFile(this.localUser, url,'userimage')
+          .then( (data) => {
+            if (data !== 'error')
+              this.localUser.userimage = data;
+          });
         //console.log(url);
 
       }
