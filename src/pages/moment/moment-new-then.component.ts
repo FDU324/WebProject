@@ -72,7 +72,6 @@ export class MomentNewThenPage {
   ionViewDidLoad() {
     this.navCtrl.remove(this.navCtrl.length() - 2);
   }
-
   pickImg() {
     this.images = [];
     this.imgService.openImgPicker().then((urls) => {
@@ -82,12 +81,12 @@ export class MomentNewThenPage {
         // TODO；上传到服务器
         console.log(urls);
         urls.forEach(url => {
+          console.log("图片选择"+url);
           this.images.push(url);
         });
       }
     });
   }
-
   viewImage(images, index) {
     this.navCtrl.push(ImageViewer, {
       images: this.images,

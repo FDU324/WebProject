@@ -50,6 +50,7 @@ export class LocalUserService {
     let options = new RequestOptions({headers: headers});
     let url = 'http://localhost:3000/user/modifyUserImage';
     let info = {
+      username: this.localUser.username,
       userImage:imageURL,
     };
     return this.http.put(url,JSON.stringify(info),options)
