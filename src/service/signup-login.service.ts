@@ -23,7 +23,7 @@ export class SignupLoginService {
   login(username, password) {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    let url = 'http://localhost:3000/user/login';
+    let url = 'http://120.25.238.161:3000/user/login';
     let info = {
       username: username,
       password: password,

@@ -127,7 +127,7 @@ export class ImgService {
    */
   sendFile(user,url,type){
     var fileTransfer : TransferObject = new Transfer().create();//this.transfer.create();
-    const dest = "http://120.25.238.161:3000/upload.json";
+    const dest = "http://120.25.238.161:3000/upload/uploadImg.json";
     //let dest = "http://localhost:3000";
     //var op :FileUploadOptions = new FileUploadOptions();
     var options = {
@@ -139,12 +139,10 @@ export class ImgService {
     };
     return fileTransfer.upload(url,dest,op)
       .then( (data) => {
-        console.log(data.response);
-        var resp = JSON.parse(data.response);
-        if (resp.status == 0) {
-          // TODO:将传回的res解析出图片在服务器上的url，作为参数返回
-          let newURL = '';
-          //this.localUser.groups = groups;
+        //var resp = JSON.parse(data.response);
+        if (data.responseCode == 200) {
+          var resp = JSON.parse(data.response);
+          var newURL:string = resp.url;
           return Promise.resolve(newURL);
         }
         return Promise.resolve('error');
