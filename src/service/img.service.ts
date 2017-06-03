@@ -53,7 +53,7 @@ export class ImgService {
   /**
    * 选取图片，只能选一张
    * 成功返回: Promise: 图片的路径数组
-   * 失败返回： Promise: ['error']
+   * 失败返回： Promise: 'error'
    */
   openImgPickerSingle() {
     let reURL = 'error';
@@ -72,10 +72,9 @@ export class ImgService {
       return ImagePicker.getPictures(options).then(
         (results) => {
           reURL = results[0];
-          console.log(results[0]);
         }, (err) => {
           reURL = 'error';
-          console.log(err);
+          console.log("ImgService-siglepicker:" +err);
         }).then(() => {
         return reURL;
       });
@@ -151,6 +150,7 @@ export class ImgService {
     });
 
   }
+  /*
   sendImgAsBase64ByURL(url){
     var canvas = document.createElement("canvas");
     var img = document.createElement('img');
@@ -171,5 +171,6 @@ export class ImgService {
       return dataURL;
     }
   }
+  */
 
 }
