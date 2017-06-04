@@ -16,10 +16,7 @@ import {ImageViewer} from './image-viewer.component';
   selector: 'page-moment-zone',
   templateUrl: 'moment-zone.component.html',
 })
-
-
 export class MomentZonePage {
-
   momentList: Moment[];
   //commentList: Comment[];
   inputContent: string;
@@ -41,6 +38,14 @@ export class MomentZonePage {
     console.log(this.momentList);
   }
 
+  ionViewDidEnter() {
+    this.momentService.registerPage(this);
+  }
+
+  ionViewDidLeave() {
+    this.momentService.removePage(this);
+  }
+
   // 进入用户详情页
   seeUserInfo(user: User) {
     this.navCtrl.push(FriendDetailPage, {
@@ -48,10 +53,14 @@ export class MomentZonePage {
     });
   }
 
+  update() {
+    this.momentList = this.momentService.getMomentList();
+  }
+
   // 赞与取消赞
   changeLike(moment: Moment, from: boolean) {
-    this.momentService.changeLike(moment, !from).then(momentList => {
-      this.momentList = momentList;
+    this.momentService.changeLike(moment, !from).then(data => {
+      console.log(data);
     });
   }
 
@@ -69,8 +78,8 @@ export class MomentZonePage {
       this.inputContent = "";
       this.commentTo = '';
       this.isFooterHidden = true;
-    }).catch(() =>
-      console.log('err')
+    }).catch((error) =>
+      console.log(error)
     );
 
   }

@@ -29,25 +29,49 @@ export class MomentService {
 
     this.receiverOn();
 
-    return this.updatePartialMoment(true).then(moments => {
-      moments.forEach(moment => {
-        this.momentDatabase.push(moment);
-      });
-      console.log('update momentService success, ',this.momentDatabase.length);
-    }).catch(err => {
-      console.log('MomentService-constructor:', err);
+    return this.updateMoment(true).then(data => {
+      if (data === 'success') {
+        console.log('update momentService success, ', this.momentDatabase.length);
+      } else {
+        console.log('MomentService-constructor:', data);
+      }
     });
   }
 
   receiverOn() {
     this.socketService.getSocket().on('receiveMoment', data => {
-      console.log(data);
-      let moment = JSON.parse(data);
-      console.log(moment);
-      this.momentDatabase.unshift(moment);
-      this.newMomentCount++;
+      console.log('receiveMoment');
+      let newMoment = JSON.parse(data);
+      let exist = this.momentDatabase.some((moment) => {
+        return moment.id === newMoment.id;
+      });
+      if (!exist) {     // 可能已经有更新后的同一个moment在列表中
+        this.momentDatabase.unshift(newMoment);
+        this.newMomentCount++;
+        this.update();
+      }
+    });
+
+    this.socketService.getSocket().on('receiveChangeLike', data => {
+      console.log('receiveLike');
+      let jsonData = JSON.parse(data);
+      let updateMoment = jsonData.receiveMoment;
+      let index = this.momentDatabase.findIndex((value, index, arr) => {
+        return value.id === updateMoment.id;
+      });
+
+      if (index === -1) {
+        this.momentDatabase.unshift(updateMoment);
+      } else {
+        this.momentDatabase.splice(index, 1, updateMoment);
+      }
+
+      if (jsonData.changeTO && jsonData.isOwner) {  // 仅在其他用户点赞自己的时候才++
+        this.newMomentCount++;
+      }
       this.update();
-    })
+    });
+
   }
 
   registerPage(page: any) {
@@ -74,7 +98,7 @@ export class MomentService {
    * 加载[0, time]时间段内的动态，其中isInitial设为true时，time为Date.now()
    *    isInitial为false时，time为当前动态列表的最后一条动态的time
    */
-  updatePartialMoment(isInitial: boolean) {
+  updateMoment(isInitial: boolean) {
     let username = 'username=' + this.localUserService.localUser.username;
     let requestTime = '&requestTime=';
     if (isInitial)
@@ -85,15 +109,22 @@ export class MomentService {
     let url = 'http://localhost:3000/moment/getMoments?' + username + requestTime;
     return this.http.get(url).toPromise().then(res => {
       if (res.json().success) {
-        return JSON.parse(res.json().data);
+        let moments = JSON.parse(res.json().data);
+        if (isInitial)
+          this.momentDatabase = [];
+        moments.forEach(moment => {
+          this.momentDatabase.push(moment);
+        });
+
+        return 'success';
       } else {
         // 服务器错误
         console.log('MomentService-updatePartialMoment:', res.json().data);
-        return [];
+        return 'error';
       }
     }).catch(error => {
       console.log('MomentService-updatePartialMoment:', error);
-      return [];
+      return error;
     });
   }
 
@@ -126,22 +157,22 @@ export class MomentService {
     this.newMomentCount = 0;
   }
 
+  // 赞与取消赞
   changeLike(moment: Moment, to: boolean) {
-    if (to) {
-      // 赞
-      if (moment.likeuser) {
-        moment.likeuser.push(this.localUserService.getLocalUser());
-      } else {
-        moment.likeuser = [this.localUserService.getLocalUser()];
-      }
-      return Promise.resolve(this.getMomentList());
-    } else {
-      // 取消赞
-      let index = moment.likeuser.indexOf(this.localUserService.getLocalUser());
-      moment.likeuser.splice(index, 1);
-      return Promise.resolve(this.getMomentList());
-    }
+    let info = {
+      moment: moment,
+      username: this.localUserService.localUser.username,
+      changeTO: to,
+    };
 
+    return this.socketService.emitPromise('changeLike', JSON.stringify(info)).then(data => {
+      if (data === 'success') {
+        return 'success';
+      } else {
+        console.log('MomentService-changeLike:', data);
+        return data;
+      }
+    });
   }
 
 
