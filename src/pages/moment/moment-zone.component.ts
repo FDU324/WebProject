@@ -38,7 +38,7 @@ export class MomentZonePage {
     this.commentTo = '';
     this.isFooterHidden = true;
     //this.momentList = momentService.getMomentByUser(this.user);
-    //console.log(this.momentList);
+    console.log(this.momentList);
   }
 
   // 进入用户详情页

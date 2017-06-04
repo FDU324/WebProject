@@ -14,6 +14,9 @@ export class MomentService {
   memonetDatabase: Moment[];
   newMomnentCount: number;
 
+
+  observers: any[];
+
   constructor(public http: Http,
               public localUserService: LocalUserService,
               public socketService: SocketService,
@@ -21,6 +24,9 @@ export class MomentService {
     //this.initMemonetDatabase();
     this.memonetDatabase = [];
     this.newMomnentCount = 0;
+    this.observers = [];
+
+    this.receiverOn();
 
     this.updatePartialMoment(true).then(moments => {
       moments.forEach(moment => {
@@ -30,6 +36,32 @@ export class MomentService {
     }).catch(err => {
       console.log('MomentService-constructor:', err);
     });
+  }
+
+
+  receiverOn() {
+    this.socketService.getSocket().on('receiveMoment', data => {
+      console.log(data)
+      let moment = JSON.parse(data);
+      console.log(moment)
+      this.memonetDatabase.unshift(moment);
+      this.newMomnentCount++;
+      this.update();
+    })
+  }
+
+  registerPage(page: any) {
+    this.observers.push(page);
+    //component.log('register!');
+  }
+
+  removePage(page: any) {
+    this.observers.splice(this.observers.indexOf(page), 1);
+    //component.log('remove!');
+  }
+
+  update() {
+    this.observers.forEach(item => item.update());
   }
 
   getMomentByUser(user: User): Moment[] {
