@@ -23,7 +23,7 @@ export class MomentService {
     this.newMomnentCount = 0;
 
     this.updatePartialMoment(true).then(moments => {
-      moments.forEach(moment=>{
+      moments.forEach(moment => {
         this.memonetDatabase.push(moment);
       });
       console.log(this.memonetDatabase.length);
@@ -38,13 +38,19 @@ export class MomentService {
     })
   }
 
-  // 加载新动态
+  /**
+   * 加载[0, time]时间段内的动态，其中isInitial设为true时，time为Date.now()
+   *    isInitial为false时，time为当前动态列表的最后一条动态的time
+   */
   updatePartialMoment(isInitial: boolean) {
-    let username = '&username=' + this.localUserService.localUser.username;
-    let currentTime = '&currentTime=' + Date.now();
-    let lastTime = '&lastTime=' + (this.memonetDatabase.length > 0 ? (this.memonetDatabase[this.memonetDatabase.length - 1].time) : 0);
+    let username = 'username=' + this.localUserService.localUser.username;
+    let requestTime;
+    if (isInitial)
+      requestTime = Date.now();
+    else
+      requestTime = this.memonetDatabase.length > 0 ? (this.memonetDatabase[this.memonetDatabase.length - 1].time) : Date.now();
 
-    let url = 'http://localhost:3000/moment/getMoments?initial=' + isInitial + username + currentTime + lastTime;
+    let url = 'http://localhost:3000/moment/getMoments?' + username + requestTime;
     return this.http.get(url).toPromise().then(res => {
       if (res.json().success) {
         return JSON.parse(res.json().data);
@@ -65,9 +71,9 @@ export class MomentService {
 
   sendMoment(moment: Moment) {
     moment.time = Date.now();
-    for ( let i = 0 ; i < moment.images.length ; i++){
-      this.imgService.sendFile(moment.user,moment.images[i],'moment')
-        .then( (data) => {
+    for (let i = 0; i < moment.images.length; i++) {
+      this.imgService.sendFile(moment.user, moment.images[i], 'moment')
+        .then((data) => {
           if (data !== 'error')
             moment.images[i] = data;
         });
