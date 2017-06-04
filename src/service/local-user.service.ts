@@ -89,6 +89,7 @@ export class LocalUserService {
         return Promise.resolve('error');
       });
   }
+
   updateGroups(groups){
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
@@ -96,7 +97,7 @@ export class LocalUserService {
     let info = {
       username: this.localUser.username,
       groups: JSON.stringify(groups),
-    }
+    };
     return this.http.put(url,JSON.stringify(info),options)
       .toPromise()
       .then(res => {

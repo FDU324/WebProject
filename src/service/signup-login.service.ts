@@ -7,15 +7,25 @@ import {Http, RequestOptions, Response, Headers} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import {User} from "../entities/user";
+import {Group} from "../entities/group";
 
 import {SocketService} from './socket.service';
-import {Group} from "../entities/group";
+import {ChatService} from './chat.service';
+import {FriendListService} from './friend-list.service'
+import {LocalUserService} from './local-user.service'
+import {CommentService} from './comment.service'
+import {MomentService} from './moment.service'
 
 
 @Injectable()
 export class SignupLoginService {
 
   constructor(public http: Http,
+              public chatService: ChatService,
+              public friendListService: FriendListService,
+              public localUserService: LocalUserService,
+              public commentService: CommentService,
+              public momentService: MomentService,
               public socketService: SocketService) {
 
   }
@@ -23,7 +33,7 @@ export class SignupLoginService {
   login(username, password) {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    let url = 'http://120.25.238.161:3000/user/login';
+    let url = 'http://localhost:3000/user/login';
     let info = {
       username: username,
       password: password,
@@ -36,13 +46,25 @@ export class SignupLoginService {
           let infoGet = JSON.parse(res.json().user);
           //let groups = [];
           let groupInfo = JSON.parse(infoGet.groups);
-          let user = new User(infoGet.username, infoGet.nickname, infoGet.userImage, infoGet.location,groupInfo);
+          let user = new User(infoGet.username, infoGet.nickname, infoGet.userImage, infoGet.location, groupInfo);
 
           return this.socketService.socketConnect().then(data => {
             if (data === 'success') {
               return this.socketService.emitPromise('login', infoGet.username).then((data) => {
                 if (data === 'success') {
-                  return Promise.resolve(user);
+                  // 更新所有service的变量
+                  let updateAll = [
+                    this.localUserService.setLocalUser(user),
+                    this.friendListService.updateAfterLogin(),
+                    this.chatService.updateAfterLogin(),
+                    this.momentService.updateAfterLogin(),
+                    this.commentService.updateAfterLogin()
+                  ];
+
+                  return Promise.all(updateAll).then(data => {
+                    console.log('update all services success');
+                    return Promise.resolve(user);
+                  });
                 }
                 return Promise.resolve('SignupLoginService-login-error');
               }).catch(error => {

@@ -20,22 +20,24 @@ export class ChatService {
               public localUserService: LocalUserService,
               public socketService: SocketService,
               public friendListService: FriendListService) {
-    this.localUser = localUserService.getLocalUser();
+  }
+
+  updateAfterLogin() {
+    this.localUser = this.localUserService.getLocalUser();
     this.observers = [];
     this.totalNewMessageCount = 0;
     this.sessionList = [];
 
-    nativeStorage.getItem(this.localUser.username + '_totalNewMessageCount').then(value=>{
-      if(value){
+    return this.nativeStorage.getItem(this.localUser.username + '_totalNewMessageCount').then(value => {
+      if (value) {
         this.totalNewMessageCount = value.data;
       }
-      nativeStorage.keys().then(keys => {
+      this.nativeStorage.keys().then(keys => {
         return keys.forEach(key => {
-          console.log(key);
-          if (key.substr(0, 9+this.localUser.username.length) === this.localUser.username + '_' + 'session_') {
-            nativeStorage.getItem(key).then(value => {
+          if (key.substr(0, 9 + this.localUser.username.length) === this.localUser.username + '_' + 'session_') {
+            this.nativeStorage.getItem(key).then(value => {
               console.log(JSON.stringify(value));
-              if(value){
+              if (value) {
                 console.log(value.data);
                 this.sessionList.push(JSON.parse(value.data));
               }
@@ -45,7 +47,7 @@ export class ChatService {
       }).then(() => {
         this.receiverOn();
       });
-    }).catch(error=>{
+    }).catch(error => {
       console.log('ChatService-constructor:', error);
     });
   }

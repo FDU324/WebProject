@@ -11,9 +11,8 @@ import {ImgService} from "./img.service";
 @Injectable()
 export class MomentService {
 
-  memonetDatabase: Moment[];
-  newMomnentCount: number;
-
+  momentDatabase: Moment[];
+  newMomentCount: number;
 
   observers: any[];
 
@@ -21,31 +20,32 @@ export class MomentService {
               public localUserService: LocalUserService,
               public socketService: SocketService,
               public imgService: ImgService) {
-    //this.initMemonetDatabase();
-    this.memonetDatabase = [];
-    this.newMomnentCount = 0;
+  }
+
+  updateAfterLogin() {
+    this.momentDatabase = [];
+    this.newMomentCount = 0;
     this.observers = [];
 
     this.receiverOn();
 
-    this.updatePartialMoment(true).then(moments => {
+    return this.updatePartialMoment(true).then(moments => {
       moments.forEach(moment => {
-        this.memonetDatabase.push(moment);
+        this.momentDatabase.push(moment);
       });
-      console.log(this.memonetDatabase.length);
+      console.log('update momentService success, ',this.momentDatabase.length);
     }).catch(err => {
       console.log('MomentService-constructor:', err);
     });
   }
 
-
   receiverOn() {
     this.socketService.getSocket().on('receiveMoment', data => {
-      console.log(data)
+      console.log(data);
       let moment = JSON.parse(data);
-      console.log(moment)
-      this.memonetDatabase.unshift(moment);
-      this.newMomnentCount++;
+      console.log(moment);
+      this.momentDatabase.unshift(moment);
+      this.newMomentCount++;
       this.update();
     })
   }
@@ -65,7 +65,7 @@ export class MomentService {
   }
 
   getMomentByUser(user: User): Moment[] {
-    return this.memonetDatabase.filter(item => {
+    return this.momentDatabase.filter(item => {
       return item.user.nickname.toLowerCase() == user.nickname.toLowerCase();
     })
   }
@@ -76,11 +76,11 @@ export class MomentService {
    */
   updatePartialMoment(isInitial: boolean) {
     let username = 'username=' + this.localUserService.localUser.username;
-    let requestTime;
+    let requestTime = '&requestTime=';
     if (isInitial)
-      requestTime = Date.now();
+      requestTime += Date.now();
     else
-      requestTime = this.memonetDatabase.length > 0 ? (this.memonetDatabase[this.memonetDatabase.length - 1].time) : Date.now();
+      requestTime += this.momentDatabase.length > 0 ? (this.momentDatabase[this.momentDatabase.length - 1].time) : Date.now();
 
     let url = 'http://localhost:3000/moment/getMoments?' + username + requestTime;
     return this.http.get(url).toPromise().then(res => {
@@ -98,7 +98,7 @@ export class MomentService {
   }
 
   getMomentList() {
-    return this.memonetDatabase;
+    return this.momentDatabase;
   }
 
   sendMoment(moment: Moment) {
@@ -112,18 +112,18 @@ export class MomentService {
     }
     return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
       if (data === 'success') {
-        this.memonetDatabase.unshift(moment);
+        this.momentDatabase.unshift(moment);
       }
       return data;
     });
   }
 
   getNewMomentCount() {
-    return this.newMomnentCount;
+    return this.newMomentCount;
   }
 
   clearNewMomentCount() {
-    this.newMomnentCount = 0;
+    this.newMomentCount = 0;
   }
 
   changeLike(moment: Moment, to: boolean) {

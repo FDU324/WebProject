@@ -40,7 +40,6 @@ export class LoginPage {
 
     this.signupLoginService.login(this.username, this.password).then((user) => {
       if (typeof user === 'object') {
-        this.localUserService.setLocalUser(user);
         loading.dismiss();
         this.navCtrl.setRoot(TabsPage);
       } else {

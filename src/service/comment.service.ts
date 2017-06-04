@@ -13,17 +13,20 @@ export class CommentService {
 
 
   constructor(public localUserService: LocalUserService) {
-    this.localUser = localUserService.getLocalUser();
-    this.initCommentDatabase();
+  }
 
+  updateAfterLogin() {
+    this.localUser = this.localUserService.getLocalUser();
+    this.initCommentDatabase();
+    console.log(this.commentDatabse.length);
   }
 
   initCommentDatabase() {
     this.commentDatabse = [];
-    let user = new User('username--0', 'fake--0', '../assets/icon/favicon.ico', '北京市-北京市-东城区',[]);
+    let user = new User('username--0', 'fake--0', '../assets/icon/favicon.ico', '北京市-北京市-东城区', []);
     let comment = new Comment(5, user, '', 'hhhhh', Date.now());
 
-    let user1 = new User('username--1', 'fake--1', '../assets/icon/favicon.ico', '北京市-北京市-东城区',[]);
+    let user1 = new User('username--1', 'fake--1', '../assets/icon/favicon.ico', '北京市-北京市-东城区', []);
     let comment1 = new Comment(5, user1, user1.nickname, 'hhhhh', Date.now());
 
     this.commentDatabse.push(comment);

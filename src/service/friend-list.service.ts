@@ -6,7 +6,6 @@ import {User} from '../entities/user';
 import {SocketService} from "./socket.service";
 import {LocalUserService} from './local-user.service';
 
-
 @Injectable()
 export class FriendListService {
   friendList: User[];
@@ -17,15 +16,19 @@ export class FriendListService {
   constructor(public http: Http,
               public localUserService: LocalUserService,
               public socketService: SocketService) {
+  }
+
+  updateAfterLogin() {
     this.friendList = [];
     this.observers = [];
     this.friendReqList = [];
-
     this.newFriendReqCount = 0;
 
     this.receiverOn();
-    this.updateFriendList().then(friends => {
+
+    return this.updateFriendList().then(friends => {
       this.friendList = friends;
+      console.log('update FriendListService success, ',this.friendList.length);
     });
   }
 
@@ -95,7 +98,7 @@ export class FriendListService {
       myUsername: myUsername
     })).then(data => {
       //console.log('data:', data);
-      if(data === 'success') {
+      if (data === 'success') {
 
         this.friendReqList.splice(this.friendReqList.indexOf(friend), 1);
         this.friendList.push(friend);
@@ -112,7 +115,6 @@ export class FriendListService {
   clearNewFriendReq() {
     this.newFriendReqCount = 0;
   }
-
 
 
   searchUser(myUsername, friendUsername) {
