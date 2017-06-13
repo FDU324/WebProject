@@ -11,6 +11,7 @@ import {CommentService} from '../../service/comment.service';
 import {MomentService} from '../../service/moment.service';
 
 import {ImageViewer} from './image-viewer.component';
+import {LocalUserService} from "../../service/local-user.service";
 
 @Component({
   selector: 'page-moment-zone',
@@ -21,19 +22,21 @@ export class MomentZonePage {
   //commentList: Comment[];
   inputContent: string;
   isFooterHidden: boolean;
-
+  localUser: User;
   currentMoment: Moment;
   commentTo: string;
 
   constructor(public appCtrl: App,
               public navCtrl: NavController,
               public momentService: MomentService,
-              public commentService: CommentService) {
+              public commentService: CommentService,
+              public localUserService: LocalUserService) {
     //this.commentList = commentService.getCommentByMoment(this.moment);
     this.momentList = momentService.getMomentList();
     this.inputContent = '';
     this.commentTo = '';
     this.isFooterHidden = true;
+    this.localUser = localUserService.getLocalUser();
     //this.momentList = momentService.getMomentByUser(this.user);
     console.log(this.momentList);
   }
@@ -56,7 +59,10 @@ export class MomentZonePage {
   update() {
     this.momentList = this.momentService.getMomentList();
   }
-
+  deleteMoment(moment: Moment){
+    // TODO:删除动态
+    console.log("删除动态");
+  }
   // 赞与取消赞
   changeLike(moment: Moment, from: boolean) {
     this.momentService.changeLike(moment, !from).then(data => {

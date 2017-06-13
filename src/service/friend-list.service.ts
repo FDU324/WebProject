@@ -115,6 +115,23 @@ export class FriendListService {
   clearNewFriendReq() {
     this.newFriendReqCount = 0;
   }
+  deleteFriend(myUsername:string , friend: User){
+    this.socketService.emitPromise('deleteFriend',JSON.stringify({
+      friendUsername: friend.username,
+      myUsername: myUsername,
+    })).then(data => {
+      if (data === 'success'){
+        console.log("删除好友 "+friend.username+" 成功！");
+        this.friendList.splice(this.friendList.indexOf(friend),1);
+        this.update();
+      }
+      else {
+        alert('删除好友失败');
+      }
+    }).catch(err => {
+      console.log('deleteFriend err:',err);
+    });
+  }
 
 
   searchUser(myUsername, friendUsername) {

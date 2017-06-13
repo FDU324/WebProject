@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams, App, ViewController} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {NavController, NavParams, App, ViewController, Content} from 'ionic-angular';
 
 import {User} from '../../entities/user';
 import {MomentNewThenPage} from './moment-new-then.component';
 
 import {LocalUserService} from '../../service/local-user.service';
+import {Session} from "../../entities/session";
 
 @Component({selector: 'page-moment-new', templateUrl: 'moment-new.component.html'})
 
@@ -20,7 +21,9 @@ export class MomentNewPage {
   // 心情信息
   emotions: object[];
   chooseEmotion: string;    // 当前选择的心情，与emotions的value对应
-
+  // 聊天信息，因为单独给好友发朋友圈要刷新session
+  content: Content;
+  session: Session;
   constructor(public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public appCtrl: App, public localUserService: LocalUserService) {
     this.localUser = localUserService.getLocalUser();
     this.type = navParams.get('type') || 'public';
@@ -28,7 +31,8 @@ export class MomentNewPage {
     this.position = '';
     this.address = '';
     this.nearestJunction = '';
-
+    this.content = navParams.get('content') || null;
+    this.session = navParams.get('session') || null;
     this.emotions = [
       {
         text: '赞',
@@ -122,7 +126,9 @@ export class MomentNewPage {
       locInfo: locInfo,           //  [position, address, nearestJunction]
       emotionInfo: [emotionInfo['text'], emotionInfo['value'], emotionInfo['iconName']],
       type: this.type,
-      friend: this.friend
+      friend: this.friend,
+      session: this.session,
+      content: this.content,
     });
 
   }

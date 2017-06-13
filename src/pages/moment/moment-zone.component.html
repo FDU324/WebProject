@@ -24,7 +24,16 @@
           </ion-avatar>
         </ion-col>
         <ion-col col-10>
-          <p><b>{{moment.user.nickname}}</b></p>
+          <ion-row>
+            <ion-col col-9>
+              <p><b>{{moment.user.nickname}}</b></p>
+            </ion-col>
+            <ion-col col-1>
+              <button ion-button icon-left clear small (click)="deleteMoment(moment)">
+                <ion-icon name="trash" [hidden]="moment.user.username !== localUser.username"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
           <p text-wrap>{{moment.text}}</p>
 
           <img *ngIf="moment.images!=undefined&&moment.images.length==1" [src]="moment.images[0]"
@@ -67,7 +76,7 @@
           </ion-grid>
 
           <ion-row>
-            <ion-col col-5 text-left>
+            <ion-col col-10 text-left>
               <ion-icon name="pin"></ion-icon>
               <ion-note style="font-size:xx-small">
                 {{moment.location[1]}}
@@ -77,7 +86,9 @@
                 {{moment.time | myDatePipe}}
               </ion-note>
             </ion-col>
-            <ion-col col-4>
+          </ion-row>
+          <ion-row>
+            <ion-col col-8>
               <ion-icon [name]="moment.emotion[2]" clear></ion-icon>
               <ion-note>
                 {{moment.emotion[0]}}
