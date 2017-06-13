@@ -54,6 +54,25 @@ export class MomentService {
       }
     });
 
+    // 删除动态
+    this.socketService.getSocket().on('deleteMoment', data => {
+      console.log('deleteMoment');
+      let jsonData = JSON.parse(data);
+      console.log(jsonData);
+
+      let index = this.momentDatabase.findIndex((value, index, arr) => {
+        return value.id === jsonData;
+      });
+
+      if (index === -1) {
+        console.log('moment delete: no such moment')
+      } else {
+        this.momentDatabase.splice(index, 1);
+      }
+
+      this.update();
+    });
+
     // 赞的改变
     this.socketService.getSocket().on('receiveChangeLike', data => {
       console.log('receiveLike');
@@ -177,6 +196,17 @@ export class MomentService {
         this.momentDatabase.unshift(moment);
       }
       return data;
+    });
+  }
+
+  deleteMoment(moment: Moment) {
+    return this.socketService.emitPromise('deleteMoment', JSON.stringify(moment)).then(data => {
+      if (data === 'success') {
+        return 'success';
+      } else {
+        console.log('MomentService-deleteMoment:', data);
+        return data;
+      }
     });
   }
 
