@@ -94,14 +94,15 @@
 
   </ion-row>
 
-  <ion-card *ngIf="commentList.length>0" padding>
+  <ion-card *ngIf="moment.comments.length>0" padding>
     <ion-note>评论</ion-note>
     <ion-list>
-      <button ion-item *ngFor="let comment of commentList" (click)="addComment(comment.user.nickname)">
+      <button ion-item *ngFor="let comment of moment.comments" (click)="addComment(comment.user)">
         <ion-avatar item-left>
           <img [src]="comment.user.userimage">
         </ion-avatar>
-        <h2>{{comment.user.nickname}} <span *ngIf="comment.to!==''"> 回复： {{comment.to}}</span></h2>
+        <h2>{{comment.user.nickname}} <span
+          *ngIf="comment.to && comment.to.username!==''"> 回复： {{comment.to.nickname}}</span></h2>
         <p>{{comment.content}}</p>
       </button>
     </ion-list>

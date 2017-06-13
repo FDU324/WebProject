@@ -27,7 +27,7 @@
           <p><b>{{moment.user.nickname}}</b></p>
           <p text-wrap>{{moment.text}}</p>
 
-          <img *ngIf="moment.images!=undefined&&moment.images.length==1" [src]="moment.images[0]"
+          <img *ngIf="moment.images && moment.images.length==1" [src]="moment.images[0]"
                (click)="viewImage(moment,0)">
 
           <ion-grid *ngIf="moment.images!=undefined&&moment.images.length>1">
@@ -89,7 +89,7 @@
               </button>
             </ion-col>
             <ion-col col-1>
-              <button ion-button icon-left clear small (click)="addComment(moment, '')">
+              <button ion-button icon-left clear small (click)="addComment(moment, null)">
                 <ion-icon name="text"></ion-icon>
               </button>
             </ion-col>
@@ -103,17 +103,17 @@
             </button>
           </ion-row>
 
-          <div *ngIf="getComments(moment).length>0" style="border-top:1px solid gray" padding-top>
+          <div *ngIf="moment.comments && moment.comments.length>0" style="border-top:1px solid gray" padding-top>
             <ion-list>
-              <button ion-item no-padding *ngFor="let comment of getComments(moment)"
-                      (click)="addComment(moment, comment.user.nickname)">
+              <button ion-item no-padding *ngFor="let comment of moment.comments"
+                      (click)="addComment(moment, comment.user)">
                 <ion-row>
                   <ion-col col-2>
                     <img [src]="comment.user.userimage">
                   </ion-col>
                   <ion-col col-10>
-                    <h2>{{comment.user.nickname}} <span *ngIf="comment.to!==''"> <span
-                      style="font-size:xx-small">回复：</span> {{comment.to}}</span></h2>
+                    <h2>{{comment.user.nickname}} <span *ngIf="comment.to && comment.to.nickname!==''"> <span
+                      style="font-size:xx-small">回复：</span> {{comment.to.nickname}}</span></h2>
                     <p>{{comment.content}}</p>
                   </ion-col>
                 </ion-row>

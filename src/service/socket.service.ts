@@ -3,16 +3,9 @@
  */
 import {Injectable} from '@angular/core';
 
-import {ChatService} from './chat.service';
-import {FriendListService} from './friend-list.service'
-import {CommentService} from './comment.service'
-import {MomentService} from './moment.service'
-import {ImgService} from './img.service'
-
 @Injectable()
 export class SocketService {
   socket;
-
 
   setSocketNull() {
     this.socket = null;

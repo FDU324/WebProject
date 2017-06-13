@@ -5,7 +5,7 @@ import {User} from '../../entities/user';
 import {Moment} from '../../entities/moment';
 import {Comment} from '../../entities/comment';
 
-import {CommentService} from '../../service/comment.service';
+import {MomentService} from '../../service/moment.service';
 
 @Component({
   selector: 'moment-detail',
@@ -16,12 +16,12 @@ import {CommentService} from '../../service/comment.service';
 export class MomentDetailComponent {
 
   @Input() moment: Moment;
-  @Input() commentList: Comment[];
 
-  constructor(public commentService: CommentService) {
+  constructor(public momentService: MomentService) {
   }
 
-  addComment(momontId: number, to: string) {
+  // TODO
+  addComment(momontId: number, to: User) {
 
   }
 

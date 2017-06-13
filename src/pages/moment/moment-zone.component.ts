@@ -1,16 +1,12 @@
 import {Component} from '@angular/core';
-import {NavParams, App, NavController} from 'ionic-angular';
+import {NavParams, App, NavController, ToastController} from 'ionic-angular';
 
 import {User} from '../../entities/user';
 import {Moment} from '../../entities/moment';
-import {Comment} from '../../entities/comment';
-
+import {ImageViewer} from './image-viewer.component';
 import {FriendDetailPage} from '../friends/friend-detail.component';
 
-import {CommentService} from '../../service/comment.service';
 import {MomentService} from '../../service/moment.service';
-
-import {ImageViewer} from './image-viewer.component';
 
 @Component({
   selector: 'page-moment-zone',
@@ -18,23 +14,20 @@ import {ImageViewer} from './image-viewer.component';
 })
 export class MomentZonePage {
   momentList: Moment[];
-  //commentList: Comment[];
   inputContent: string;
   isFooterHidden: boolean;
 
   currentMoment: Moment;
-  commentTo: string;
+  commentTo: User;
 
   constructor(public appCtrl: App,
               public navCtrl: NavController,
-              public momentService: MomentService,
-              public commentService: CommentService) {
-    //this.commentList = commentService.getCommentByMoment(this.moment);
+              public toastCtrl: ToastController,
+              public momentService: MomentService) {
     this.momentList = momentService.getMomentList();
     this.inputContent = '';
-    this.commentTo = '';
+    this.commentTo = null;
     this.isFooterHidden = true;
-    //this.momentList = momentService.getMomentByUser(this.user);
     console.log(this.momentList);
   }
 
@@ -64,28 +57,33 @@ export class MomentZonePage {
     });
   }
 
-  // 根据moment获取相关的comment
-  getComments(moment: Moment) {
-    return this.commentService.getCommentByMoment(moment);
-  }
-
   onSubmit() {
     console.log(this.currentMoment.id);
     console.log(this.inputContent);
 
-    this.commentService.addComment(this.currentMoment.id, this.commentTo, this.inputContent).then((commentList) => {
-      this.momentList = this.momentService.getMomentList();
-      this.inputContent = "";
-      this.commentTo = '';
-      this.isFooterHidden = true;
-    }).catch((error) =>
-      console.log(error)
-    );
+    this.momentService.addComment(this.currentMoment, this.commentTo, this.inputContent).then((data) => {
+      if(data === 'success'){
+        this.inputContent = "";
+        this.commentTo = null;
+        this.isFooterHidden = true;
+      }else{
+        let toast = this.toastCtrl.create({
+          message: '添加失败，请重试',
+          duration: 1500,
+          position: 'middle'
+        });
+
+        toast.present();
+        console.log('addComment error:', data);
+      }
+    }).catch((error) =>{
+        console.log(error);
+    });
 
   }
 
   // 发评论，关联moment，以及评论的对象to
-  addComment(moment: Moment, to: string) {
+  addComment(moment: Moment, to: User) {
     this.currentMoment = moment;
 
     this.commentTo = to;

@@ -51,7 +51,6 @@ import {FriendListService} from '../service/friend-list.service';
 import {LocalUserService} from '../service/local-user.service';
 import {ChatService} from '../service/chat.service';
 import {MomentService} from '../service/moment.service';
-import {CommentService} from '../service/comment.service'
 import {ImgService} from '../service/img.service'
 import {SignupLoginService} from '../service/signup-login.service'
 import {SocketService} from '../service/socket.service'
@@ -143,7 +142,6 @@ import {MyDatePipe} from './my-date.pipe';
     ChatService,
     CityPickerService,
     MomentService,
-    CommentService,
     ImgService,
     SignupLoginService,
     SocketService,

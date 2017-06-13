@@ -13,7 +13,6 @@ import {SocketService} from './socket.service';
 import {ChatService} from './chat.service';
 import {FriendListService} from './friend-list.service'
 import {LocalUserService} from './local-user.service'
-import {CommentService} from './comment.service'
 import {MomentService} from './moment.service'
 
 
@@ -24,7 +23,6 @@ export class SignupLoginService {
               public chatService: ChatService,
               public friendListService: FriendListService,
               public localUserService: LocalUserService,
-              public commentService: CommentService,
               public momentService: MomentService,
               public socketService: SocketService) {
 
@@ -58,7 +56,6 @@ export class SignupLoginService {
                     this.friendListService.updateAfterLogin(),
                     this.chatService.updateAfterLogin(),
                     this.momentService.updateAfterLogin(),
-                    this.commentService.updateAfterLogin()
                   ];
 
                   return Promise.all(updateAll).then(data => {

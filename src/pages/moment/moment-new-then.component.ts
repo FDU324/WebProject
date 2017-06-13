@@ -61,11 +61,6 @@ export class MomentNewThenPage {
     this.images = [];
 
     this.group = [];
-    /*
-     for (let i = 0; i < 9;i++){
-     this.images.push('../../assets/icon/favicon.ico');
-     }
-     */
   }
 
   // 重写生命周期函数，使得进入new-then时从栈中删除上一个页面
@@ -114,7 +109,7 @@ export class MomentNewThenPage {
         }
       );
     } else if (this.type === 'group') {
-      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, this.group, this.inputContent, this.images, null, []);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, this.group, this.inputContent, this.images, [], []);
       console.log(moment);
       this.momentService.sendMoment(moment).then(
         (data) => {
@@ -132,7 +127,7 @@ export class MomentNewThenPage {
       );
     } else {
       // public
-      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, [], this.inputContent, this.images, null, []);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, [], this.inputContent, this.images, [], []);
       console.log(moment);
       this.momentService.sendMoment(moment).then(
         (data) => {
