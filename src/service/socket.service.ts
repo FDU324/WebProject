@@ -3,9 +3,20 @@
  */
 import {Injectable} from '@angular/core';
 
+import {ChatService} from './chat.service';
+import {FriendListService} from './friend-list.service'
+import {CommentService} from './comment.service'
+import {MomentService} from './moment.service'
+import {ImgService} from './img.service'
+import {LocalUserService} from './local-user.service'
+
 @Injectable()
 export class SocketService {
   socket;
+
+  constructor(public localUserService: LocalUserService) {
+
+  }
 
   setSocketNull() {
     this.socket = null;
@@ -18,7 +29,9 @@ export class SocketService {
   socketConnect() {
     this.socket = io('http://localhost:3000', {'force new connection': true});
     this.socket.on('connect', () => {
-      console.log('client_connects_success');
+      this.emitPromise("reconfirm", JSON.stringify(this.localUserService.localUser)).then(() => {
+        console.log('client_connects_success');
+      });
     });
     this.socket.on('connect_error', () => {
       console.log('connect_error');
