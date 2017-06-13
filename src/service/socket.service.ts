@@ -5,16 +5,18 @@ import {Injectable} from '@angular/core';
 
 import {ChatService} from './chat.service';
 import {FriendListService} from './friend-list.service'
-import {CommentService} from './comment.service'
 import {MomentService} from './moment.service'
 import {ImgService} from './img.service'
 import {LocalUserService} from './local-user.service'
+import {NavController} from "ionic-angular";
+import {StartPage} from "../pages/start/start";
 
 @Injectable()
 export class SocketService {
   socket;
 
-  constructor(public localUserService: LocalUserService) {
+  constructor(public localUserService: LocalUserService,
+              public navCtrl: NavController,) {
 
   }
 
@@ -37,10 +39,11 @@ export class SocketService {
       console.log('connect_error');
     });
 
-    this.socket.on('receiveNewFriendApply',(data)=>{
-      console.log(data);
-      console.log(typeof data);
-    });
+    this.socket.on('logout', () => {
+      this.getSocket().disconnect();
+      this.setSocketNull();
+      this.navCtrl.setRoot(StartPage);
+    })
 
     // 确保socket成功建立再返回
     return this.emitPromise('confirmConnect', '').then(data => {
