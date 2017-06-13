@@ -123,7 +123,7 @@ export class MomentNewThenPage {
         }
       );
     } else if (this.type === 'group') {
-      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, this.group, this.inputContent, this.images, null, []);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, this.group, this.inputContent, this.images, [], []);
       console.log(moment);
       this.momentService.sendMoment(moment).then(
         (data) => {
@@ -142,7 +142,7 @@ export class MomentNewThenPage {
       );
     } else {
       // public
-      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, [], this.inputContent, this.images, null, []);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, [], this.inputContent, this.images, [], []);
       console.log(moment);
       this.momentService.sendMoment(moment).then(
         (data) => {

@@ -5,7 +5,7 @@ import {User} from '../../entities/user';
 import {Moment} from '../../entities/moment';
 import {Comment} from '../../entities/comment';
 
-import {CommentService} from '../../service/comment.service';
+import {MomentService} from '../../service/moment.service';
 
 @Component({
   selector: 'moment-detail',
@@ -16,13 +16,32 @@ import {CommentService} from '../../service/comment.service';
 export class MomentDetailComponent {
 
   @Input() moment: Moment;
-  @Input() commentList: Comment[];
 
-  constructor(public commentService: CommentService) {
+  constructor(public momentService: MomentService) {
   }
 
-  addComment(momontId: number, to: string) {
+  // TODO
+  addComment(to: User) {
+    /*
+    this.momentService.addComment(this.moment, to, this.inputContent).then((data) => {
+      if(data === 'success'){
+        this.inputContent = "";
+        this.commentTo = null;
+        this.isFooterHidden = true;
+      }else{
+        let toast = this.toastCtrl.create({
+          message: '添加失败，请重试',
+          duration: 1500,
+          position: 'middle'
+        });
 
+        toast.present();
+        console.log('addComment error:', data);
+      }
+    }).catch((error) =>{
+      console.log(error);
+    });
+    */
   }
 
 

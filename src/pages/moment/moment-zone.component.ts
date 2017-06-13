@@ -1,15 +1,14 @@
 import {Component} from '@angular/core';
-import {NavParams, App, NavController} from 'ionic-angular';
+import {NavParams, App, NavController, ToastController, ActionSheetController} from 'ionic-angular';
 
 import {User} from '../../entities/user';
 import {Moment} from '../../entities/moment';
 import {Comment} from '../../entities/comment';
 
+import {ImageViewer} from './image-viewer.component';
 import {FriendDetailPage} from '../friends/friend-detail.component';
 
-import {CommentService} from '../../service/comment.service';
 import {MomentService} from '../../service/moment.service';
-
 import {ImageViewer} from './image-viewer.component';
 import {LocalUserService} from "../../service/local-user.service";
 
@@ -19,25 +18,24 @@ import {LocalUserService} from "../../service/local-user.service";
 })
 export class MomentZonePage {
   momentList: Moment[];
-  //commentList: Comment[];
   inputContent: string;
   isFooterHidden: boolean;
   localUser: User;
   currentMoment: Moment;
-  commentTo: string;
+  commentTo: User;
 
   constructor(public appCtrl: App,
               public navCtrl: NavController,
+              public actionSheetCtrl: ActionSheetController,
+              public toastCtrl: ToastController,
               public momentService: MomentService,
               public commentService: CommentService,
               public localUserService: LocalUserService) {
-    //this.commentList = commentService.getCommentByMoment(this.moment);
     this.momentList = momentService.getMomentList();
     this.inputContent = '';
-    this.commentTo = '';
+    this.commentTo = null;
     this.isFooterHidden = true;
     this.localUser = localUserService.getLocalUser();
-    //this.momentList = momentService.getMomentByUser(this.user);
     console.log(this.momentList);
   }
 
@@ -70,28 +68,8 @@ export class MomentZonePage {
     });
   }
 
-  // 根据moment获取相关的comment
-  getComments(moment: Moment) {
-    return this.commentService.getCommentByMoment(moment);
-  }
-
-  onSubmit() {
-    console.log(this.currentMoment.id);
-    console.log(this.inputContent);
-
-    this.commentService.addComment(this.currentMoment.id, this.commentTo, this.inputContent).then((commentList) => {
-      this.momentList = this.momentService.getMomentList();
-      this.inputContent = "";
-      this.commentTo = '';
-      this.isFooterHidden = true;
-    }).catch((error) =>
-      console.log(error)
-    );
-
-  }
-
   // 发评论，关联moment，以及评论的对象to
-  addComment(moment: Moment, to: string) {
+  addComment(moment: Moment, to: User) {
     this.currentMoment = moment;
 
     this.commentTo = to;
@@ -99,6 +77,72 @@ export class MomentZonePage {
     //console.log(this.inputContent);
     document.getElementById('ipt').getElementsByTagName('input')[0].focus();
     this.isFooterHidden = false;
+  }
+
+  onSubmit() {
+    console.log(this.currentMoment.id);
+    console.log(this.inputContent);
+
+    this.momentService.addComment(this.currentMoment, this.commentTo, this.inputContent).then((data) => {
+      if (data === 'success') {
+        this.inputContent = "";
+        this.commentTo = null;
+        this.isFooterHidden = true;
+      } else {
+        let toast = this.toastCtrl.create({
+          message: '添加失败，请重试',
+          duration: 1500,
+          position: 'middle'
+        });
+
+        toast.present();
+        console.log('addComment error:', data);
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
+
+  }
+
+  commentOpe(moment: Moment, comment: Comment) {
+    // 智能删除自己的评论
+    if(comment.user.username === this.localUserService.localUser.username){
+      let actionSheet = this.actionSheetCtrl.create({
+        buttons: [
+          {
+            text: '删除',
+            role: 'destructive',
+            handler: () => {
+              this.deleteComment(moment, comment);
+            }
+          }, {
+            text: '取消',
+            role: 'cancel',
+            handler: () => {
+            }
+          }
+        ]
+      });
+      actionSheet.present();
+    }
+  }
+
+  deleteComment(moment: Moment, comment: Comment) {
+    console.log('deleteComment');
+    this.momentService.deleteComment(moment, comment).then(data => {
+      if (data === 'success') {
+        // do nothing
+      } else {
+        let toast = this.toastCtrl.create({
+          message: '删除失败，请重试',
+          duration: 1500,
+          position: 'middle'
+        });
+
+        toast.present();
+        console.log('addComment error:', data);
+      }
+    });
   }
 
   hideFooter() {

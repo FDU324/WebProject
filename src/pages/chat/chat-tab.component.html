@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Chat</ion-title>
+    <ion-title>聊天</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -14,7 +14,7 @@
 
           <button ion-item (click)="gotoSession(lastSession.friend)">
             <ion-avatar item-left>
-                <img [src]="lastSession.friend.userimage">    
+                <img [src]="lastSession.friend.userimage">
             </ion-avatar>
             <ion-badge *ngIf="lastSession.newMessageCount>0" item-right color="danger">{{lastSession.newMessageCount}}</ion-badge>
             <h2>{{lastSession.friend.nickname}}</h2>
