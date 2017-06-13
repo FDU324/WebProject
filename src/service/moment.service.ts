@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 
 import {User} from '../entities/user';
 import {Moment} from '../entities/moment';
+import {Comment} from '../entities/comment';
 
 import {LocalUserService} from './local-user.service';
 import {SocketService} from "./socket.service";
@@ -114,8 +115,14 @@ export class MomentService {
 
   getMomentByUser(user: User): Moment[] {
     return this.momentDatabase.filter(item => {
-      return item.user.nickname.toLowerCase() == user.nickname.toLowerCase();
+      return item.user.username.toLowerCase() == user.username.toLowerCase();
     })
+  }
+
+  getMomentById(id: number) {
+    return this.momentDatabase.find(item => {
+      return item.id === id;
+    });
   }
 
   /**
@@ -213,6 +220,25 @@ export class MomentService {
         return 'success';
       } else {
         console.log('MomentService-addComment:', data);
+        return data;
+      }
+    });
+  }
+
+  deleteComment(moment: Moment, comment: Comment) {
+    let info = {
+      moment: moment,
+      username: this.localUserService.localUser.username,
+      to: '',
+      actionType: 'delete',
+      comment: comment
+    };
+
+    return this.socketService.emitPromise('comment', JSON.stringify(info)).then(data => {
+      if (data === 'success') {
+        return 'success';
+      } else {
+        console.log('MomentService-deleteComment:', data);
         return data;
       }
     });

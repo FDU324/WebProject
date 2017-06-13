@@ -21,8 +21,27 @@ export class MomentDetailComponent {
   }
 
   // TODO
-  addComment(momontId: number, to: User) {
+  addComment(to: User) {
+    /*
+    this.momentService.addComment(this.moment, to, this.inputContent).then((data) => {
+      if(data === 'success'){
+        this.inputContent = "";
+        this.commentTo = null;
+        this.isFooterHidden = true;
+      }else{
+        let toast = this.toastCtrl.create({
+          message: '添加失败，请重试',
+          duration: 1500,
+          position: 'middle'
+        });
 
+        toast.present();
+        console.log('addComment error:', data);
+      }
+    }).catch((error) =>{
+      console.log(error);
+    });
+    */
   }
 
 

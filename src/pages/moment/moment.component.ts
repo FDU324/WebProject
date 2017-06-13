@@ -31,6 +31,18 @@ export class MomentPage {
     this.commentTo = null;
   }
 
+  ionViewDidEnter() {
+    this.momentService.registerPage(this);
+  }
+
+  ionViewDidLeave() {
+    this.momentService.removePage(this);
+  }
+
+  update() {
+    this.moment = this.momentService.getMomentById(this.moment.id);
+  }
+
   onSubmit() {
     this.momentService.addComment(this.moment, this.commentTo, this.inputContent).then((data) => {
       if (data === 'success') {

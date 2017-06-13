@@ -1,12 +1,15 @@
 import {Component} from '@angular/core';
-import {NavParams, App, NavController, ToastController} from 'ionic-angular';
+import {NavParams, App, NavController, ToastController, ActionSheetController} from 'ionic-angular';
 
 import {User} from '../../entities/user';
 import {Moment} from '../../entities/moment';
+import {Comment} from '../../entities/comment';
+
 import {ImageViewer} from './image-viewer.component';
 import {FriendDetailPage} from '../friends/friend-detail.component';
 
 import {MomentService} from '../../service/moment.service';
+import {LocalUserService} from '../../service/local-user.service';
 
 @Component({
   selector: 'page-moment-zone',
@@ -22,8 +25,10 @@ export class MomentZonePage {
 
   constructor(public appCtrl: App,
               public navCtrl: NavController,
+              public actionSheetCtrl: ActionSheetController,
               public toastCtrl: ToastController,
-              public momentService: MomentService) {
+              public momentService: MomentService,
+              public localUserService: LocalUserService) {
     this.momentList = momentService.getMomentList();
     this.inputContent = '';
     this.commentTo = null;
@@ -57,31 +62,6 @@ export class MomentZonePage {
     });
   }
 
-  onSubmit() {
-    console.log(this.currentMoment.id);
-    console.log(this.inputContent);
-
-    this.momentService.addComment(this.currentMoment, this.commentTo, this.inputContent).then((data) => {
-      if(data === 'success'){
-        this.inputContent = "";
-        this.commentTo = null;
-        this.isFooterHidden = true;
-      }else{
-        let toast = this.toastCtrl.create({
-          message: '添加失败，请重试',
-          duration: 1500,
-          position: 'middle'
-        });
-
-        toast.present();
-        console.log('addComment error:', data);
-      }
-    }).catch((error) =>{
-        console.log(error);
-    });
-
-  }
-
   // 发评论，关联moment，以及评论的对象to
   addComment(moment: Moment, to: User) {
     this.currentMoment = moment;
@@ -91,6 +71,72 @@ export class MomentZonePage {
     //console.log(this.inputContent);
     document.getElementById('ipt').getElementsByTagName('input')[0].focus();
     this.isFooterHidden = false;
+  }
+
+  onSubmit() {
+    console.log(this.currentMoment.id);
+    console.log(this.inputContent);
+
+    this.momentService.addComment(this.currentMoment, this.commentTo, this.inputContent).then((data) => {
+      if (data === 'success') {
+        this.inputContent = "";
+        this.commentTo = null;
+        this.isFooterHidden = true;
+      } else {
+        let toast = this.toastCtrl.create({
+          message: '添加失败，请重试',
+          duration: 1500,
+          position: 'middle'
+        });
+
+        toast.present();
+        console.log('addComment error:', data);
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
+
+  }
+
+  commentOpe(moment: Moment, comment: Comment) {
+    // 智能删除自己的评论
+    if(comment.user.username === this.localUserService.localUser.username){
+      let actionSheet = this.actionSheetCtrl.create({
+        buttons: [
+          {
+            text: '删除',
+            role: 'destructive',
+            handler: () => {
+              this.deleteComment(moment, comment);
+            }
+          }, {
+            text: '取消',
+            role: 'cancel',
+            handler: () => {
+            }
+          }
+        ]
+      });
+      actionSheet.present();
+    }
+  }
+
+  deleteComment(moment: Moment, comment: Comment) {
+    console.log('deleteComment');
+    this.momentService.deleteComment(moment, comment).then(data => {
+      if (data === 'success') {
+        // do nothing
+      } else {
+        let toast = this.toastCtrl.create({
+          message: '删除失败，请重试',
+          duration: 1500,
+          position: 'middle'
+        });
+
+        toast.present();
+        console.log('addComment error:', data);
+      }
+    });
   }
 
   hideFooter() {

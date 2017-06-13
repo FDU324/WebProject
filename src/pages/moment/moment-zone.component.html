@@ -67,65 +67,57 @@
           </ion-grid>
 
           <ion-row>
-            <ion-col col-5 text-left>
-              <ion-icon name="pin"></ion-icon>
-              <ion-note style="font-size:xx-small">
+            <ion-item>
+              <ion-icon [name]="moment.emotion[2]" item-left></ion-icon>
+              <p text-wrap style="font-size:x-small">
                 {{moment.location[1]}}
-              </ion-note>
-              <br>
+              </p>
+            </ion-item>
+
+            <ion-item>
               <ion-note style="font-size:xx-small">
                 {{moment.time | myDatePipe}}
               </ion-note>
-            </ion-col>
-            <ion-col col-4>
-              <ion-icon [name]="moment.emotion[2]" clear></ion-icon>
-              <ion-note>
-                {{moment.emotion[0]}}
-              </ion-note>
-            </ion-col>
-            <ion-col col-1>
-              <button ion-button icon-left clear small (click)="changeLike(moment,moment.like)">
+              <button ion-button item-right clear small (click)="changeLike(moment,moment.like)">
                 <ion-icon name="thumbs-up" [color]="moment.like?'danger':'primary'"></ion-icon>
               </button>
-            </ion-col>
-            <ion-col col-1>
-              <button ion-button icon-left clear small (click)="addComment(moment, null)">
+              <button ion-button item-right clear small (click)="addComment(moment, null)">
                 <ion-icon name="text"></ion-icon>
               </button>
-            </ion-col>
+            </ion-item>
           </ion-row>
 
           <ion-row *ngIf="moment.likeuser&&moment.likeuser.length>0">
             <ion-icon name="heart" item-left></ion-icon>
-            <button ion-button clear type="button" *ngFor="let user of moment.likeuser; let i = index"
-                    (click)="seeUserInfo(user)">
-              {{user.nickname}}
-            </button>
+            <p text-wrap>
+              <button ion-button clear type="button" *ngFor="let user of moment.likeuser; let i = index"
+                      (click)="seeUserInfo(user)">
+                {{user.nickname}}
+              </button>
+            </p>
           </ion-row>
 
-          <div *ngIf="moment.comments && moment.comments.length>0" style="border-top:1px solid gray" padding-top>
-            <ion-list>
-              <button ion-item no-padding *ngFor="let comment of moment.comments"
-                      (click)="addComment(moment, comment.user)">
-                <ion-row>
-                  <ion-col col-2>
-                    <img [src]="comment.user.userimage">
-                  </ion-col>
-                  <ion-col col-10>
-                    <h2>{{comment.user.nickname}} <span *ngIf="comment.to && comment.to.nickname!==''"> <span
-                      style="font-size:xx-small">回复：</span> {{comment.to.nickname}}</span></h2>
-                    <p>{{comment.content}}</p>
-                  </ion-col>
-                </ion-row>
-              </button>
-            </ion-list>
-          </div>
+          <ion-card *ngIf="moment.comments && moment.comments.length>0">
+            <ion-card-content>
+              <ion-list>
+                <button ion-item no-padding *ngFor="let comment of moment.comments"
+                        (tap)="addComment(moment, comment.user)" (press)="commentOpe(moment, comment)">
+                  <ion-row>
+                    <p>
+                      <b>
+                        {{comment.user.nickname}} <span *ngIf="comment.to && comment.to.nickname!==''"> <span
+                        style="font-size:xx-small">回复</span> {{comment.to.nickname}}</span>:
+                      </b>
+                      {{comment.content}}
+                    </p>
+                  </ion-row>
+                </button>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
 
         </ion-col>
-
       </ion-row>
-
-
     </ion-item>
   </ion-list>
 </ion-content>
