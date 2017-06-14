@@ -32,17 +32,40 @@ export class ChatService {
       if (value) {
         this.totalNewMessageCount = value.data;
       }
-      this.nativeStorage.keys().then(keys => {
-        return keys.forEach(key => {
+      return this.nativeStorage.keys().then(keys => {
+        let tem = keys.map(key => {
           if (key.substr(0, 9 + this.localUser.username.length) === this.localUser.username + '_' + 'session_') {
-            this.nativeStorage.getItem(key).then(value => {
+            return this.nativeStorage.getItem(key).then(value => {
               console.log(JSON.stringify(value));
               if (value) {
                 console.log(value.data);
-                this.sessionList.push(JSON.parse(value.data));
+                return value.data;
+              } else {
+                return -1;
               }
+            }).catch(error=>{
+              console.log(error);
+              return -1;
             });
+          } else {
+            return -1;
           }
+        });
+
+        return Promise.all(tem).then(sessions => {
+          let filterSessions = sessions.filter(session => {
+            return session !== -1;
+          });
+
+          filterSessions.forEach(session => {
+            this.sessionList.push(JSON.parse(session.toString()));
+          });
+
+          console.log(this.sessionList);
+          console.log('update chatService success');
+        }).catch(error => {
+          console.log(error);
+          return error;
         });
       }).then(() => {
         this.receiverOn();
@@ -93,7 +116,15 @@ export class ChatService {
   }
 
   getSession(friend: User) {
-    return this.sessionList.find((item) => item.friend.username === friend.username);
+    let tem = this.sessionList.find((item) => item.friend.username === friend.username);
+
+    // 按时间排序
+    const compare = (a, b) => {
+      return b.time - a.time;
+    };
+    tem.messageList.sort(compare);
+
+    return tem;
   }
 
   getLastSessionList() {

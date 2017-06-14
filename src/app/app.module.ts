@@ -42,7 +42,6 @@ import {MomentListPage} from '../pages/moment/moment-list.component';
 import {MomentNewPage} from '../pages/moment/moment-new.component';
 import {MomentNewThenPage} from '../pages/moment/moment-new-then.component';
 import {MomentNewThenChooseGroupPage} from "../pages/moment/moment-new-then-choose-group.component";
-import {MomentDetailComponent} from '../pages/moment/moment-detail.component';
 import {MomentPage} from '../pages/moment/moment.component';
 import {MomentZonePage} from '../pages/moment/moment-zone.component';
 import {ImageViewer} from '../pages/moment/image-viewer.component';
@@ -87,7 +86,6 @@ import {MyDatePipe} from './my-date.pipe';
     MomentNewPage,
     MomentNewThenPage,
     MomentNewThenChooseGroupPage,
-    MomentDetailComponent,
     MomentPage,
     MomentZonePage,
     MomentNewPage,
@@ -128,7 +126,6 @@ import {MyDatePipe} from './my-date.pipe';
     MomentNewPage,
     MomentNewThenPage,
     MomentNewThenChooseGroupPage,
-    MomentDetailComponent,
     MomentPage,
     MomentZonePage,
     ImageViewer,

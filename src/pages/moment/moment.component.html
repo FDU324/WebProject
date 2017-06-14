@@ -113,7 +113,7 @@
   <ion-card *ngIf="moment.comments.length>0" padding>
     <ion-note>评论</ion-note>
     <ion-list>
-      <button ion-item *ngFor="let comment of moment.comments" (click)="addComment(comment.user)">
+      <button ion-item *ngFor="let comment of moment.comments" (tap)="addComment(comment.user)"  (press)="commentOpe(comment)">
         <ion-avatar item-left>
           <img [src]="comment.user.userimage">
         </ion-avatar>

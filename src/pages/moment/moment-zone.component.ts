@@ -137,7 +137,7 @@ export class MomentZonePage {
   }
 
   commentOpe(moment: Moment, comment: Comment) {
-    // 智能删除自己的评论
+    // 只能删除自己的评论
     if(comment.user.username === this.localUserService.localUser.username){
       let actionSheet = this.actionSheetCtrl.create({
         buttons: [
