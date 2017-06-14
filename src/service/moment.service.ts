@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 
 import {User} from '../entities/user';
 import {Moment} from '../entities/moment';
+import {Comment} from '../entities/comment';
 
 import {LocalUserService} from './local-user.service';
 import {SocketService} from "./socket.service";
@@ -39,6 +40,7 @@ export class MomentService {
   }
 
   receiverOn() {
+    // 新动态
     this.socketService.getSocket().on('receiveMoment', data => {
       console.log('receiveMoment');
       let newMoment = JSON.parse(data);
@@ -52,6 +54,26 @@ export class MomentService {
       }
     });
 
+    // 删除动态
+    this.socketService.getSocket().on('deleteMoment', data => {
+      console.log('deleteMoment');
+      let jsonData = JSON.parse(data);
+      console.log(jsonData);
+
+      let index = this.momentDatabase.findIndex((value, index, arr) => {
+        return value.id === jsonData;
+      });
+
+      if (index === -1) {
+        console.log('moment delete: no such moment')
+      } else {
+        this.momentDatabase.splice(index, 1);
+      }
+
+      this.update();
+    });
+
+    // 赞的改变
     this.socketService.getSocket().on('receiveChangeLike', data => {
       console.log('receiveLike');
       let jsonData = JSON.parse(data);
@@ -67,6 +89,28 @@ export class MomentService {
       }
 
       if (jsonData.changeTO && jsonData.isOwner) {  // 仅在其他用户点赞自己的时候才++
+        this.newMomentCount++;
+      }
+      this.update();
+    });
+
+    // 新评论
+    this.socketService.getSocket().on('receiveComment', data => {
+      console.log('receiveComment');
+      let jsonData = JSON.parse(data);
+      console.log(jsonData);
+      let updateMoment = jsonData.receiveMoment;
+      let index = this.momentDatabase.findIndex((value, index, arr) => {
+        return value.id === updateMoment.id;
+      });
+
+      if (index === -1) {
+        this.momentDatabase.unshift(updateMoment);
+      } else {
+        this.momentDatabase.splice(index, 1, updateMoment);
+      }
+
+      if (jsonData.showAlert) {
         this.newMomentCount++;
       }
       this.update();
@@ -90,8 +134,14 @@ export class MomentService {
 
   getMomentByUser(user: User): Moment[] {
     return this.momentDatabase.filter(item => {
-      return item.user.nickname.toLowerCase() == user.nickname.toLowerCase();
+      return item.user.username.toLowerCase() == user.username.toLowerCase();
     })
+  }
+
+  getMomentById(id: number) {
+    return this.momentDatabase.find(item => {
+      return item.id === id;
+    });
   }
 
   /**
@@ -129,23 +179,52 @@ export class MomentService {
   }
 
   getMomentList() {
-    return this.momentDatabase;
+    // 按时间排序
+    const compare = (a, b) => {
+      return b.time - a.time;
+    };
+
+    return this.momentDatabase.sort(compare);
   }
 
   sendMoment(moment: Moment) {
     moment.time = Date.now();
+    /*
     for (let i = 0; i < moment.images.length; i++) {
       this.imgService.sendFile(moment.user, moment.images[i], 'moment')
         .then((data) => {
           if (data !== 'error')
             moment.images[i] = data;
         });
-    }
-    return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
+    }*/
+    let promises = moment.images.map(image => {
+      return this.imgService.sendFile(moment.user, image, 'moment');
+    });
+    return Promise.all(promises).then( (a) =>{
+        let validUrls = a.filter(item => {
+          return item !== 'error';
+        });
+      moment.images = validUrls;
+      return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
+        if (data === 'success') {
+          this.momentDatabase.unshift(moment);
+        }
+        return data;
+      });
+    }).catch(error => {
+      return 'error';
+    });
+
+  }
+
+  deleteMoment(moment: Moment) {
+    return this.socketService.emitPromise('deleteMoment', JSON.stringify(moment)).then(data => {
       if (data === 'success') {
-        this.momentDatabase.unshift(moment);
+        return 'success';
+      } else {
+        console.log('MomentService-deleteMoment:', data);
+        return data;
       }
-      return data;
     });
   }
 
@@ -170,6 +249,44 @@ export class MomentService {
         return 'success';
       } else {
         console.log('MomentService-changeLike:', data);
+        return data;
+      }
+    });
+  }
+
+  addComment(moment: Moment, to: User, content: string) {
+    let info = {
+      moment: moment,
+      username: this.localUserService.localUser.username,
+      to: to === null ? '' : to.username,
+      content: content,
+      actionType: 'create'
+    };
+
+    return this.socketService.emitPromise('comment', JSON.stringify(info)).then(data => {
+      if (data === 'success') {
+        return 'success';
+      } else {
+        console.log('MomentService-addComment:', data);
+        return data;
+      }
+    });
+  }
+
+  deleteComment(moment: Moment, comment: Comment) {
+    let info = {
+      moment: moment,
+      username: this.localUserService.localUser.username,
+      to: '',
+      actionType: 'delete',
+      comment: comment
+    };
+
+    return this.socketService.emitPromise('comment', JSON.stringify(info)).then(data => {
+      if (data === 'success') {
+        return 'success';
+      } else {
+        console.log('MomentService-deleteComment:', data);
         return data;
       }
     });

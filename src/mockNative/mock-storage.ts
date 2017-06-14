@@ -32,4 +32,11 @@ export class MockStorage extends NativeStorage {
     });
   }
 
+  remove(reference){
+    return new Promise((resolve, reject) => {
+      localStorage.removeItem(reference);
+      resolve('success');
+    });
+  }
+
 }

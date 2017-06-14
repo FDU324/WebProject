@@ -42,7 +42,6 @@ import {MomentListPage} from '../pages/moment/moment-list.component';
 import {MomentNewPage} from '../pages/moment/moment-new.component';
 import {MomentNewThenPage} from '../pages/moment/moment-new-then.component';
 import {MomentNewThenChooseGroupPage} from "../pages/moment/moment-new-then-choose-group.component";
-import {MomentDetailComponent} from '../pages/moment/moment-detail.component';
 import {MomentPage} from '../pages/moment/moment.component';
 import {MomentZonePage} from '../pages/moment/moment-zone.component';
 import {ImageViewer} from '../pages/moment/image-viewer.component';
@@ -51,7 +50,6 @@ import {FriendListService} from '../service/friend-list.service';
 import {LocalUserService} from '../service/local-user.service';
 import {ChatService} from '../service/chat.service';
 import {MomentService} from '../service/moment.service';
-import {CommentService} from '../service/comment.service'
 import {ImgService} from '../service/img.service'
 import {SignupLoginService} from '../service/signup-login.service'
 import {SocketService} from '../service/socket.service'
@@ -88,7 +86,6 @@ import {MyDatePipe} from './my-date.pipe';
     MomentNewPage,
     MomentNewThenPage,
     MomentNewThenChooseGroupPage,
-    MomentDetailComponent,
     MomentPage,
     MomentZonePage,
     MomentNewPage,
@@ -129,7 +126,6 @@ import {MyDatePipe} from './my-date.pipe';
     MomentNewPage,
     MomentNewThenPage,
     MomentNewThenChooseGroupPage,
-    MomentDetailComponent,
     MomentPage,
     MomentZonePage,
     ImageViewer,
@@ -143,7 +139,6 @@ import {MyDatePipe} from './my-date.pipe';
     ChatService,
     CityPickerService,
     MomentService,
-    CommentService,
     ImgService,
     SignupLoginService,
     SocketService,

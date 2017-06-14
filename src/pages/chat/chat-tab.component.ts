@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, App} from 'ionic-angular';
+import {NavController, NavParams, App, ToastController} from 'ionic-angular';
 
 import {User} from "../../entities/user";
 import {Session} from '../../entities/session';
@@ -14,11 +14,12 @@ import {ChatService} from '../../service/chat.service';
 })
 export class ChatTabPage {
   lastSessionList: Session[];   // 所有聊天内容，一个元素对应一个好友会话
-  localUser: User;        // 当前的玩家
+  localUser: User;        // 当前的用户
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public appCtrl: App,
+              public toastCtrl: ToastController,
               public localUserService: LocalUserService,
               public chatService: ChatService) {
     this.localUser = localUserService.getLocalUser();
@@ -27,13 +28,13 @@ export class ChatTabPage {
 
   ionViewDidEnter() {
     this.lastSessionList = this.chatService.getLastSessionList();
-    console.log('enter chat tab!');
-    for(let session of this.lastSessionList) {
-      console.log(session.newMessageCount);
-    }
-
-    this.chatService.registerPage(this); 
-    
+    // console.log('enter chat tab!');
+    /*
+     for (let session of this.lastSessionList) {
+     console.log(session.newMessageCount);
+     }
+     */
+    this.chatService.registerPage(this);
   }
 
   ionViewDidLeave() {
@@ -54,11 +55,22 @@ export class ChatTabPage {
   }
 
   deleteSession(session: Session) {
-    //TODO:从本地缓存中删除聊天记录
-    console.log('delete session');
-  }
+    this.chatService.deleteSession(session).then(data => {
+      console.log(data);
+      if (data === 'success') {
+        this.update();
+        // console.log(this.lastSessionList);
+      } else {
+        let toast = this.toastCtrl.create({
+          message: '删除失败，请重试',
+          duration: 1500,
+          position: 'middle'
+        });
 
-  
+        toast.present();
+      }
+    });
+  }
 
 
 }

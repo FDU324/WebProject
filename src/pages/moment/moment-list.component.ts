@@ -25,6 +25,19 @@ export class MomentListPage {
     //console.log(this.momentList);
   }
 
+  ionViewDidEnter() {
+    this.momentList = this.momentService.getMomentByUser(this.user);
+    this.momentService.registerPage(this);
+  }
+
+  ionViewDidLeave() {
+    this.momentService.removePage(this);
+  }
+
+  update() {
+    this.momentList = this.momentService.getMomentByUser(this.user);
+  }
+
   showDetail(moment: Moment) {
     this.appCtrl.getRootNav().push(MomentPage, {
       moment: moment

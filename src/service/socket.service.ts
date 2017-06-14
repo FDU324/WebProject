@@ -5,7 +5,6 @@ import {Injectable} from '@angular/core';
 
 import {ChatService} from './chat.service';
 import {FriendListService} from './friend-list.service'
-import {CommentService} from './comment.service'
 import {MomentService} from './moment.service'
 import {ImgService} from './img.service'
 import {LocalUserService} from './local-user.service'
@@ -14,7 +13,7 @@ import {LocalUserService} from './local-user.service'
 export class SocketService {
   socket;
 
-  constructor(public localUserService: LocalUserService) {
+  constructor(public localUserService: LocalUserService,) {
 
   }
 
@@ -29,19 +28,18 @@ export class SocketService {
   socketConnect() {
     this.socket = io('http://localhost:3000', {'force new connection': true});
     this.socket.on('connect', () => {
-      this.emitPromise("reconfirm", JSON.stringify(this.localUserService.localUser)).then(() => {
-        console.log('client_connects_success');
-      });
+      console.log('client_connects_success');
     });
+
     this.socket.on('connect_error', () => {
       console.log('connect_error');
     });
-
-    this.socket.on('receiveNewFriendApply',(data)=>{
-      console.log(data);
-      console.log(typeof data);
-    });
-
+    /*
+    this.socket.on('logout', () => {
+      this.getSocket().disconnect();
+      this.setSocketNull();
+      this.navCtrl.setRoot(StartPage);
+    });*/
     // 确保socket成功建立再返回
     return this.emitPromise('confirmConnect', '').then(data => {
       console.log(data);

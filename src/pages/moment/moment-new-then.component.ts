@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams, App, ViewController, ToastController} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {NavController, NavParams, App, ViewController, ToastController, Content} from 'ionic-angular';
 
 import {User} from '../../entities/user';
 import {Moment} from "../../entities/moment";
+import {Session} from '../../entities/session';
 import {ChatMapSeeDetailPage} from '../chat/chat-map-see-detail.component';
 import {ImageViewer} from './image-viewer.component';
 import {MomentNewThenChooseGroupPage} from "./moment-new-then-choose-group.component";
@@ -34,7 +35,9 @@ export class MomentNewThenPage {
   group: User[];
   inputContent: string;
   images: string[];
-
+  // 聊天信息，因为单独给好友发朋友圈要刷新session
+  content: Content;
+  session: Session;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public appCtrl: App,
@@ -61,6 +64,8 @@ export class MomentNewThenPage {
     this.images = [];
 
     this.group = [];
+    this.content = navParams.get('content') || null;
+    this.session = navParams.get('session') || null;
     /*
      for (let i = 0; i < 9;i++){
      this.images.push('../../assets/icon/favicon.ico');
@@ -109,15 +114,20 @@ export class MomentNewThenPage {
       let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, [], this.inputContent, this.images);
       // console.log(moment);
       this.chatService.sendMessage(this.friend, 'moment', moment).then(
-        () => {
-          this.viewCtrl.dismiss();
+        (session) => {
+          if (typeof session !== 'string') {
+            this.session = session;
+            this.content.scrollToBottom(9000);
+            this.viewCtrl.dismiss();
+          }
         }
       );
     } else if (this.type === 'group') {
-      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, this.group, this.inputContent, this.images, null, []);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, this.group, this.inputContent, this.images, [], []);
       console.log(moment);
       this.momentService.sendMoment(moment).then(
         (data) => {
+          console.log("this" + data);
           if (data === 'success') {
             this.viewCtrl.dismiss();
           } else {
@@ -132,10 +142,11 @@ export class MomentNewThenPage {
       );
     } else {
       // public
-      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, [], this.inputContent, this.images, null, []);
+      let moment = new Moment(this.type, this.localUser, -1, momentLocation, momentEmotion, -1, [], this.inputContent, this.images, [], []);
       console.log(moment);
       this.momentService.sendMoment(moment).then(
         (data) => {
+          console.log("this" + data);
           if (data === 'success') {
             this.viewCtrl.dismiss();
           } else {

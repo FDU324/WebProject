@@ -32,17 +32,40 @@ export class ChatService {
       if (value) {
         this.totalNewMessageCount = value.data;
       }
-      this.nativeStorage.keys().then(keys => {
-        return keys.forEach(key => {
+      return this.nativeStorage.keys().then(keys => {
+        let tem = keys.map(key => {
           if (key.substr(0, 9 + this.localUser.username.length) === this.localUser.username + '_' + 'session_') {
-            this.nativeStorage.getItem(key).then(value => {
-              console.log(JSON.stringify(value));
+            return this.nativeStorage.getItem(key).then(value => {
+              // console.log(JSON.stringify(value));
               if (value) {
-                console.log(value.data);
-                this.sessionList.push(JSON.parse(value.data));
+                // console.log(value.data);
+                return value.data;
+              } else {
+                return -1;
               }
+            }).catch(error => {
+              console.log(error);
+              return -1;
             });
+          } else {
+            return -1;
           }
+        });
+
+        return Promise.all(tem).then(sessions => {
+          let filterSessions = sessions.filter(session => {
+            return session !== -1;
+          });
+
+          filterSessions.forEach(session => {
+            this.sessionList.push(JSON.parse(session.toString()));
+          });
+
+          // console.log(this.sessionList);
+          console.log('update chatService success');
+        }).catch(error => {
+          console.log(error);
+          return error;
         });
       }).then(() => {
         this.receiverOn();
@@ -73,8 +96,7 @@ export class ChatService {
 
       this.totalNewMessageCount++;
       this.update();
-    })
-
+    });
   }
 
   registerPage(page: any) {
@@ -92,7 +114,17 @@ export class ChatService {
   }
 
   getSession(friend: User) {
-    return this.sessionList.find((item) => item.friend.username === friend.username);
+    let tem = this.sessionList.find((item) => item.friend.username === friend.username);
+
+    if(tem){
+      // 按时间排序
+      const compare = (a, b) => {
+        return a.time - b.time;
+      };
+      tem.messageList.sort(compare);
+    }
+
+    return tem;
   }
 
   getLastSessionList() {
@@ -101,7 +133,7 @@ export class ChatService {
     });
 
     const compare = (a, b) => {
-      return b.messageList[0].time - a.messageList[0].time;
+      return b.messageList[b.messageList.length-1].time - a.messageList[a.messageList.length-1].time;
     };
 
     return temList.sort(compare);
@@ -132,6 +164,9 @@ export class ChatService {
         }
         return Promise.resolve<any>(temSession);
       }
+      else if (data === 'refuse') {
+        return Promise.resolve(data);
+      }
       return Promise.resolve<any>('SendMessage-error');
     }).catch(error => {
       console.log('SendMessage-error:', error);
@@ -150,8 +185,26 @@ export class ChatService {
   }
 
   clearNewMessages(session: Session) {
-    this.totalNewMessageCount -= session.newMessageCount;
-    session.newMessageCount = 0;
+    if(session){
+      this.totalNewMessageCount -= session.newMessageCount;
+      session.newMessageCount = 0;
+    }
+  }
+
+  deleteSession(session: Session) {
+    let keyName = this.localUser.username + '_' + 'session_' + session.friend.username;
+
+    return this.nativeStorage.remove(keyName).then(() => {
+      let index = this.sessionList.findIndex(item => {
+        return item.friend.username === session.friend.username;
+      });
+      this.sessionList.splice(index, 1);
+
+      return 'success';
+    }).catch(err => {
+      console.log(err);
+      return err;
+    });
   }
 
 
