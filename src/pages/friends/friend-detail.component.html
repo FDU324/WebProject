@@ -60,7 +60,7 @@
 
     </ion-grid>
 
-    
+
 
     <!--
             <ion-list>
@@ -95,6 +95,6 @@
   <div padding>
     <button ion-button color="primary" block (click)="gotoSession(friend)">发消息</button>
     <br>
-    <button *ngIf="friend.username != localUser.username" ion-button color="danger" block (click)="deleteFriend(friend)">删除好友</button>
+    <button *ngIf="friend.username != localUser.username" ion-button color="danger" block (click)="showConfirm(friend)">删除好友</button>
   </div>
 </ion-content>

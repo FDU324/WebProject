@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import {User} from '../entities/user';
 import {SocketService} from "./socket.service";
 import {LocalUserService} from './local-user.service';
+import {MomentService} from "./moment.service";
 
 @Injectable()
 export class FriendListService {
@@ -15,7 +16,8 @@ export class FriendListService {
 
   constructor(public http: Http,
               public localUserService: LocalUserService,
-              public socketService: SocketService) {
+              public socketService: SocketService,
+              public momentService: MomentService) {
   }
 
   updateAfterLogin() {
@@ -103,6 +105,7 @@ export class FriendListService {
         this.friendReqList.splice(this.friendReqList.indexOf(friend), 1);
         this.friendList.push(friend);
         this.update();
+        this.momentService.updateMoment(true);
       }
       else {
         console.log('添加好友失败');
