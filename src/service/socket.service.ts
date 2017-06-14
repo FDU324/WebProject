@@ -31,10 +31,9 @@ export class SocketService {
   socketConnect() {
     this.socket = io('http://localhost:3000', {'force new connection': true});
     this.socket.on('connect', () => {
-      this.emitPromise("reconfirm", JSON.stringify(this.localUserService.localUser)).then(() => {
-        console.log('client_connects_success');
-      });
+      console.log('client_connects_success');
     });
+    
     this.socket.on('connect_error', () => {
       console.log('connect_error');
     });
