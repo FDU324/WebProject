@@ -6,7 +6,6 @@ import {Moment} from '../../entities/moment';
 import {Comment} from '../../entities/comment';
 
 import {MomentService} from '../../service/moment.service';
-import {LocalUserService} from '../../service/local-user.service';
 
 import {ImageViewer} from './image-viewer.component';
 import {LocalUserService} from "../../service/local-user.service";
