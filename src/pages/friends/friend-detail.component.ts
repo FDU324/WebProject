@@ -9,6 +9,7 @@ import {FriendMapPage} from './friend-map.component';
 import {LocalUserService} from '../../service/local-user.service'
 import {ChatService} from '../../service/chat.service'
 import {FriendListService} from "../../service/friend-list.service";
+import {Group} from "../../entities/group";
 
 @Component({
   selector: 'page-friend-detail',
@@ -18,7 +19,7 @@ import {FriendListService} from "../../service/friend-list.service";
 export class FriendDetailPage {
   friend: User;
   localUser: User;
-
+  groups: Group[];
   constructor(public viewCtrl: ViewController, public navParams: NavParams, public appCtrl: App,
               public localUserService: LocalUserService,
               public chatService: ChatService,
@@ -26,8 +27,21 @@ export class FriendDetailPage {
               public alertCtrl: AlertController) {
     this.friend = navParams.get('friend');
     this.localUser = localUserService.getLocalUser();
+    this.groups = this.getGroupsIncludingThis();
   }
-
+  getGroupsIncludingThis(){
+    let g = this.localUserService.getGroups();
+    let res: Group[] = [];
+    for (let i = 0 ; i < g.length ; i++){
+      for (let j = 0 ; j < g[i].members.length ; j++){
+        if (g[i].members[j].username === this.friend.username) {
+          res.push(g[i]);
+          break;
+        }
+      }
+    }
+    return res;
+  }
   // 进入和某一好友的聊天页面
   gotoSession(friend) {
     //this.appCtrl.getRootNav().remove(this.appCtrl.getRootNav().length()-1);

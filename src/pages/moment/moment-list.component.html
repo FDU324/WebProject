@@ -12,8 +12,18 @@
     <ion-card ion-item *ngFor="let moment of momentList" (click)="showDetail(moment)">
 
       <ion-item>
-
-
+        <ion-avatar item-left>
+          <img *ngIf="moment.images.length > 0" src="moment.images[0]">
+        </ion-avatar>
+        <ion-icon [name]="moment.emotion[2]" clear style="font-size: 14px">
+          {{moment.emotion[0]}}
+        </ion-icon>
+        <p>{{moment.location[1]}}</p>
+        <h3>{{moment.text}}</h3>
+        <ion-note item-end style="font-size: 12px;align-self: flex-start;margin-top: 14px;">
+          {{moment.time | myDatePipe}}
+        </ion-note>
+        <!--
         <ion-row>
           <ion-col col-2>
             <ion-icon [name]="moment.emotion[2]" clear></ion-icon>
@@ -35,7 +45,7 @@
             </ion-note>
           </ion-col>
         </ion-row>
-
+      -->
       </ion-item>
     </ion-card>
   </ion-list>

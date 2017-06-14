@@ -23,6 +23,14 @@
     <ion-grid>
       <ion-row>
         <ion-col col-2>
+          <ion-label>分组</ion-label>
+        </ion-col>
+        <ion-col col-8>
+          <button ion-button *ngFor="let group of groups" clear color="dark">{{group.groupname}} </button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-2>
           <ion-label>地区</ion-label>
         </ion-col>
         <ion-col col-8>
