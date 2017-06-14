@@ -27,41 +27,41 @@
           <p><b>{{moment.user.nickname}}</b></p>
           <p text-wrap>{{moment.text}}</p>
 
-          <img *ngIf="moment.images!=undefined&&moment.images.length==1" [src]="moment.images[0]"
-               (click)="viewImage(moment,0)">
+          <img name="momentImg" *ngIf="moment.images!=undefined&&moment.images.length==1" [src]="moment.images[0]"
+               (click)="viewImage(moment,0)" style="width:100%" onload="adjustImgSize(this)">
 
           <ion-grid *ngIf="moment.images!=undefined&&moment.images.length>1">
             <ion-row>
               <ion-col col-4>
-                <img [src]="moment.images[0]" (click)="viewImage(moment,0)">
+                <img name="momentImg"  [src]="moment.images[0]" (click)="viewImage(moment,0)"  style="width:100%">
               </ion-col>
               <ion-col col-4>
-                <img [src]="moment.images[1]" (click)="viewImage(moment,1)">
+                <img name="momentImg"  [src]="moment.images[1]" (click)="viewImage(moment,1)"  style="width:100%">
               </ion-col>
               <ion-col col-4>
-                <img *ngIf="moment.images.length>=3" [src]="moment.images[2]" (click)="viewImage(moment,2)">
+                <img name="momentImg"  *ngIf="moment.images.length>=3" [src]="moment.images[2]" (click)="viewImage(moment,2)"  style="width:100%">
               </ion-col>
             </ion-row>
             <ion-row *ngIf="moment.images.length>3">
               <ion-col col-4>
-                <img *ngIf="moment.images.length>=4" [src]="moment.images[3]" (click)="viewImage(moment,3)">
+                <img name="momentImg"  *ngIf="moment.images.length>=4" [src]="moment.images[3]" (click)="viewImage(moment,3)"  style="width:100%">
               </ion-col>
               <ion-col col-4>
-                <img *ngIf="moment.images.length>=5" [src]="moment.images[4]" (click)="viewImage(moment,4)">
+                <img name="momentImg"  *ngIf="moment.images.length>=5" [src]="moment.images[4]" (click)="viewImage(moment,4)"  style="width:100%">
               </ion-col>
               <ion-col col-4>
-                <img *ngIf="moment.images.length>=6" [src]="moment.images[5]" (click)="viewImage(moment,5)">
+                <img name="momentImg"  *ngIf="moment.images.length>=6" [src]="moment.images[5]" (click)="viewImage(moment,5)"  style="width:100%">
               </ion-col>
             </ion-row>
             <ion-row *ngIf="moment.images.length>6">
               <ion-col col-4>
-                <img *ngIf="moment.images.length>=7" [src]="moment.images[6]" (click)="viewImage(moment,6)">
+                <img name="momentImg"  *ngIf="moment.images.length>=7" [src]="moment.images[6]" (click)="viewImage(moment,6)"  style="width:100%">
               </ion-col>
               <ion-col col-4>
-                <img *ngIf="moment.images.length>=8" [src]="moment.images[7]" (click)="viewImage(moment,7)">
+                <img name="momentImg"  *ngIf="moment.images.length>=8" [src]="moment.images[7]" (click)="viewImage(moment,7)" style="width:100%">
               </ion-col>
               <ion-col col-4>
-                <img *ngIf="moment.images.length==9" [src]="moment.images[8]" (click)="viewImage(moment,8)">
+                <img name="momentImg"  *ngIf="moment.images.length==9" [src]="moment.images[8]" (click)="viewImage(moment,8)" style="width:100%">
               </ion-col>
             </ion-row>
           </ion-grid>

@@ -31,6 +31,7 @@ export class MomentZonePage {
               public commentService: CommentService) {
     //this.commentList = commentService.getCommentByMoment(this.moment);
     this.momentList = momentService.getMomentList();
+    
     this.inputContent = '';
     this.commentTo = '';
     this.isFooterHidden = true;
@@ -55,6 +56,10 @@ export class MomentZonePage {
 
   update() {
     this.momentList = this.momentService.getMomentList();
+  }
+
+  adjustImgSize(img: HTMLElement) {
+   img.style.height = img.style.width;
   }
 
   // 赞与取消赞
