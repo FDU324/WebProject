@@ -45,6 +45,7 @@ export class FriendListService {
       console.log(JSON.parse(user).nickname, '同意了请求');
       this.friendList.push(JSON.parse(user));
       this.update();
+      this.momentService.updateMoment(true);
     })
   }
 
