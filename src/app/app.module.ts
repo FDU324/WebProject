@@ -15,6 +15,7 @@ import {MockStorage} from '../mockNative/mock-storage';
 import {MyApp} from './app.component';
 import {SighupPage} from '../pages/signup/signup';
 import {LoginPage} from '../pages/login/login';
+import {ChangePasswordPage} from '../pages/login/change-password.component';
 import {StartPage} from '../pages/start/start';
 import {TabsPage} from '../pages/tabs/tabs';
 
@@ -65,6 +66,7 @@ import {MyDatePipe} from './my-date.pipe';
     SighupPage,
     StartPage,
     LoginPage,
+    ChangePasswordPage,
     AboutTabPage,
     AboutUserInfoPage,
     AboutNicknameChangePage,
@@ -105,6 +107,7 @@ import {MyDatePipe} from './my-date.pipe';
     SighupPage,
     StartPage,
     LoginPage,
+    ChangePasswordPage,
     AboutTabPage,
     AboutUserInfoPage,
     AboutNicknameChangePage,

@@ -3,12 +3,12 @@
  */
 import {Injectable} from "@angular/core";
 import {Camera, ImagePicker} from "ionic-native";
-import {File} from "@ionic-native/file"
+import {Http, RequestOptions, Response, Headers} from '@angular/http';
 import {Transfer, FileUploadOptions, TransferObject} from '@ionic-native/transfer';
 @Injectable()
 export class ImgService {
 
-  constructor() {
+  constructor(public http: Http) {
   }
 
   /**
@@ -151,6 +151,26 @@ export class ImgService {
 
   }
 
+  modifyImageAtSignup(username:string,imageUrl:string){
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    let url = 'http://localhost:3000/user/modifyUserImage';
+    let info = {
+      username: username,
+      userImage:imageUrl,
+    };
+    return this.http.put(url,JSON.stringify(info),options)
+      .toPromise()
+      .then( res => {
+        if (res.json().data === 'success') {
+          return Promise.resolve('success');
+        }
+        return Promise.resolve('error');
+      }).catch((error) => {
+        console.log('ImgService-modifyImageAtSignup', error);
+        return Promise.resolve('error');
+      })
+  }
   /*
    sendImgAsBase64ByURL(url){
    var canvas = document.createElement("canvas");
