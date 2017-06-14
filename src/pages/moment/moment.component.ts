@@ -119,6 +119,13 @@ export class MomentPage {
     focus();
   }
 
+  // 赞与取消赞
+  changeLike(moment: Moment, from: boolean) {
+    this.momentService.changeLike(moment, !from).then(data => {
+      // console.log(data);
+    });
+  }
+
   viewImage(currentIndex: number) {
     this.appCtrl.getRootNav().push(ImageViewer, {
       images: this.moment.images,

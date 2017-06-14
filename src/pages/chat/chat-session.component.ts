@@ -33,15 +33,16 @@ export class ChatSessionPage {
 
   constructor(public navCtrl: NavController,
               public viewCtrl: ViewController,
+              public alertCtrl: AlertController,
               public navParams: NavParams,
               public appCtrl: App,
               public nativeStorage: NativeStorage,
               public chatService: ChatService,
-              public imgService: ImgService,
-              public alertCtrl: AlertController) {
+              public imgService: ImgService,) {
     this.friend = navParams.get('friend');
     this.localUser = navParams.get('localUser');
     this.inputContent = "";
+    this.session = this.chatService.getSession(this.friend);
   }
 
   ionViewDidLoad() {
@@ -57,26 +58,28 @@ export class ChatSessionPage {
 
   ionViewDidLeave() {
     this.chatService.removePage(this);
-    let keyName = this.localUser.username + '_' + 'session_' + this.friend.username;
-    let value = JSON.stringify(this.session);
 
-    this.nativeStorage.setItem(keyName, {data: value}).then(
-      () => {
-        console.log('Success storing '+keyName);
-        keyName = this.localUser.username + '_totalNewMessageCount';
-        this.nativeStorage.setItem(keyName, {data: this.chatService.totalNewMessageCount}).then(
-          () => {
-          },
-          error => {
-            console.log('Error storing totalNewMessageCount : ' + error);
-          }
-        );
-      },
-      error => {
-        console.log('Error storing ' + keyName + ' : ' + error);
-      }
-    );
+    if (this.session) {
+      let keyName = this.localUser.username + '_' + 'session_' + this.friend.username;
+      let value = JSON.stringify(this.session);
 
+      this.nativeStorage.setItem(keyName, {data: value}).then(
+        () => {
+          // console.log('Success storing '+keyName);
+          keyName = this.localUser.username + '_totalNewMessageCount';
+          this.nativeStorage.setItem(keyName, {data: this.chatService.totalNewMessageCount}).then(
+            () => {
+            },
+            error => {
+              console.log('Error storing totalNewMessageCount : ' + error);
+            }
+          );
+        },
+        error => {
+          console.log('Error storing ' + keyName + ' : ' + error);
+        }
+      );
+    }
   }
 
   update() {
@@ -134,6 +137,7 @@ export class ChatSessionPage {
     });
   }
 
+  // 未实现
   pickImg() {
     this.imgService.openImgPicker().then((urls) => {
       if (urls[0] === 'error') {
@@ -153,6 +157,7 @@ export class ChatSessionPage {
     });
   }
 
+  // 未实现
   takeCamera() {
     this.imgService.openCamara().then((url) => {
       if (url === 'error') {
@@ -180,6 +185,7 @@ export class ChatSessionPage {
     });
   }
 
+  // 未实现
   momentDetail(moment) {
 
   }

@@ -23,7 +23,7 @@ export class FriendAddPage {
   onSubmit() {
     console.log(this.username);
 
-    if(this.username === this.localUser.username){
+    if (this.username === this.localUser.username) {
       let toast = this.toastCtrl.create({
         message: '您不能添加自己为好友',
         duration: 1500,
@@ -33,7 +33,7 @@ export class FriendAddPage {
         this.username = '';
       });
       toast.present();
-    }else{
+    } else {
       this.friendListService.searchUser(this.localUser.username, this.username)
         .then(data => {
           if (data === 'notExist') {

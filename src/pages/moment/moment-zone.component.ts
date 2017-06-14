@@ -1,15 +1,15 @@
 import {Component} from '@angular/core';
-import {NavParams, App, NavController, ToastController, ActionSheetController,AlertController} from 'ionic-angular';
+import {NavParams, App, NavController, ToastController, ActionSheetController, AlertController} from 'ionic-angular';
 
 import {User} from '../../entities/user';
 import {Moment} from '../../entities/moment';
 import {Comment} from '../../entities/comment';
-
+import {ImageViewer} from './image-viewer.component';
 import {FriendDetailPage} from '../friends/friend-detail.component';
 
 import {MomentService} from '../../service/moment.service';
-import {ImageViewer} from './image-viewer.component';
 import {LocalUserService} from "../../service/local-user.service";
+
 @Component({
   selector: 'page-moment-zone',
   templateUrl: 'moment-zone.component.html',
@@ -55,6 +55,7 @@ export class MomentZonePage {
   update() {
     this.momentList = this.momentService.getMomentList();
   }
+
   showConfirm(moment: Moment) {
     let confirm = this.alertCtrl.create({
       title: '确认删除',
@@ -76,9 +77,10 @@ export class MomentZonePage {
     });
     confirm.present();
   }
-  deleteMoment(moment: Moment){
+
+  deleteMoment(moment: Moment) {
     this.momentService.deleteMoment(moment).then(data => {
-      if (data === 'success'){
+      if (data === 'success') {
         // do nothing
       }
       else {
@@ -90,13 +92,14 @@ export class MomentZonePage {
         toast.present();
         console.log('deleteMoment error:', data);
       }
-    })
+    });
     console.log("删除动态");
   }
+
   // 赞与取消赞
   changeLike(moment: Moment, from: boolean) {
     this.momentService.changeLike(moment, !from).then(data => {
-      console.log(data);
+      // console.log(data);
     });
   }
 
@@ -138,7 +141,7 @@ export class MomentZonePage {
 
   commentOpe(moment: Moment, comment: Comment) {
     // 只能删除自己的评论
-    if(comment.user.username === this.localUserService.localUser.username){
+    if (comment.user.username === this.localUserService.localUser.username) {
       let actionSheet = this.actionSheetCtrl.create({
         buttons: [
           {

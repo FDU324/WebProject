@@ -28,7 +28,7 @@ export class TabsPage {
   totalNewMessageCount: number = 0;
   totalNewMomentCount: number = 0;
   friendReqCount: number = 0;
-  
+
   constructor(public params: NavParams,
               public chatService: ChatService,
               public friendListService: FriendListService,
@@ -46,13 +46,11 @@ export class TabsPage {
     this.momentService.registerPage(this);
   }
 
-  
+
   ionViewCanEnter() {
     this.totalNewMessageCount = this.chatService.getTotalNewMessageCount();
     this.friendReqCount = this.friendListService.getNewReqCount();
     this.totalNewMomentCount = this.momentService.getNewMomentCount();
-
-    
   }
 
   update() {
@@ -62,6 +60,6 @@ export class TabsPage {
 
   }
 
-   
+
 
 }

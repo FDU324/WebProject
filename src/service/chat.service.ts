@@ -36,14 +36,14 @@ export class ChatService {
         let tem = keys.map(key => {
           if (key.substr(0, 9 + this.localUser.username.length) === this.localUser.username + '_' + 'session_') {
             return this.nativeStorage.getItem(key).then(value => {
-              console.log(JSON.stringify(value));
+              // console.log(JSON.stringify(value));
               if (value) {
-                console.log(value.data);
+                // console.log(value.data);
                 return value.data;
               } else {
                 return -1;
               }
-            }).catch(error=>{
+            }).catch(error => {
               console.log(error);
               return -1;
             });
@@ -61,7 +61,7 @@ export class ChatService {
             this.sessionList.push(JSON.parse(session.toString()));
           });
 
-          console.log(this.sessionList);
+          // console.log(this.sessionList);
           console.log('update chatService success');
         }).catch(error => {
           console.log(error);
@@ -97,8 +97,6 @@ export class ChatService {
       this.totalNewMessageCount++;
       this.update();
     });
-
-
   }
 
   registerPage(page: any) {
@@ -118,11 +116,13 @@ export class ChatService {
   getSession(friend: User) {
     let tem = this.sessionList.find((item) => item.friend.username === friend.username);
 
-    // 按时间排序
-    const compare = (a, b) => {
-      return b.time - a.time;
-    };
-    tem.messageList.sort(compare);
+    if(tem){
+      // 按时间排序
+      const compare = (a, b) => {
+        return a.time - b.time;
+      };
+      tem.messageList.sort(compare);
+    }
 
     return tem;
   }
@@ -133,7 +133,7 @@ export class ChatService {
     });
 
     const compare = (a, b) => {
-      return b.messageList[0].time - a.messageList[0].time;
+      return b.messageList[b.messageList.length-1].time - a.messageList[a.messageList.length-1].time;
     };
 
     return temList.sort(compare);
@@ -185,8 +185,26 @@ export class ChatService {
   }
 
   clearNewMessages(session: Session) {
-    this.totalNewMessageCount -= session.newMessageCount;
-    session.newMessageCount = 0;
+    if(session){
+      this.totalNewMessageCount -= session.newMessageCount;
+      session.newMessageCount = 0;
+    }
+  }
+
+  deleteSession(session: Session) {
+    let keyName = this.localUser.username + '_' + 'session_' + session.friend.username;
+
+    return this.nativeStorage.remove(keyName).then(() => {
+      let index = this.sessionList.findIndex(item => {
+        return item.friend.username === session.friend.username;
+      });
+      this.sessionList.splice(index, 1);
+
+      return 'success';
+    }).catch(err => {
+      console.log(err);
+      return err;
+    });
   }
 
 

@@ -5,6 +5,7 @@ import {User} from '../../entities/user';
 import {MomentNewThenPage} from './moment-new-then.component';
 
 import {LocalUserService} from '../../service/local-user.service';
+import {MomentService} from '../../service/moment.service';
 import {Session} from "../../entities/session";
 
 @Component({selector: 'page-moment-new', templateUrl: 'moment-new.component.html'})
@@ -24,7 +25,13 @@ export class MomentNewPage {
   // 聊天信息，因为单独给好友发朋友圈要刷新session
   content: Content;
   session: Session;
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public appCtrl: App, public localUserService: LocalUserService) {
+
+  constructor(public viewCtrl: ViewController,
+              public navCtrl: NavController,
+              public navParams: NavParams,
+              public appCtrl: App,
+              public momentService: MomentService,
+              public localUserService: LocalUserService) {
     this.localUser = localUserService.getLocalUser();
     this.type = navParams.get('type') || 'public';
     this.friend = navParams.get('friend') || null;
@@ -75,44 +82,39 @@ export class MomentNewPage {
   }
 
   initialMap() {
-    let self = this;
+    this.momentService.getCurrentLocation().then(loc => {
+      //加载PositionPicker，loadUI的路径参数为模块名中 'ui/' 之后的部分
+      AMapUI.loadUI(['misc/PositionPicker'], function (PositionPicker) {
+        let map = new AMap.Map('mapContainer', {
+          zoom: 16,
+          center: loc[0] === -1 ? [121.599459, 31.191671] : loc
+        });
 
-    //加载PositionPicker，loadUI的路径参数为模块名中 'ui/' 之后的部分
-    AMapUI.loadUI(['misc/PositionPicker'], function (PositionPicker) {
-      let map = new AMap.Map('mapContainer', {
-        zoom: 16
+        let positionPicker = new PositionPicker({
+          mode: 'dragMap',//设定为拖拽地图模式，可选'dragMap'、'dragMarker'，默认为'dragMap'
+          map: map//依赖地图对象
+        });
+
+        positionPicker.start();
+
+        positionPicker.on('success', function (positionResult) {
+          document.getElementById('nearestJunction').innerHTML = positionResult.nearestJunction;
+          document.getElementById('address').innerHTML = positionResult.address;
+          document.getElementById('position').innerHTML = positionResult.position;
+        });
+
+        positionPicker.on('fail', function (positionResult) {
+          document.getElementById('nearestJunction').innerHTML = '';
+          document.getElementById('address').innerHTML = '海上或海外无法获得地址信息';
+        });
+
       });
-
-      let positionPicker = new PositionPicker({
-        mode: 'dragMap',//设定为拖拽地图模式，可选'dragMap'、'dragMarker'，默认为'dragMap'
-        map: map//依赖地图对象
-      });
-
-      positionPicker.start();
-
-      positionPicker.on('success', function (positionResult) {
-        //console.log(positionResult.nearestJunction);
-
-        //self.nearestJunction = positionResult.nearestJunction;
-        //self.address = positionResult.address;
-        //self.position = positionResult.position;
-        document.getElementById('nearestJunction').innerHTML = positionResult.nearestJunction;
-        document.getElementById('address').innerHTML = positionResult.address;
-        document.getElementById('position').innerHTML = positionResult.position;
-      });
-
-      positionPicker.on('fail', function (positionResult) {
-        document.getElementById('nearestJunction').innerHTML = '';
-        document.getElementById('address').innerHTML = '海上或海外无法获得地址信息';
-      });
-
     });
 
   }
 
   // 确认选择的位置和心情
   locEmotion() {
-    //console.log(this.address);
     let position = document.getElementById('position').innerHTML;
     let address = document.getElementById('address').innerHTML;
     let nearestJunction = document.getElementById('nearestJunction').innerHTML;

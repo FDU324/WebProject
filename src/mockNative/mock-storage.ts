@@ -14,9 +14,9 @@ export class MockStorage extends NativeStorage {
 
   getItem(reference) {
     return new Promise((resolve, reject) => {
-      if(localStorage[reference]){
+      if (localStorage[reference]) {
         resolve(JSON.parse(localStorage[reference]));
-      }else{
+      } else {
         resolve(localStorage[reference]);
       }
     });
@@ -29,6 +29,13 @@ export class MockStorage extends NativeStorage {
         re.push(localStorage.key(i));
       }
       resolve(re);
+    });
+  }
+
+  remove(reference) {
+    return new Promise((resolve, reject) => {
+      localStorage.removeItem(reference);
+      resolve('success');
     });
   }
 

@@ -8,13 +8,14 @@ export class LocalUserService {
   localUser: User;
 
   constructor(public http: Http,) {
-    this.localUser = new User('Me', 'Who am I', 'assets/icon/favicon.ico', '北京市-北京市-东城区',[]);
+    this.localUser = new User('Me', 'Who am I', 'assets/icon/favicon.ico', '北京市-北京市-东城区', []);
   }
 
-  getLocalUser(){
+  getLocalUser() {
     return this.localUser;
   }
-  getGroups(){
+
+  getGroups() {
     console.log(this.localUser.groups.length);
     return this.localUser.groups;
   }
@@ -45,17 +46,18 @@ export class LocalUserService {
         return Promise.resolve('error');
       });
   }
+
   modifyUserimage(imageURL) {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
     let url = 'http://localhost:3000/user/modifyUserImage';
     let info = {
       username: this.localUser.username,
-      userImage:imageURL,
+      userImage: imageURL,
     };
-    return this.http.put(url,JSON.stringify(info),options)
+    return this.http.put(url, JSON.stringify(info), options)
       .toPromise()
-      .then( res => {
+      .then(res => {
         if (res.json().data === 'success') {
           this.localUser.userimage = imageURL;
           return Promise.resolve('success');
@@ -90,7 +92,7 @@ export class LocalUserService {
       });
   }
 
-  updateGroups(groups){
+  updateGroups(groups) {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
     let url = 'http://localhost:3000/user/updateGroups';
@@ -98,7 +100,7 @@ export class LocalUserService {
       username: this.localUser.username,
       groups: JSON.stringify(groups),
     };
-    return this.http.put(url,JSON.stringify(info),options)
+    return this.http.put(url, JSON.stringify(info), options)
       .toPromise()
       .then(res => {
         if (res.json().data === 'success') {
@@ -107,7 +109,7 @@ export class LocalUserService {
         }
         return Promise.resolve('error');
       }).catch((error) => {
-        console.log('LocalUserService-updateGroups',error);
+        console.log('LocalUserService-updateGroups', error);
         return Promise.resolve('error');
       });
   }

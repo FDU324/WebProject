@@ -15,11 +15,10 @@ export class MomentsAreaPage {
 
   momentList: Moment[];
   //commentList: Comment[];
-  ;
 
   constructor(public appCtrl: App, public navParams: NavParams, public viewCtrl: ViewController) {
     this.momentList = navParams.get('momentList');
-   
+
     //this.momentList = momentService.getMomentByUser(this.user);
     //console.log(this.momentList);
   }

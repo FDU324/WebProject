@@ -1,10 +1,8 @@
 
-
-- 聊天缓存bug
-- 用户tab的地图和相册
-- 删除会话
-- moment-list的UI
-- 好友详细信息的分组查看和修改
+- 好友列表按字母显示
+- 注册的图片
+- 修改密码
+- friend-map.component.ts 构造函数 todo
 
 
 ## 文档
