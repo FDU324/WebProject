@@ -14,9 +14,9 @@ export class MyDatePipe implements PipeTransform {
     let minutes = show.getMinutes() < 10 ? '0' + show.getMinutes() : show.getMinutes();
 
     if (difference > 31536000) {     // >1年
-      return show.getFullYear() + '年' + show.getMonth() + '月' + show.getDay() + '日 ' + hour + ':' + minutes;
+      return show.getFullYear() + '年' + (show.getMonth() + 1) + '月' + show.getDate() + '日 ' + hour + ':' + minutes;
     } else if (difference > 86400) {           // 1日< show < 1年
-      return show.getMonth() + '月' + show.getDay() + '日 ' + hour + ':' + minutes;
+      return (show.getMonth() + 1) + '月' + show.getDate() + '日 ' + hour + ':' + minutes;
     } else {          // 当日
       return hour + ':' + minutes;
     }

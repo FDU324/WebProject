@@ -160,7 +160,12 @@ export class MomentService {
   }
 
   getMomentList() {
-    return this.momentDatabase;
+    // 按时间排序
+    const compare = (a, b) => {
+      return b.time - a.time;
+    };
+
+    return this.momentDatabase.sort(compare);
   }
 
   sendMoment(moment: Moment) {
