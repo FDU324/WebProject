@@ -8,6 +8,7 @@ import {FriendMapPage} from './friend-map.component';
 
 import {LocalUserService} from '../../service/local-user.service'
 import {ChatService} from '../../service/chat.service'
+import {FriendListService} from "../../service/friend-list.service";
 
 @Component({
   selector: 'page-friend-detail',
@@ -20,7 +21,8 @@ export class FriendDetailPage {
 
   constructor(public viewCtrl: ViewController, public navParams: NavParams, public appCtrl: App,
               public localUserService: LocalUserService,
-              public chatService: ChatService) {
+              public chatService: ChatService,
+              public friendListService: FriendListService) {
     this.friend = navParams.get('friend');
     this.localUser = localUserService.getLocalUser();
   }
@@ -52,9 +54,9 @@ export class FriendDetailPage {
     });
   }
 
-  deleteFriend() {
-    //TODO:删除好友
-    console.log('delete friend');
+  deleteFriend(friend: User) {
+    this.friendListService.deleteFriend(this.localUser.username,friend);
+    this.viewCtrl.dismiss();
   }
 
 

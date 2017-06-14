@@ -24,7 +24,16 @@
           </ion-avatar>
         </ion-col>
         <ion-col col-10>
-          <p><b>{{moment.user.nickname}}</b></p>
+          <ion-row>
+            <ion-col col-10>
+              <p><b>{{moment.user.nickname}}</b></p>
+            </ion-col>
+            <ion-col col-1>
+              <button ion-button icon-left clear small (click)="deleteMoment(moment)">
+                <ion-icon name="trash" [hidden]="moment.user.username !== localUser.username"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
           <p text-wrap>{{moment.text}}</p>
 
           <img *ngIf="moment.images && moment.images.length==1" [src]="moment.images[0]"
@@ -67,24 +76,33 @@
           </ion-grid>
 
           <ion-row>
-            <ion-item>
-              <ion-icon [name]="moment.emotion[2]" item-left></ion-icon>
+            <ion-col col-10>
               <p text-wrap style="font-size:x-small">
                 {{moment.location[1]}}
               </p>
-            </ion-item>
+            </ion-col>
 
-            <ion-item>
+            <ion-col col-10>
               <ion-note style="font-size:xx-small">
                 {{moment.time | myDatePipe}}
               </ion-note>
-              <button ion-button item-right clear small (click)="changeLike(moment,moment.like)">
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-8>
+              <ion-icon [name]="moment.emotion[2]" clear></ion-icon>
+              <ion-note>
+                {{moment.emotion[0]}}
+              </ion-note>
+            </ion-col>
+            <ion-col col-1>
+              <button ion-button icon-left clear small (click)="changeLike(moment,moment.like)">
                 <ion-icon name="thumbs-up" [color]="moment.like?'danger':'primary'"></ion-icon>
               </button>
               <button ion-button item-right clear small (click)="addComment(moment, null)">
                 <ion-icon name="text"></ion-icon>
               </button>
-            </ion-item>
+            </ion-col>
           </ion-row>
 
           <ion-row *ngIf="moment.likeuser&&moment.likeuser.length>0">

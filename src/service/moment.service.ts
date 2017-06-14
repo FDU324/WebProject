@@ -184,19 +184,32 @@ export class MomentService {
 
   sendMoment(moment: Moment) {
     moment.time = Date.now();
+    /*
     for (let i = 0; i < moment.images.length; i++) {
       this.imgService.sendFile(moment.user, moment.images[i], 'moment')
         .then((data) => {
           if (data !== 'error')
             moment.images[i] = data;
         });
-    }
-    return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
-      if (data === 'success') {
-        this.momentDatabase.unshift(moment);
-      }
-      return data;
+    }*/
+    let promises = moment.images.map(image => {
+      return this.imgService.sendFile(moment.user, image, 'moment');
     });
+    return Promise.all(promises).then( (a) =>{
+        let validUrls = a.filter(item => {
+          return item !== 'error';
+        });
+      moment.images = validUrls;
+      return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
+        if (data === 'success') {
+          this.momentDatabase.unshift(moment);
+        }
+        return data;
+      });
+    }).catch(error => {
+      return 'error';
+    });
+
   }
 
   deleteMoment(moment: Moment) {

@@ -5,12 +5,11 @@ import {User} from '../../entities/user';
 import {Moment} from '../../entities/moment';
 import {Comment} from '../../entities/comment';
 
-import {ImageViewer} from './image-viewer.component';
 import {FriendDetailPage} from '../friends/friend-detail.component';
 
 import {MomentService} from '../../service/moment.service';
-import {LocalUserService} from '../../service/local-user.service';
-
+import {ImageViewer} from './image-viewer.component';
+import {LocalUserService} from "../../service/local-user.service";
 @Component({
   selector: 'page-moment-zone',
   templateUrl: 'moment-zone.component.html',
@@ -19,7 +18,7 @@ export class MomentZonePage {
   momentList: Moment[];
   inputContent: string;
   isFooterHidden: boolean;
-
+  localUser: User;
   currentMoment: Moment;
   commentTo: User;
 
@@ -33,6 +32,7 @@ export class MomentZonePage {
     this.inputContent = '';
     this.commentTo = null;
     this.isFooterHidden = true;
+    this.localUser = localUserService.getLocalUser();
     console.log(this.momentList);
   }
 
@@ -54,7 +54,10 @@ export class MomentZonePage {
   update() {
     this.momentList = this.momentService.getMomentList();
   }
-
+  deleteMoment(moment: Moment){
+    // TODO:删除动态
+    console.log("删除动态");
+  }
   // 赞与取消赞
   changeLike(moment: Moment, from: boolean) {
     this.momentService.changeLike(moment, !from).then(data => {

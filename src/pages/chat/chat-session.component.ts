@@ -61,6 +61,7 @@ export class ChatSessionPage {
 
     this.nativeStorage.setItem(keyName, {data: value}).then(
       () => {
+        console.log('Success storing '+keyName);
         keyName = this.localUser.username + '_totalNewMessageCount';
         this.nativeStorage.setItem(keyName, {data: this.chatService.totalNewMessageCount}).then(
           () => {
@@ -80,6 +81,7 @@ export class ChatSessionPage {
   update() {
     this.session = this.chatService.getSession(this.friend);
     this.chatService.clearNewMessages(this.session);
+    this.content.scrollToBottom(3000);
   }
 
   log(text: string) {
@@ -162,7 +164,9 @@ export class ChatSessionPage {
   postMoment() {
     this.navCtrl.push(MomentNewPage, {
       type: 'single',
-      friend: this.friend
+      friend: this.friend,
+      session: this.session,
+      content: this.content
     });
   }
 
