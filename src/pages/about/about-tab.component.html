@@ -16,9 +16,13 @@
       <h2>账号 : {{localUser.username}}</h2>
     </button>
     <ion-list-header></ion-list-header>
-    <button ion-item>
+    <button ion-item (click)="gotoMoment()">
       <ion-icon name = "photos" item-left style="margin-bottom: 5px"> </ion-icon>
       相册
+    </button>
+    <button ion-item (click)="gotoMap()">
+      <ion-icon name = "compass" item-left style="margin-bottom: 5px"> </ion-icon>
+      地图
     </button>
   </ion-list>
 

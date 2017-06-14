@@ -76,30 +76,36 @@
           </ion-grid>
 
           <ion-row>
+            <ion-col col-2>
+              <ion-icon [name]="moment.emotion[2]" clear></ion-icon>
+              <ion-note>
+                {{moment.emotion[0]}}
+              </ion-note>
+            </ion-col>
             <ion-col col-10>
               <p text-wrap style="font-size:x-small">
                 {{moment.location[1]}}
               </p>
-            </ion-col>
 
+            </ion-col>
+          </ion-row>
+          <ion-row>
             <ion-col col-10>
               <ion-note style="font-size:xx-small">
                 {{moment.time | myDatePipe}}
               </ion-note>
             </ion-col>
           </ion-row>
+
           <ion-row>
             <ion-col col-8>
-              <ion-icon [name]="moment.emotion[2]" clear></ion-icon>
-              <ion-note>
-                {{moment.emotion[0]}}
-              </ion-note>
+
             </ion-col>
             <ion-col col-1>
               <button ion-button icon-left clear small (click)="changeLike(moment,moment.like)">
                 <ion-icon name="thumbs-up" [color]="moment.like?'danger':'primary'"></ion-icon>
               </button>
-              <button ion-button item-right clear small (click)="addComment(moment, null)">
+              <button ion-button icon-left clear small (click)="addComment(moment, null)">
                 <ion-icon name="text"></ion-icon>
               </button>
             </ion-col>
@@ -147,11 +153,6 @@
         <ion-col col-10>
           <ion-input id='ipt' placeholder="评论" required [(ngModel)]="inputContent" name="inputContent"
                      #inputTem></ion-input>
-        </ion-col>
-        <ion-col col-1>
-          <button clear ion-button icon-only>
-            <ion-icon name="happy"></ion-icon>
-          </button>
         </ion-col>
         <ion-col col-1>
           <button ion-button type="submit" clear icon-only [disabled]="!commentForm.form.valid">

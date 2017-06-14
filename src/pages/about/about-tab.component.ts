@@ -1,9 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, App} from 'ionic-angular';
-
-
-import {File} from '@ionic-native/file'
-
+import {MomentListPage} from '../moment/moment-list.component';
+import {FriendMapPage} from '../friends/friend-map.component';
 import {User} from "../../entities/user";
 
 import {AboutUserInfoPage} from "./about-user-info.component";
@@ -26,6 +24,18 @@ export class AboutTabPage {
   gotoInfo() { // 进入可以更改个人信息的页面
     this.appCtrl.getRootNav().push(AboutUserInfoPage, {
       localUser: this.localUser
+    });
+  }
+  gotoMoment(){
+    console.log('moment');
+    this.appCtrl.getRootNav().push(MomentListPage, {
+      user: this.localUser,
+    });
+  }
+  gotoMap(){
+    console.log('map');
+    this.appCtrl.getRootNav().push(FriendMapPage,{
+      friend: this.localUser,
     });
   }
 }

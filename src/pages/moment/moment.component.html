@@ -17,7 +17,16 @@
       </ion-avatar>
     </ion-col>
     <ion-col col-10>
-      <p><b>{{moment.user.nickname}}</b></p>
+      <ion-row>
+        <ion-col col-10>
+        <p><b>{{moment.user.nickname}}</b></p>
+        </ion-col>
+        <ion-col col-1>
+          <button ion-button icon-left clear small (click)="showConfirm(moment)">
+            <ion-icon name="trash" [hidden]="moment.user.username !== localUser.username"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
       <p text-wrap>{{moment.text}}</p>
 
       <img padding *ngIf="moment.images!=undefined&&moment.images.length==1" [src]="moment.images[0]"
@@ -60,28 +69,35 @@
       </ion-grid>
 
       <ion-row>
-        <ion-col col-5 text-left>
+        <ion-col col-2>
+          <ion-icon [name]="moment.emotion[2]" clear></ion-icon>
+          <ion-note>
+            {{moment.emotion[0]}}
+          </ion-note>
+        </ion-col>
+        <ion-col col-10>
           <ion-icon name="pin"></ion-icon>
           <ion-note>
             {{moment.location[1]}}
           </ion-note>
-          <br>
-          <ion-note>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-10>
+          <ion-note style="font-size:xx-small">
             {{moment.time | myDatePipe}}
           </ion-note>
         </ion-col>
-        <ion-col col-4>
-          <ion-icon [name]="moment.emotion[2]" clear></ion-icon>
-          <ion-note>
-            {{moment.emotion[1]}}
-          </ion-note>
-
+      </ion-row>
+      <ion-row>
+        <ion-col col-8>
         </ion-col>
         <ion-col col-1>
           <button ion-button icon-left clear small>
             <ion-icon name="thumbs-up"></ion-icon>
           </button>
         </ion-col>
+        <ion-col col-1></ion-col>
         <ion-col col-1>
           <button ion-button icon-left clear small (click)="focus()">
             <ion-icon name="text"></ion-icon>
@@ -116,11 +132,6 @@
         <ion-col col-10>
           <ion-input id="ipt" placeholder="评论" required [(ngModel)]="inputContent" name="inputContent"
                      #inputTem></ion-input>
-        </ion-col>
-        <ion-col col-1>
-          <button clear ion-button icon-only>
-            <ion-icon name="happy"></ion-icon>
-          </button>
         </ion-col>
         <ion-col col-1>
           <button ion-button type="submit" clear icon-only [disabled]="!commentForm.form.valid">
