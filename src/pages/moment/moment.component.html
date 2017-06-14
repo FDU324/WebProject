@@ -78,8 +78,8 @@
 
         </ion-col>
         <ion-col col-1>
-          <button ion-button icon-left clear small>
-            <ion-icon name="thumbs-up"></ion-icon>
+          <button ion-button icon-left clear small  (click)="changeLike(moment,moment.like)">
+            <ion-icon [color]="moment.like?'danger':'primary'" name="thumbs-up"></ion-icon>
           </button>
         </ion-col>
         <ion-col col-1>
