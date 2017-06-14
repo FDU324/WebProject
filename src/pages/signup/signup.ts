@@ -140,8 +140,6 @@ export class SighupPage {
           alert.present();
         }
       });
-
-
   }
 
 }

@@ -37,8 +37,6 @@ export class FriendDetailPage {
       localUser: this.localUserService.getLocalUser(),
       friend: friend
     });
-
-
   }
 
   gotoMoment(friend) {
@@ -50,14 +48,15 @@ export class FriendDetailPage {
 
   gotoMomentMap() {
     console.log('map');
-    this.appCtrl.getRootNav().push(FriendMapPage,{
+    this.appCtrl.getRootNav().push(FriendMapPage, {
       friend: this.friend
     });
   }
+
   showConfirm(friend: User) {
     let confirm = this.alertCtrl.create({
       title: '确认删除',
-      message: '你确认删除好友 '+ friend.nickname +' 吗?',
+      message: '你确认删除好友 ' + friend.nickname + ' 吗?',
       buttons: [
         {
           text: '取消',
@@ -75,8 +74,9 @@ export class FriendDetailPage {
     });
     confirm.present();
   }
+
   deleteFriend(friend: User) {
-    this.friendListService.deleteFriend(this.localUser.username,friend);
+    this.friendListService.deleteFriend(this.localUser.username, friend);
     this.viewCtrl.dismiss();
   }
 

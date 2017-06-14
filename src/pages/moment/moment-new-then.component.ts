@@ -38,6 +38,7 @@ export class MomentNewThenPage {
   // 聊天信息，因为单独给好友发朋友圈要刷新session
   content: Content;
   session: Session;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public appCtrl: App,
@@ -77,6 +78,7 @@ export class MomentNewThenPage {
   ionViewDidLoad() {
     this.navCtrl.remove(this.navCtrl.length() - 2);
   }
+
   pickImg() {
     this.images = [];
     this.imgService.openImgPicker().then((urls) => {
@@ -86,12 +88,13 @@ export class MomentNewThenPage {
         // TODO；上传到服务器
         console.log(urls);
         urls.forEach(url => {
-          console.log("图片选择"+url);
+          console.log("图片选择" + url);
           this.images.push(url);
         });
       }
     });
   }
+
   viewImage(images, index) {
     this.navCtrl.push(ImageViewer, {
       images: this.images,

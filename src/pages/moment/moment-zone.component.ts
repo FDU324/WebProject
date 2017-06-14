@@ -4,12 +4,12 @@ import {NavParams, App, NavController, ToastController, ActionSheetController, A
 import {User} from '../../entities/user';
 import {Moment} from '../../entities/moment';
 import {Comment} from '../../entities/comment';
-
+import {ImageViewer} from './image-viewer.component';
 import {FriendDetailPage} from '../friends/friend-detail.component';
 
 import {MomentService} from '../../service/moment.service';
-import {ImageViewer} from './image-viewer.component';
 import {LocalUserService} from "../../service/local-user.service";
+
 @Component({
   selector: 'page-moment-zone',
   templateUrl: 'moment-zone.component.html',
@@ -92,7 +92,7 @@ export class MomentZonePage {
         toast.present();
         console.log('deleteMoment error:', data);
       }
-    })
+    });
     console.log("删除动态");
   }
 

@@ -137,6 +137,7 @@ export class ChatSessionPage {
     });
   }
 
+  // 未实现
   pickImg() {
     this.imgService.openImgPicker().then((urls) => {
       if (urls[0] === 'error') {
@@ -156,6 +157,7 @@ export class ChatSessionPage {
     });
   }
 
+  // 未实现
   takeCamera() {
     this.imgService.openCamara().then((url) => {
       if (url === 'error') {
@@ -183,6 +185,7 @@ export class ChatSessionPage {
     });
   }
 
+  // 未实现
   momentDetail(moment) {
 
   }
