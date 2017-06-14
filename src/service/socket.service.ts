@@ -8,15 +8,12 @@ import {FriendListService} from './friend-list.service'
 import {MomentService} from './moment.service'
 import {ImgService} from './img.service'
 import {LocalUserService} from './local-user.service'
-import {NavController} from "ionic-angular";
-import {StartPage} from "../pages/start/start";
 
 @Injectable()
 export class SocketService {
   socket;
 
-  constructor(public localUserService: LocalUserService,
-              public navCtrl: NavController,) {
+  constructor(public localUserService: LocalUserService,) {
 
   }
 
@@ -33,17 +30,16 @@ export class SocketService {
     this.socket.on('connect', () => {
       console.log('client_connects_success');
     });
-    
+
     this.socket.on('connect_error', () => {
       console.log('connect_error');
     });
-
+    /*
     this.socket.on('logout', () => {
       this.getSocket().disconnect();
       this.setSocketNull();
       this.navCtrl.setRoot(StartPage);
-    })
-
+    });*/
     // 确保socket成功建立再返回
     return this.emitPromise('confirmConnect', '').then(data => {
       console.log(data);
