@@ -2,7 +2,7 @@
  * Created by kadoufall on 2017/4/30.
  */
 import {Component, ViewChild} from '@angular/core';
-import {NavController, ViewController, NavParams, Content, App} from 'ionic-angular';
+import {NavController, ViewController, NavParams, Content, App, AlertController} from 'ionic-angular';
 import {NativeStorage} from '@ionic-native/native-storage';
 
 import {Session} from '../../entities/session';
@@ -37,7 +37,8 @@ export class ChatSessionPage {
               public appCtrl: App,
               public nativeStorage: NativeStorage,
               public chatService: ChatService,
-              public imgService: ImgService) {
+              public imgService: ImgService,
+              public alertCtrl: AlertController) {
     this.friend = navParams.get('friend');
     this.localUser = navParams.get('localUser');
     this.inputContent = "";
@@ -61,6 +62,7 @@ export class ChatSessionPage {
 
     this.nativeStorage.setItem(keyName, {data: value}).then(
       () => {
+        console.log('Success storing '+keyName);
         keyName = this.localUser.username + '_totalNewMessageCount';
         this.nativeStorage.setItem(keyName, {data: this.chatService.totalNewMessageCount}).then(
           () => {
@@ -80,6 +82,7 @@ export class ChatSessionPage {
   update() {
     this.session = this.chatService.getSession(this.friend);
     this.chatService.clearNewMessages(this.session);
+    this.content.scrollToBottom(3000);
   }
 
   log(text: string) {
@@ -94,6 +97,15 @@ export class ChatSessionPage {
           //console.log(this.session);
           this.inputContent = '';
           this.content.scrollToBottom(3000);
+        }
+        else if (session === 'refuse') {
+          let alert = this.alertCtrl.create({
+            title: '失败!',
+            subTitle: '你还不是对方的好友，先添加对方好友才能聊天!',
+            buttons: ['OK']
+          });
+          alert.present();
+          this.inputContent = '';
         }
 
       }
@@ -162,7 +174,9 @@ export class ChatSessionPage {
   postMoment() {
     this.navCtrl.push(MomentNewPage, {
       type: 'single',
-      friend: this.friend
+      friend: this.friend,
+      session: this.session,
+      content: this.content
     });
   }
 

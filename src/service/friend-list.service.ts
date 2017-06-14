@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import {User} from '../entities/user';
 import {SocketService} from "./socket.service";
 import {LocalUserService} from './local-user.service';
+import {MomentService} from "./moment.service";
 
 @Injectable()
 export class FriendListService {
@@ -15,7 +16,8 @@ export class FriendListService {
 
   constructor(public http: Http,
               public localUserService: LocalUserService,
-              public socketService: SocketService) {
+              public socketService: SocketService,
+              public momentService: MomentService) {
   }
 
   updateAfterLogin() {
@@ -103,6 +105,7 @@ export class FriendListService {
         this.friendReqList.splice(this.friendReqList.indexOf(friend), 1);
         this.friendList.push(friend);
         this.update();
+        this.momentService.updateMoment(true);
       }
       else {
         console.log('添加好友失败');
@@ -114,6 +117,23 @@ export class FriendListService {
 
   clearNewFriendReq() {
     this.newFriendReqCount = 0;
+  }
+  deleteFriend(myUsername:string , friend: User){
+    this.socketService.emitPromise('deleteFriend',JSON.stringify({
+      friendUsername: friend.username,
+      myUsername: myUsername,
+    })).then(data => {
+      if (data === 'success'){
+        console.log("删除好友 "+friend.username+" 成功！");
+        this.friendList.splice(this.friendList.indexOf(friend),1);
+        this.update();
+      }
+      else {
+        alert('删除好友失败');
+      }
+    }).catch(err => {
+      console.log('deleteFriend err:',err);
+    });
   }
 
 

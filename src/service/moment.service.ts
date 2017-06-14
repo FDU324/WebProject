@@ -54,6 +54,25 @@ export class MomentService {
       }
     });
 
+    // 删除动态
+    this.socketService.getSocket().on('deleteMoment', data => {
+      console.log('deleteMoment');
+      let jsonData = JSON.parse(data);
+      console.log(jsonData);
+
+      let index = this.momentDatabase.findIndex((value, index, arr) => {
+        return value.id === jsonData;
+      });
+
+      if (index === -1) {
+        console.log('moment delete: no such moment')
+      } else {
+        this.momentDatabase.splice(index, 1);
+      }
+
+      this.update();
+    });
+
     // 赞的改变
     this.socketService.getSocket().on('receiveChangeLike', data => {
       console.log('receiveLike');
@@ -170,18 +189,42 @@ export class MomentService {
 
   sendMoment(moment: Moment) {
     moment.time = Date.now();
+    /*
     for (let i = 0; i < moment.images.length; i++) {
       this.imgService.sendFile(moment.user, moment.images[i], 'moment')
         .then((data) => {
           if (data !== 'error')
             moment.images[i] = data;
         });
-    }
-    return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
+    }*/
+    let promises = moment.images.map(image => {
+      return this.imgService.sendFile(moment.user, image, 'moment');
+    });
+    return Promise.all(promises).then( (a) =>{
+        let validUrls = a.filter(item => {
+          return item !== 'error';
+        });
+      moment.images = validUrls;
+      return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
+        if (data === 'success') {
+          this.momentDatabase.unshift(moment);
+        }
+        return data;
+      });
+    }).catch(error => {
+      return 'error';
+    });
+
+  }
+
+  deleteMoment(moment: Moment) {
+    return this.socketService.emitPromise('deleteMoment', JSON.stringify(moment)).then(data => {
       if (data === 'success') {
-        this.momentDatabase.unshift(moment);
+        return 'success';
+      } else {
+        console.log('MomentService-deleteMoment:', data);
+        return data;
       }
-      return data;
     });
   }
 

@@ -73,6 +73,34 @@
                       <img *ngIf="message.content['images'].length>=3" [src]="message.content['images'][2]">
                     </ion-col>
                   </ion-row>
+                  <ion-row *ngIf="message.content['images'].length>3">
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=4" [src]="message.content['images'][3]"
+                           (click)="viewImage(message.content['images'],3)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=5" [src]="message.content['images'][4]"
+                           (click)="viewImage(message.content['images'],4)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=6" [src]="message.content['images'][5]"
+                           (click)="viewImage(message.content['images'],5)">
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="message.content['images'].length>6">
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=7" [src]="message.content['images'][6]"
+                           (click)="viewImage(message.content['images'],6)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length>=8" [src]="message.content['images'][7]"
+                           (click)="viewImage(message.content['images'],7)">
+                    </ion-col>
+                    <ion-col col-4>
+                      <img *ngIf="message.content['images'].length==9" [src]="message.content['images'][8]"
+                           (click)="viewImage(message.content['images'],8)">
+                    </ion-col>
+                  </ion-row>
                   <ion-row>
                     <ion-item>
                       <ion-icon [name]="message.content['emotion'][2]" item-left large></ion-icon>
@@ -171,13 +199,12 @@
                     </ion-col>
                   </ion-row>
                   <ion-row>
-                    <p>
-                      {{message.content["position"]}}
-                      <br/>
-                      {{message.content["emotion"]}}
-                      <br/>
-                      {{message.content["emotion"]}}
-                    </p>
+                    <ion-item>
+                      <ion-icon [name]="message.content['emotion'][2]" item-left large></ion-icon>
+                      <p text-wrap>
+                        <b>{{message.content["location"][1]}}</b>
+                      </p>
+                    </ion-item>
                   </ion-row>
                 </ion-grid>
               </div>

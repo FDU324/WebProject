@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, LoadingController, AlertController} from 'ionic-angular';
-
+import {StartPage} from "../start/start";
 import {TabsPage} from '../tabs/tabs';
 import {SighupPage} from "../signup/signup";
 
 import {SignupLoginService} from '../../service/signup-login.service';
 import {LocalUserService} from "../../service/local-user.service";
+import {SocketService} from "../../service/socket.service";
 
 @Component({
   selector: 'page-login',
@@ -21,7 +22,8 @@ export class LoginPage {
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
               public localUserService: LocalUserService,
-              public signupLoginService: SignupLoginService) {
+              public signupLoginService: SignupLoginService,
+              public socketService: SocketService) {
     this.username = this.navParams.get('username') || '';
     this.password = '';
     this.showPsw = false;
@@ -42,6 +44,18 @@ export class LoginPage {
       if (typeof user === 'object') {
         loading.dismiss();
         this.navCtrl.setRoot(TabsPage);
+        // 开始监听logout事件，一旦有人登录相同账号，此账号被迫退出
+        this.socketService.getSocket().on('logout', () => {
+          this.socketService.getSocket().disconnect();
+          this.socketService.setSocketNull();
+          let alert = this.alertCtrl.create({
+            title: '警告',
+            subTitle: '相同账号在另一个设备上登录',
+            buttons: ['确定']
+          });
+          alert.present();
+          this.navCtrl.setRoot(StartPage);
+        });
       } else {
         let alert = this.alertCtrl.create({
           title: '登录失败',

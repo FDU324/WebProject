@@ -96,7 +96,8 @@ export class ChatService {
 
       this.totalNewMessageCount++;
       this.update();
-    })
+    });
+
 
   }
 
@@ -162,6 +163,9 @@ export class ChatService {
           temSession.messageList.push(message);
         }
         return Promise.resolve<any>(temSession);
+      }
+      else if (data === 'refuse') {
+        return Promise.resolve(data);
       }
       return Promise.resolve<any>('SendMessage-error');
     }).catch(error => {
