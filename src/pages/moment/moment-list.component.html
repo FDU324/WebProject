@@ -15,7 +15,7 @@
 
       <ion-item>
         <ion-avatar item-left>
-          <img *ngIf="moment.images.length > 0" src="moment.images[0]">
+          <img *ngIf="moment.images.length > 0" [src]="moment.images[0]">
         </ion-avatar>
         <ion-icon [name]="moment.emotion[2]" clear style="font-size: 14px">
           {{moment.emotion[0]}}
@@ -25,29 +25,7 @@
         <ion-note item-end style="font-size: 12px;align-self: flex-start;margin-top: 14px;">
           {{moment.time | myDatePipe}}
         </ion-note>
-        <!--
-        <ion-row>
-          <ion-col col-2>
-            <ion-icon [name]="moment.emotion[2]" clear></ion-icon>
-            <ion-note>
-              {{moment.emotion[0]}}
-            </ion-note>
-          </ion-col>
-          <ion-col col-10>
-            <p text-wrap style="font-size:x-small">
-              {{moment.location[1]}}
-            </p>
-
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-10>
-            <ion-note style="font-size:xx-small">
-              {{moment.time | myDatePipe}}
-            </ion-note>
-          </ion-col>
-        </ion-row>
-      -->
+  
       </ion-item>
     </ion-card>
   </ion-list>

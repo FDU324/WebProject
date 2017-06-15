@@ -4,7 +4,7 @@
           <ion-row *ngIf="moment.images!=undefined&&moment.images.length==1">
             <ion-col col-12>
                 <div style="width:100%; padding-bottom:100%">
-                  <img padding [src]="moment.images[0]" (click)="viewImage(moment,0)" style="position:absolute;left:0;top:0;width:100%;height:100%">
+                  <img [src]="moment.images[0]" style="position:absolute;left:0;top:0;width:98%;height:98%">
                 </div>
             </ion-col>
           </ion-row>
@@ -13,60 +13,60 @@
             <ion-row>
               <ion-col col-4>
                 <div style="width:100%; padding-bottom:100%">
-                  <img padding [src]="moment.images[0]" (click)="viewImage(moment,0)" style="position:absolute;left:0;top:0;width:100%;height:100%">
+                  <img [src]="moment.images[0]" style="position:absolute;left:0;top:0;width:98%;height:98%">
                 </div>
               </ion-col>
               <ion-col col-4>
                 <div style="width:100%; padding-bottom:100%">
-                  <img padding [src]="moment.images[1]" (click)="viewImage(moment,1)" style="position:absolute;left:0;top:0;width:100%;height:100%">
+                  <img [src]="moment.images[1]" style="position:absolute;left:0;top:0;width:98%;height:98%">
                 </div>
               </ion-col>
               <ion-col col-4>
                 <div style="width:100%; padding-bottom:100%">
-                  <img padding *ngIf="moment.images.length>=3" [src]="moment.images[2]" (click)="viewImage(moment,2)" style="position:absolute;left:0;top:0;width:100%;height:100%">
+                  <img *ngIf="moment.images.length>=3" [src]="moment.images[2]" style="position:absolute;left:0;top:0;width:98%;height:98%">
                 </div>
               </ion-col>
             </ion-row>
             <ion-row *ngIf="moment.images.length>3">
               <ion-col col-4>
                 <div style="width:100%; padding-bottom:100%">
-                  <img padding *ngIf="moment.images.length>=4" [src]="moment.images[3]" (click)="viewImage(moment,3)" style="position:absolute;left:0;top:0;width:100%;height:100%">
+                  <img *ngIf="moment.images.length>=4" [src]="moment.images[3]"  style="position:absolute;left:0;top:0;width:98%;height:98%">
                 </div>
               </ion-col>
               <ion-col col-4>
                 <div style="width:100%; padding-bottom:100%">
-                  <img padding *ngIf="moment.images.length>=5" [src]="moment.images[4]" (click)="viewImage(moment,4)" style="position:absolute;left:0;top:0;width:100%;height:100%">
+                  <img *ngIf="moment.images.length>=5" [src]="moment.images[4]" style="position:absolute;left:0;top:0;width:98%;height:98%">
                 </div>
               </ion-col>
               <ion-col col-4>
                 <div style="width:100%; padding-bottom:100%">
-                  <img padding *ngIf="moment.images.length>=6" [src]="moment.images[5]" (click)="viewImage(moment,5)" style="position:absolute;left:0;top:0;width:100%;height:100%">
+                  <img *ngIf="moment.images.length>=6" [src]="moment.images[5]" style="position:absolute;left:0;top:0;width:98%;height:98%">
                 </div>
               </ion-col>
             </ion-row>
             <ion-row *ngIf="moment.images.length>6">
               <ion-col col-4>
                 <div style="width:100%; padding-bottom:100%">
-                  <img padding *ngIf="moment.images.length>=7" [src]="moment.images[6]" (click)="viewImage(moment,6)" style="position:absolute;left:0;top:0;width:100%;height:100%">
+                  <img *ngIf="moment.images.length>=7" [src]="moment.images[6]" style="position:absolute;left:0;top:0;width:98%;height:98%">
                 </div>
               </ion-col>
               <ion-col col-4>
                 <div style="width:100%; padding-bottom:100%">
-                  <img padding *ngIf="moment.images.length>=8" [src]="moment.images[7]" (click)="viewImage(moment,7)" style="position:absolute;left:0;top:0;width:100%;height:100%">
+                  <img *ngIf="moment.images.length>=8" [src]="moment.images[7]" style="position:absolute;left:0;top:0;width:98%;height:98%">
                 </div>
               </ion-col>
               <ion-col col-4>
                 <div style="width:100%; padding-bottom:100%">
-                  <img padding *ngIf="moment.images.length==9" [src]="moment.images[8]" (click)="viewImage(moment,8)" style="position:absolute;left:0;top:0;width:100%;height:100%">
+                  <img *ngIf="moment.images.length==9" [src]="moment.images[8]" style="position:absolute;left:0;top:0;width:98%;height:98%">
                 </div>
               </ion-col>
             </ion-row>
           </ion-grid>
           <ion-row>
               <ion-col col-8>
-                    <ion-icon [name]="moment.emotion[3]" clear></ion-icon>
+                   <img src='http://120.25.238.161:3000/images/emotion/{{moment.emotion[1]}}.png'>
                     <ion-note>
-                        {{moment.emotion[0]}}
+                      {{moment.emotion[0]}}
                     </ion-note>
               </ion-col>
               <ion-col col-4>
