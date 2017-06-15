@@ -85,7 +85,6 @@ export class MomentNewThenPage {
       if (urls[0] === 'error') {
         console.log('error');
       } else {
-        // TODO；上传到服务器
         console.log(urls);
         urls.forEach(url => {
           console.log("图片选择" + url);
@@ -121,7 +120,8 @@ export class MomentNewThenPage {
           if (typeof session !== 'string') {
             this.session = session;
             this.content.scrollToBottom(9000);
-            this.viewCtrl.dismiss();
+            this.navCtrl.pop();
+            //this.viewCtrl.dismiss();
           }
         }
       );
