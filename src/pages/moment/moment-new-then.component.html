@@ -2,7 +2,7 @@
   <ion-navbar hideBackButton="false">
     <ion-title>发送动态</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only clear (click)="sendimages()">
+      <button ion-button icon-only clear (click)="sendMoment()">
         <ion-icon name="send"></ion-icon>
       </button>
     </ion-buttons>
@@ -15,7 +15,7 @@
     <ion-input [(ngModel)]="inputContent" placeholder="请输入动态内容" clearInput></ion-input>
   </ion-item>
 
-  
+
     <ion-row>
         <button ion-button round type="button" (click)="pickImg()" style="margin:5px auto;">
           点击选择图片
