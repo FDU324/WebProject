@@ -6,6 +6,7 @@ import {NavParams, NavController, ViewController, ToastController} from "ionic-a
 
 import {User} from "../../entities/user";
 import {LocalUserService} from "../../service/local-user.service";
+import {MomentService} from "../../service/moment.service";
 
 @Component({
   templateUrl: 'about-nickname-change.component.html',
@@ -19,7 +20,8 @@ export class AboutNicknameChangePage {
               public navCtrl: NavController,
               public viewCtrl: ViewController,
               public toastCtrl: ToastController,
-              public localUserService: LocalUserService,) {
+              public localUserService: LocalUserService,
+              public momentService: MomentService) {
     this.localUser = navParams.get('localUser');
     this.tempName = this.localUser.nickname;
   }
@@ -35,7 +37,7 @@ export class AboutNicknameChangePage {
         toast.onDidDismiss(() => {
           this.viewCtrl.dismiss();
         });
-
+        this.momentService.updateMoment(true);
         toast.present();
       }else{
         let toast = this.toastCtrl.create({

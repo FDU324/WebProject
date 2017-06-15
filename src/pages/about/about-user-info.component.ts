@@ -15,6 +15,7 @@ import {CityPickerService} from "../../service/city-picker.service";
 import {ImgService} from "../../service/img.service";
 import {SocketService} from "../../service/socket.service";
 import {DomSanitizer} from '@angular/platform-browser';
+import {MomentService} from "../../service/moment.service";
 @Component({
   templateUrl: 'about-user-info.component.html',
 })
@@ -34,7 +35,8 @@ export class AboutUserInfoPage {
               public imgService: ImgService,
               public socketService: SocketService,
               public sanitizer: DomSanitizer,
-              public viewCtrl: ViewController,) {
+              public viewCtrl: ViewController,
+              public momentService: MomentService) {
     this.localUser = navParams.get('localUser');
     this.setCityPickerData();//得到城市数据
     this.cityName = this.localUser.location;//初始化城市名
@@ -145,7 +147,7 @@ export class AboutUserInfoPage {
                       duration: 1000,
                       position: 'middle'
                     });
-
+                    this.momentService.updateMoment(true);
                     toast.present();
                   }else{
                     let toast = this.toastCtrl.create({
@@ -189,7 +191,7 @@ export class AboutUserInfoPage {
                       duration: 1000,
                       position: 'middle'
                     });
-
+                    this.momentService.updateMoment(true);
                     toast.present();
                   }else{
                     let toast = this.toastCtrl.create({
