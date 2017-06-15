@@ -148,6 +148,7 @@ import {MyDatePipe} from './my-date.pipe';
     SignupLoginService,
     SocketService,
     Transfer,
+    //NativeStorage
     {provide: NativeStorage, useClass: MockStorage}
   ]
 })
