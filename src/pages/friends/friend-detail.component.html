@@ -34,7 +34,8 @@
           <ion-label>动态</ion-label>
         </ion-col>
         <ion-col col-2>
-          <img src="../../assets/icon/favicon.ico">
+          <img *ngIf='momentList.length>=1&&momentList[0].images!==undefined&&momentList[0].images.length>0' [src]="momentList[0].images[0]">
+          <img *ngIf='momentList.length>=1&&momentList[0].images!==undefined&&momentList[0].images.length==0' src="../../assets/icon/favicon.ico">
         </ion-col>
         <ion-col col-2>
           <img src="../../assets/icon/favicon.ico">

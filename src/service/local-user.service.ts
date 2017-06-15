@@ -26,7 +26,7 @@ export class LocalUserService {
   modifyNickname(nickname) {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    let url = 'http://localhost:3000/user/modifyNickname';
+    let url = 'http://120.25.238.161:3000/user/modifyNickname';
     let info = {
       username: this.localUser.username,
       nickname: nickname,
@@ -48,7 +48,7 @@ export class LocalUserService {
   modifyUserimage(imageURL) {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    let url = 'http://localhost:3000/user/modifyUserImage';
+    let url = 'http://120.25.238.161:3000/user/modifyUserImage';
     let info = {
       username: this.localUser.username,
       userImage:imageURL,
@@ -70,7 +70,7 @@ export class LocalUserService {
   modifyLocation(location) {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    let url = 'http://localhost:3000/user/modifyLocation';
+    let url = 'http://120.25.238.161:3000/user/modifyLocation';
     let info = {
       username: this.localUser.username,
       location: location,
@@ -93,7 +93,7 @@ export class LocalUserService {
   updateGroups(groups){
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    let url = 'http://localhost:3000/user/updateGroups';
+    let url = 'http://120.25.238.161:3000/user/updateGroups';
     let info = {
       username: this.localUser.username,
       groups: JSON.stringify(groups),

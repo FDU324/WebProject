@@ -65,7 +65,7 @@ export class FriendListService {
 
   // 重新从服务器获取好友列表
   updateFriendList() {
-    let url = 'http://localhost:3000/user/getFriends?username=' + this.localUserService.localUser.username;
+    let url = 'http://120.25.238.161:3000/user/getFriends?username=' + this.localUserService.localUser.username;
     return this.http.get(url).toPromise().then(res => {
       if (res.json().data === 'success') {
         this.friendList = JSON.parse(res.json().friends);
@@ -139,7 +139,7 @@ export class FriendListService {
 
 
   searchUser(myUsername, friendUsername) {
-    let url = 'http://localhost:3000/user/findUser?myUsername=' + myUsername + '&friendUsername=' + friendUsername;
+    let url = 'http://120.25.238.161:3000/user/findUser?myUsername=' + myUsername + '&friendUsername=' + friendUsername;
     return this.http.get(url).toPromise()
       .then(res => {
         if (res.json().data === 'success') {

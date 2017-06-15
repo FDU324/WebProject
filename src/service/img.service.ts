@@ -126,7 +126,7 @@ export class ImgService {
   sendFile(user,url,type){
     var fileTransfer : TransferObject = new Transfer().create();//this.transfer.create();
     const dest = "http://120.25.238.161:3000/upload/uploadImg.json";
-    //let dest = "http://localhost:3000";
+    //let dest = "http://120.25.238.161:3000";
     //var op :FileUploadOptions = new FileUploadOptions();
     var options = {
       username:user.username,

@@ -156,7 +156,7 @@ export class MomentService {
     else
       requestTime += this.momentDatabase.length > 0 ? (this.momentDatabase[this.momentDatabase.length - 1].time) : Date.now();
 
-    let url = 'http://localhost:3000/moment/getMoments?' + username + requestTime;
+    let url = 'http://120.25.238.161:3000/moment/getMoments?' + username + requestTime;
     return this.http.get(url).toPromise().then(res => {
       if (res.json().success) {
         let moments = JSON.parse(res.json().data);
