@@ -37,25 +37,37 @@
           <ion-label>{{friend.location}}</ion-label>
         </ion-col>
       </ion-row>
-      <ion-row (click)="gotoMoment(friend)">
+      <ion-row *ngIf="momentList.length>0" (click)="gotoMoment(friend)">
         <ion-col col-2>
           <ion-label>动态</ion-label>
         </ion-col>
         <ion-col col-2>
-          <img src="../../assets/icon/favicon.ico">
+          <div style="width:100%; padding-bottom:100%">
+            <img *ngIf='momentList.length>=1&&momentList[0].images!==undefined&&momentList[0].images.length>0' [src]="momentList[0].images[0]" style="position:absolute;left:0;top:0;width:98%;height:98%">
+            <img *ngIf='momentList.length>=1&&momentList[0].images!==undefined&&momentList[0].images.length==0' src='http://120.25.238.161:3000/images/emotion/{{momentList[0].emotion[1]}}.png' style="position:absolute;left:0;top:0;width:98%;height:98%">
+           </div>
         </ion-col>
         <ion-col col-2>
-          <img src="../../assets/icon/favicon.ico">
+          <div style="width:100%; padding-bottom:100%">
+            <img *ngIf='momentList.length>=2&&momentList[1].images!==undefined&&momentList[1].images.length>0' [src]="momentList[1].images[0]" style="position:absolute;left:0;top:0;width:98%;height:98%">
+            <img *ngIf='momentList.length>=2&&momentList[1].images!==undefined&&momentList[1].images.length==0' src='http://120.25.238.161:3000/images/emotion/{{momentList[1].emotion[1]}}.png' style="position:absolute;left:0;top:0;width:98%;height:98%">
+           </div>
         </ion-col>
         <ion-col col-2>
-          <img src="../../assets/icon/favicon.ico">
+          <div style="width:100%; padding-bottom:100%">
+            <img *ngIf='momentList.length>=3&&momentList[2].images!==undefined&&momentList[2].images.length>0' [src]="momentList[2].images[0]" style="position:absolute;left:0;top:0;width:98%;height:98%">
+            <img *ngIf='momentList.length>=3&&momentList[2].images!==undefined&&momentList[2].images.length==0' src='http://120.25.238.161:3000/images/emotion/{{momentList[2].emotion[1]}}.png' style="position:absolute;left:0;top:0;width:98%;height:98%">
+           </div>
         </ion-col>
         <ion-col col-2>
-          <img src="../../assets/icon/favicon.ico">
+          <div style="width:100%; padding-bottom:100%">
+            <img *ngIf='momentList.length>=4&&momentList[3].images!==undefined&&momentList[3].images.length>0' [src]="momentList[3].images[0]" style="position:absolute;left:0;top:0;width:98%;height:98%">
+            <img *ngIf='momentList.length>=4&&momentList[3].images!==undefined&&momentList[3].images.length==0' src='http://120.25.238.161:3000/images/emotion/{{momentList[3].emotion[1]}}.png' style="position:absolute;left:0;top:0;width:98%;height:98%">
+           </div>
         </ion-col>
       </ion-row>
 
-      <ion-row>
+      <ion-row *ngIf="momentList.length>0">
         <ion-col col-2>
           <ion-label>地图</ion-label>
         </ion-col>

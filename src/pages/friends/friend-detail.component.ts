@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ViewController, NavParams, App, AlertController} from 'ionic-angular';
 import {User} from '../../entities/user';
+import {Moment} from '../../entities/moment';
 
 import {ChatSessionPage} from '../chat/chat-session.component';
 import {MomentListPage} from '../moment/moment-list.component';
@@ -8,6 +9,7 @@ import {FriendMapPage} from './friend-map.component';
 
 import {LocalUserService} from '../../service/local-user.service'
 import {ChatService} from '../../service/chat.service'
+import {MomentService} from '../../service/moment.service'
 import {FriendListService} from "../../service/friend-list.service";
 import {Group} from "../../entities/group";
 
@@ -19,14 +21,20 @@ import {Group} from "../../entities/group";
 export class FriendDetailPage {
   friend: User;
   localUser: User;
+
+  momentList: Moment[];
   groups: Group[];
+
   constructor(public viewCtrl: ViewController, public navParams: NavParams, public appCtrl: App,
               public localUserService: LocalUserService,
               public chatService: ChatService,
+              public momentService: MomentService, 
               public friendListService: FriendListService,
               public alertCtrl: AlertController) {
     this.friend = navParams.get('friend');
     this.localUser = localUserService.getLocalUser();
+
+    this.momentList = momentService.getMomentByUser(this.friend);
     this.groups = this.getGroupsIncludingThis();
   }
   getGroupsIncludingThis(){
@@ -41,6 +49,7 @@ export class FriendDetailPage {
       }
     }
     return res;
+
   }
   // 进入和某一好友的聊天页面
   gotoSession(friend) {

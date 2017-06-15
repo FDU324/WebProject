@@ -25,7 +25,7 @@ export class FriendMapPage {
               public popoverCtrl: PopoverController) {
     this.friend = navParams.get('friend');
     // TODO: change to getMomentByUser()
-    this.moments = momentService.getMomentList();
+    this.moments = momentService.getMomentByUser(this.friend);
   }
 
   ionViewDidLoad() {
@@ -39,34 +39,6 @@ export class FriendMapPage {
     let markers = this.generateMrkers(map);
     //map.setFitView();
 
-    /*
-     let markers = [];
-     let infos = [];
-     for (let moment of this.moments) {
-     let icon = new AMap.Icon({
-     //image: 'http://vdata.amap.com/icons/b18/1/2.png',
-     size: new AMap.Size(24, 24)
-     });
-
-     let content = "<div style='height:50px;width:50px;border:1px solid #000'>"+
-     "<img style='float:left;width:100%;height:100%' src= '../../assets/emoji/"+"0x1f600.png"+"'/>"+
-     "</div>";
-
-     let marker = new AMap.Marker({
-     icon: icon,
-     position: moment
-     .location[0]
-     .split(','),
-     offset: new AMap.Pixel(-12, -12),
-     zIndex: 101,
-     title: moment.location[1],
-     map: map,
-     content: content,
-     });
-     markers.push(marker);
-     }
-     map.setFitView();
-     */
     map.on('zoomchange', () => {
       console.log(map.getZoom());
       markers.forEach(marker => {
@@ -154,32 +126,6 @@ export class FriendMapPage {
       });
       markers.push(marker);
     }
-
-    /*
-     for (let moment of this.moments) {
-     let icon = new AMap.Icon({
-     image: 'http://vdata.amap.com/icons/b18/1/2.png',
-     size: new AMap.Size(20, 20)
-     });
-
-     let content = "<div style='height:50px;width:50px'>"+
-     "<img style='float:left;width:100%;height:100%' src= '../../assets/emoji/"+"0x1f600.png"+"'/>"+
-     "</div>";
-
-     let marker = new AMap.Marker({
-     icon: icon,
-     position: moment
-     .location[0]
-     .split(','),
-     offset: new AMap.Pixel(-12, -12),
-     zIndex: 101,
-     title: moment.location[1],
-     map: map,
-     content: content,
-     });
-     markers.push(marker);
-     }
-     */
     return markers;
 
   }

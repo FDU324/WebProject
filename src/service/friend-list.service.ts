@@ -128,6 +128,7 @@ export class FriendListService {
       if (data === 'success') {
         console.log("删除好友 " + friend.username + " 成功！");
         this.friendList.splice(this.friendList.indexOf(friend), 1);
+        this.momentService.updateMoment(true);
         this.update();
       }
       else {

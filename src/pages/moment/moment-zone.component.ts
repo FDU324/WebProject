@@ -30,6 +30,7 @@ export class MomentZonePage {
               public localUserService: LocalUserService,
               public alertCtrl: AlertController) {
     this.momentList = momentService.getMomentList();
+    
     this.inputContent = '';
     this.commentTo = null;
     this.isFooterHidden = true;
@@ -54,6 +55,15 @@ export class MomentZonePage {
 
   update() {
     this.momentList = this.momentService.getMomentList();
+  }
+
+  onload() {
+    console.log('hhhhhhh');
+  }
+
+  adjustImgSize(img: HTMLElement) {
+    console.log(img);
+    return img.style.width;
   }
 
   showConfirm(moment: Moment) {

@@ -31,17 +31,21 @@
     新的朋友
     <ion-badge item-right color="danger">{{friendReqList.length}}</ion-badge>
   </button>
-  <ion-list>
-    <button ion-item *ngFor="let friend of friendList" (click)="showDetail(friend)">
-      <ion-avatar item-left>
-        <img [src]="friend.userimage">
-      </ion-avatar>
-      <h2>{{friend.nickname}}</h2>
-        <!--
-      <p>{{friendsChat.chats[friendsChat.chats.length-1].content}}</p>
-    <ion-note item-right>{{friendsChat.chats[friendsChat.chats.length-1].time}}</ion-note>
-     -->
-    </button>
+
+  <ion-list no-lines>
+    <ion-item-group ion-item no-padding *ngFor="let group of friendGroupsByNickname">
+          <ion-item-divider no-margin color="light"><b>{{group.groupName}}</b></ion-item-divider>
+          <button ion-item outline *ngFor="let friend of group.friends" (click)="showDetail(friend)">
+            <ion-avatar item-left>
+              <img [src]="friend.userimage">
+            </ion-avatar>
+            <h2>{{friend.nickname}}</h2>
+              <!--
+            <p>{{friendsChat.chats[friendsChat.chats.length-1].content}}</p>
+          <ion-note item-right>{{friendsChat.chats[friendsChat.chats.length-1].time}}</ion-note>
+          -->
+          </button>
+    </ion-item-group>
   </ion-list>
 
 
