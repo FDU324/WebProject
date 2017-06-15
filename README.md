@@ -1,5 +1,25 @@
-# WebClassProject
-## Initial
+## WebProject 项目文档
+
+### 14302010013 徐凯文 14302010026 王子珩
+### 14302010038 王翀 14302010049 蒲实
+
+
+[前端`git`库](https://github.com/FDU324/WebProject)
+
+[后端`git`库](https://github.com/FDU324/WebProjectBackend)
+
+[项目结构与文档说明](https://github.com/FDU324/WebProject/blob/master/docs/%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E.md)
+
+[文件代码或配置说明](https://github.com/FDU324/WebProject/blob/master/docs/%E6%96%87%E4%BB%B6%E4%BB%A3%E7%A0%81%E6%88%96%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E.md)
+
+[图示](https://github.com/FDU324/WebProject/blob/master/docs/%E5%9B%BE%E7%A4%BA.md)
+
+[难题解决与心得体会](https://github.com/FDU324/WebProject/blob/master/docs/%E9%9A%BE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%92%8C%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A.md)
+
+
+## 部署配置的详细介绍
+### 前端
+#### Initial
 
 > git clone https://github.com/FDU324/WebProject.git web-project
 
@@ -7,82 +27,34 @@
 
 > npm install
 
-
-## Start
+#### Browser
 
 > ionic serve
 
-## Build
+#### Android
 
 > ionic platform add android
 
 > ionic build android --prod
 
----
-## WebProject 期中部分架构及功能介绍
+#### iOS
 
-### 14302010038 王翀 14302010049 蒲实
-### 14302010013 徐凯文 14302010026 王子珩
+> ionic platform add ios
 
-本小组`pj`选题为`3`，移动社交应用。期中部分完成了前端的基本框架和基础功能。以下简单介绍。本文档为期中部分说明文档，并非最终的项目文档，特此说明。
+> ionic build ios --prod
 
----
+### 后端
+#### Initial
 
-1. 项目结构
-    1. 主要目录及文件说明
-        - /src/app文件夹包括项目的模块配置文件
-        - /src/assets主要包括了项目的数据和图片资源
-        - /src/entities包括了项目的基础类的定义，包括评论类、消息类、用户类、会话类和朋友圈动态类
-        - /src/pages里为不同页面和tab的信息，tab包括about、chat、friends、moment，页面包括登录、注册和初始页面
-        - /src/service为本次项目复用的Service，包括但不限于城市选择、调用移动端相机和相册等，其中数据相关的内容由于未完成后台，仅有本地的模拟数据
-    2. 架构和技术说明
+> git clone https://github.com/FDU324/WebProjectBackend.git web-project-backend
 
-        本次pj采用前后端分离的架构。前端主要采用ionic2+AngularJS2的框架，后端计划使用Node.js。ionic提供显示的UI；/src/service中的服务用来处理数据，包括从后台获取数据，给前端传递数据；Node.js用来与数据库交互，并给前端传递数据
-        
-        | Ionic2  & AngularJS2 |
-        |:----:|
-        | Service |
-        | ⬇request  ⬆request |
-        | Node.js |
-        | ↕️data |
-        | Databasea |
-            
-2. 使用说明
+> cd web-project-backend
 
-    在命令行中进入`WebProject`根目录下，输入`npm install`安装相关依赖，然后输入`ionic serve`，即可在浏览器中运行本项目
+> npm install
 
-3. 页面说明
+#### Start
 
-    说明：由于没有后端，因此目前的初始界面设计为用户登录后的界面，并且在chat的tab下
-    
-    1. 聊天tab
-        1. 类似于微信聊天界面，显示与所有聊天过的好友的最近聊天信息
-        2. 点击任何一条信息，可进入对话界面，显示所有历史记录，右上角的放大镜按钮可点击，输入关键字查找聊天记录
-        3. 下方可输入文字，点击发送；也可以点击+号按钮，依次出现发送位置和心情、发送位置、发送相册图片、打开相机拍摄图片、退出
-    2. 好友tab
-        1. 显示所有好友（目前尚未实现相关排序）
-        2. 上方的搜索框可以查找好友
-        3. 右上角+号点击后进入添加好友界面
-        4. 点击任何一个好友，进入详细信息页面，点击发消息可以进入与该好友的对话界面
-    3. 朋友圈tab
-        1. 点击右上角的+号可以新建朋友圈消息，需要选择地点、心情、输入文字、选择图片（可选），点击发送即可。
-        2.	点击该tab下的朋友圈按钮进入自己的朋友圈，可以按时间先后顺序查看朋友圈信息。每一条朋友圈下方的评论按钮点击后可以发表评论，同时点击原来的评论可以对该条评论进行回复，
-        3.	目前尚未实现点赞按钮的事件
-    4.	我tab
-        1.	点击上方的账号按钮进入个人信息界面
-        2.	点击头像可以修改头像图片，可以选择拍照或是从本地相册上传
-        3.	点击昵称进入修改昵称界面
-        4.	点击地区跳出三级城市选择框，选择所在城市
-        5.	点击退出进入初始界面：点击登录，可输入账号密码登录，或是点击注册进入注册界面；点击注册进入注册界面，输入包括账号、密码、昵称、城市
+> npm start
 
 
-
-        
-
-            
-
-
-
-
-
-
+## 小组分工与工作量
