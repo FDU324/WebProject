@@ -2,7 +2,7 @@
   <ion-navbar hideBackButton="false">
     <ion-title>发送动态</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only clear (click)="sendMoment()">
+      <button ion-button icon-only clear (click)="sendimages()">
         <ion-icon name="send"></ion-icon>
       </button>
     </ion-buttons>
@@ -15,49 +15,79 @@
     <ion-input [(ngModel)]="inputContent" placeholder="请输入动态内容" clearInput></ion-input>
   </ion-item>
 
-  <ion-grid padding>
+  
     <ion-row>
         <button ion-button round type="button" (click)="pickImg()" style="margin:5px auto;">
           点击选择图片
         </button>
+        
       <button ion-button round type="button" (click)="pickGroup()" style="margin: 5px auto;">
         选择分组 (已选:{{group.length}})
       </button>
     </ion-row>
-    <ion-row *ngIf="images.length>=1">
-      <ion-col col-4>
-        <img [src]="images[0]" (click)="viewImage(images,0)">
-      </ion-col>
-      <ion-col col-4>
-        <img *ngIf="images.length>=2" [src]="images[1]" (click)="viewImage(images,1)">
-      </ion-col>
-      <ion-col col-4>
-        <img *ngIf="images.length>=3" [src]="images[2]" (click)="viewImage(images,2)">
-      </ion-col>
+
+    <ion-row  *ngIf="images.length==1">
+        <ion-col col-12>
+            <div style="width:100%; padding-bottom:100%">
+                <img [src]="images[0]" (click)="viewImage(images,0)" style="position:absolute;left:0;top:0;width:98%;height:98%">
+            </div>
+        </ion-col>
     </ion-row>
-    <ion-row *ngIf="images.length>3">
-      <ion-col col-4>
-        <img *ngIf="images.length>=4" [src]="images[3]" (click)="viewImage(images,3)">
-      </ion-col>
-      <ion-col col-4>
-        <img *ngIf="images.length>=5" [src]="images[4]" (click)="viewImage(images,4)">
-      </ion-col>
-      <ion-col col-4>
-        <img *ngIf="images.length>=6" [src]="images[5]" (click)="viewImage(images,5)">
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="images.length>6">
-      <ion-col col-4>
-        <img *ngIf="images.length>=7" [src]="images[6]" (click)="viewImage(images,6)">
-      </ion-col>
-      <ion-col col-4>
-        <img *ngIf="images.length>=8" [src]="images[7]" (click)="viewImage(images,7)">
-      </ion-col>
-      <ion-col col-4>
-        <img *ngIf="images.length==9" [src]="images[8]" (click)="viewImage(images,8)">
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
+      <ion-grid *ngIf="images.length>1">
+        <ion-row>
+          <ion-col col-4>
+            <div style="width:100%; padding-bottom:100%">
+              <img [src]="images[0]" (click)="viewImage(images,0)" style="position:absolute;left:0;top:0;width:98%;height:98%">
+            </div>
+          </ion-col>
+          <ion-col col-4>
+            <div style="width:100%; padding-bottom:100%">
+              <img [src]="images[1]" (click)="viewImage(images,1)" style="position:absolute;left:0;top:0;width:98%;height:98%">
+            </div>
+          </ion-col>
+          <ion-col col-4>
+            <div style="width:100%; padding-bottom:100%">
+              <img *ngIf="images.length>=3" [src]="images[2]" (click)="viewImage(images,2)" style="position:absolute;left:0;top:0;width:98%;height:98%">
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="images.length>3">
+           <ion-col col-4>
+              <div style="width:100%; padding-bottom:100%">
+                <img *ngIf="images.length>=4" [src]="images[3]" (click)="viewImage(images,3)" style="position:absolute;left:0;top:0;width:98%;height:98%">
+              </div>
+            </ion-col>
+            <ion-col col-4>
+              <div style="width:100%; padding-bottom:100%">
+                <img *ngIf="images.length>=5" [src]="images[4]" (click)="viewImage(images,4)" style="position:absolute;left:0;top:0;width:98%;height:98%">
+              </div>
+            </ion-col>
+            <ion-col col-4>
+              <div style="width:100%; padding-bottom:100%">
+                <img *ngIf="images.length>=6" [src]="images[5]" (click)="viewImage(images,5)" style="position:absolute;left:0;top:0;width:98%;height:98%">
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="images.length>6">
+            <ion-col col-4>
+              <div style="width:100%; padding-bottom:100%">
+                <img *ngIf="images.length>=7" [src]="images[6]" (click)="viewImage(images,6)" style="position:absolute;left:0;top:0;width:98%;height:98%">
+              </div>
+            </ion-col>
+            <ion-col col-4>
+              <div style="width:100%; padding-bottom:100%">
+                <img *ngIf="images.length>=8" [src]="images[7]" (click)="viewImage(images,7)" style="position:absolute;left:0;top:0;width:98%;height:98%">
+              </div>
+            </ion-col>
+            <ion-col col-4>
+              <div style="width:100%; padding-bottom:100%">
+                <img *ngIf="images.length==9" [src]="images[8]" (click)="viewImage(images,8)" style="position:absolute;left:0;top:0;width:98%;height:98%">
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
 
 
   <div (click)="mapDetail()">

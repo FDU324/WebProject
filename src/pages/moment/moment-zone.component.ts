@@ -57,9 +57,13 @@ export class MomentZonePage {
     this.momentList = this.momentService.getMomentList();
   }
 
+  onload() {
+    console.log('hhhhhhh');
+  }
 
   adjustImgSize(img: HTMLElement) {
-   img.style.height = img.style.width;
+    console.log(img);
+    return img.style.width;
   }
 
   showConfirm(moment: Moment) {
