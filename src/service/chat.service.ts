@@ -61,24 +61,25 @@ export class ChatService {
             this.sessionList.push(JSON.parse(session.toString()));
           });
 
+          this.receiverOn();
           // console.log(this.sessionList);
           console.log('update chatService success');
         }).catch(error => {
           console.log(error);
+          this.receiverOn();
           return error;
         });
-      }).then(() => {
-        this.receiverOn();
       });
     }).catch(error => {
       console.log('ChatService-constructor:', error);
+      this.receiverOn();
     });
   }
-
 
   // sessions
   receiverOn() {
     this.socketService.getSocket().on('receiveMessage', (data) => {
+      console.log('receiveMessage'+ data);
       let jsonData = JSON.parse(data);
       let temSession = this.sessionList.find((item) => item.friend.username === jsonData['from']);
       if (temSession === undefined) {
