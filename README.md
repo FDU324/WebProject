@@ -16,6 +16,7 @@
 
 [难题解决与心得体会](https://github.com/FDU324/WebProject/blob/master/docs/%E9%9A%BE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%92%8C%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A.md)
 
+[关键功能实现细节](https://github.com/FDU324/WebProject/blob/master/docs/%E5%85%B3%E9%94%AE%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82.md)
 
 ## 部署配置的详细介绍
 ### 前端
@@ -58,3 +59,7 @@
 
 
 ## 小组分工与工作量
+- 工作量分别为25%, 25%, 25%, 25%
+- 分工见[难题解决与心得体会](https://github.com/FDU324/WebProject/blob/master/docs/%E9%9A%BE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%92%8C%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A.md)中的心得体会
+
+
