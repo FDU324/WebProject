@@ -130,7 +130,7 @@ export class FriendMapPage {
         }
       }
       if (!hasImg)
-        content.push("<img style='width:100%;height:100%;border:2px solid #f0f0f0;border-radius:5px;position:absolute;top:0;left:0' src= '../../assets/emoji/" + "0x1f600.png" + "'/>");
+        content.push("<img style='width:100%;height:100%;border:2px solid #f0f0f0;border-radius:5px;position:absolute;top:0;left:0' src= 'http://120.25.238.161:3000/images/emotion/" + group[0].emotion[1] +".png" + "'/>");
       if (group.length > 1)
         content.push("<span style='font-size:12px;padding:2px 5px;font-weight:bold;color:#fff;background:#0080ff;border:1px solid #0080ff;border-radius:10px;position:absolute;top:-10px;right:-10px'>" + group.length + "</span>");
       content.push("</div>");
