@@ -99,16 +99,14 @@
           </ion-grid>
 
           <ion-row>
-            <ion-col col-2>
-              <ion-icon [name]="moment.emotion[2]" clear></ion-icon>
+            <ion-col col-3>
+              <ion-icon [name]="moment.emotion[2]" clear style="font-size:14px"></ion-icon>
               <ion-note>
                 {{moment.emotion[0]}}
               </ion-note>
             </ion-col>
-            <ion-col col-10>
-              
 
-            </ion-col>
+            <ion-col col-9></ion-col>
           </ion-row>
           <ion-row>
             <ion-col col-10>
@@ -139,7 +137,7 @@
           </ion-row>
 
           <ion-row *ngIf="moment.likeuser&&moment.likeuser.length>0">
-            <ion-icon name="heart" item-left></ion-icon>
+            <ion-icon name="heart" color='primary' item-left></ion-icon>
             <p text-wrap>
               <button ion-button clear type="button" *ngFor="let user of moment.likeuser; let i = index"
                       (click)="seeUserInfo(user)">

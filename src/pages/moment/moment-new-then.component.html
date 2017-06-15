@@ -20,8 +20,9 @@
         <button ion-button round type="button" (click)="pickImg()" style="margin:5px auto;">
           点击选择图片
         </button>
-        
-      <button ion-button round type="button" (click)="pickGroup()" style="margin: 5px auto;">
+
+      <button ion-button round type="button" (click)="pickGroup()" style="margin: 5px auto;" [disabled]="type === 'single'">
+
         选择分组 (已选:{{group.length}})
       </button>
     </ion-row>

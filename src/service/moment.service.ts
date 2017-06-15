@@ -51,7 +51,9 @@ export class MomentService {
       });
       if (!exist) {     // 可能已经有更新后的同一个moment在列表中
         this.momentDatabase.unshift(newMoment);
-        this.newMomentCount++;
+        if(newMoment.user.username !== this.localUserService.localUser.username){
+          this.newMomentCount++;
+        }
         this.update();
       }
     });
@@ -83,6 +85,8 @@ export class MomentService {
       let index = this.momentDatabase.findIndex((value, index, arr) => {
         return value.id === updateMoment.id;
       });
+
+      console.log(updateMoment);
 
       if (index === -1) {
         this.momentDatabase.unshift(updateMoment);
@@ -209,7 +213,7 @@ export class MomentService {
       moment.images = validUrls;
       return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
         if (data === 'success') {
-          this.momentDatabase.unshift(moment);
+          //this.momentDatabase.unshift(moment);
         }
         return data;
       });

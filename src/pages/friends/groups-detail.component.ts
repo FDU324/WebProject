@@ -50,7 +50,6 @@ export class GroupsDetailPage {
   }
 
   deleteGroup(group: Group) {
-    // TODO:在数组中删掉这个group并发送给服务器
     let tempGroups: Group[] = this.groups.slice();
     let i: number;
     for (i = 0; i < tempGroups.length; i++) {

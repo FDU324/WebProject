@@ -133,17 +133,24 @@
             <ion-card-content>
               <p text-wrap text-left *ngIf="message.type==='text'">{{message.content}}</p>
               <img text-wrap text-left *ngIf="message.type==='images'" src="assets/icon/favicon.ico">
-              <div *ngIf="message.type==='locations'" (click)="mapDetail(message.content[0])">
+
+              <div *ngIf="message.type==='locations'" (click)="mapDetail(message.content)">
                 <img [src]="message.content[3]">
                 <ion-item>
                   <ion-icon name="compass" item-left large></ion-icon>
-                  <p>地点</p>
-                  <h2>{{message.content[1]}}</h2>
+                  <p text-wrap>
+                    <b>地点</b>
+                    <br/>
+                    {{message.content[1]}}
+                  </p>
                 </ion-item>
                 <ion-item>
                   <ion-icon name="navigate" item-left large></ion-icon>
-                  <p>最近的路口</p>
-                  <h2>{{message.content[2]}}</h2>
+                  <p text-wrap>
+                    <b>最近的路口</b>
+                    <br/>
+                    {{message.content[2]}}
+                  </p>
                 </ion-item>
               </div>
 

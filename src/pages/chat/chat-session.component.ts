@@ -44,7 +44,9 @@ export class ChatSessionPage {
     this.inputContent = "";
     this.session = this.chatService.getSession(this.friend);
   }
-
+  ionViewDidEnter(){
+    this.session = this.chatService.getSession(this.friend);
+  }
   ionViewDidLoad() {
     this.session = this.chatService.getSession(this.friend);
 
