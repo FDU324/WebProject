@@ -183,7 +183,7 @@ export class MomentNewThenPage {
   getData = (g) => {
     return new Promise((resolve, reject) => {
       this.group = g;
-      if (this.group.length > 1)
+      if (this.group.length >= 1)
         this.type = 'group';
       resolve();
     });
