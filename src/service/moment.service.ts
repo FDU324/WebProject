@@ -209,7 +209,7 @@ export class MomentService {
       moment.images = validUrls;
       return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
         if (data === 'success') {
-          this.momentDatabase.unshift(moment);
+          // this.momentDatabase.unshift(moment);
         }
         return data;
       });

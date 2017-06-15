@@ -1,8 +1,6 @@
 
 - 好友列表按字母显示
 - 注册的图片
-- 修改密码
-- friend-map.component.ts 构造函数 todo
 
 
 ## 文档
