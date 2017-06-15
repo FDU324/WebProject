@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http} from "@angular/http";
+import {Geolocation} from '@ionic-native/geolocation';
 
 import {User} from '../entities/user';
 import {Moment} from '../entities/moment';
@@ -18,6 +19,7 @@ export class MomentService {
   observers: any[];
 
   constructor(public http: Http,
+              public geolocation: Geolocation,
               public localUserService: LocalUserService,
               public socketService: SocketService,
               public imgService: ImgService) {
@@ -190,20 +192,20 @@ export class MomentService {
   sendMoment(moment: Moment) {
     moment.time = Date.now();
     /*
-    for (let i = 0; i < moment.images.length; i++) {
-      this.imgService.sendFile(moment.user, moment.images[i], 'moment')
-        .then((data) => {
-          if (data !== 'error')
-            moment.images[i] = data;
-        });
-    }*/
+     for (let i = 0; i < moment.images.length; i++) {
+     this.imgService.sendFile(moment.user, moment.images[i], 'moment')
+     .then((data) => {
+     if (data !== 'error')
+     moment.images[i] = data;
+     });
+     }*/
     let promises = moment.images.map(image => {
       return this.imgService.sendFile(moment.user, image, 'moment');
     });
-    return Promise.all(promises).then( (a) =>{
-        let validUrls = a.filter(item => {
-          return item !== 'error';
-        });
+    return Promise.all(promises).then((a) => {
+      let validUrls = a.filter(item => {
+        return item !== 'error';
+      });
       moment.images = validUrls;
       return this.socketService.emitPromise('sendMoment', JSON.stringify(moment)).then(data => {
         if (data === 'success') {
@@ -289,6 +291,35 @@ export class MomentService {
         console.log('MomentService-deleteComment:', data);
         return data;
       }
+    });
+  }
+
+  getCurrentLocation() {
+    let GPSLoc = this.geolocation.getCurrentPosition().then((resp) => {
+      return [resp.coords.latitude, resp.coords.longitude];
+    }).catch((error) => {
+      console.log('Error getting location', error);
+      return [-1, -1];
+    });
+
+    return GPSLoc.then(gpsLoc => {
+      if (gpsLoc[0] === -1) {
+        return gpsLoc;
+      }
+
+      let url = "http://restapi.amap.com/v3/assistant/coordinate/convert?locations=" + gpsLoc[1] + "," + gpsLoc[0] + "&coordsys=gps&key=a55c3c970ecab69b1f6e51374a467bba";
+      return this.http.get(url).toPromise().then(response => {
+        let datas = response.json().locations;
+        let tem = datas.toString().split(";");   // 取第一组
+        let re = [];    // 经度，纬度
+        let temm = tem[0].split(",");
+        re.push(temm[0], temm[1]);
+        console.log('getLocation success', re);
+        return re;
+      }).catch(error => {
+        console.log('MomentService-updatePartialMoment:', error);
+        return [-1, -1];
+      });
     });
   }
 

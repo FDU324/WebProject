@@ -30,7 +30,7 @@ export class FriendListService {
 
     return this.updateFriendList().then(friends => {
       this.friendList = friends;
-      console.log('update FriendListService success, ',this.friendList.length);
+      console.log('update FriendListService success, ', this.friendList.length);
     });
   }
 
@@ -119,24 +119,24 @@ export class FriendListService {
   clearNewFriendReq() {
     this.newFriendReqCount = 0;
   }
-  deleteFriend(myUsername:string , friend: User){
-    this.socketService.emitPromise('deleteFriend',JSON.stringify({
+
+  deleteFriend(myUsername: string, friend: User) {
+    this.socketService.emitPromise('deleteFriend', JSON.stringify({
       friendUsername: friend.username,
       myUsername: myUsername,
     })).then(data => {
-      if (data === 'success'){
-        console.log("删除好友 "+friend.username+" 成功！");
-        this.friendList.splice(this.friendList.indexOf(friend),1);
+      if (data === 'success') {
+        console.log("删除好友 " + friend.username + " 成功！");
+        this.friendList.splice(this.friendList.indexOf(friend), 1);
         this.update();
       }
       else {
         alert('删除好友失败');
       }
     }).catch(err => {
-      console.log('deleteFriend err:',err);
+      console.log('deleteFriend err:', err);
     });
   }
-
 
   searchUser(myUsername, friendUsername) {
     let url = 'http://120.25.238.161:3000/user/findUser?myUsername=' + myUsername + '&friendUsername=' + friendUsername;

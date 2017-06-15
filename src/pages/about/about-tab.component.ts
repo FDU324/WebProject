@@ -26,15 +26,17 @@ export class AboutTabPage {
       localUser: this.localUser
     });
   }
-  gotoMoment(){
+
+  gotoMoment() {
     console.log('moment');
     this.appCtrl.getRootNav().push(MomentListPage, {
       user: this.localUser,
     });
   }
-  gotoMap(){
+
+  gotoMap() {
     console.log('map');
-    this.appCtrl.getRootNav().push(FriendMapPage,{
+    this.appCtrl.getRootNav().push(FriendMapPage, {
       friend: this.localUser,
     });
   }

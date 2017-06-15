@@ -12,44 +12,46 @@ import {GroupEditAddPage} from "./group-edit-add.component";
   templateUrl: 'group-edit.component.html',
   //providers:[FriendListService]
 })
-export class GroupEditPage{
+export class GroupEditPage {
   title: string;
   group: Group;
   localUser: User;
   tempGroupMembers: User[];
   type: number;
   groups: Group[];
-  constructor(public localUserService:LocalUserService,
+
+  constructor(public localUserService: LocalUserService,
               public navCtrl: NavController,
               public navParams: NavParams,
-              public appCtrl: App,){
+              public appCtrl: App,) {
     this.type = this.navParams.get('type');
     this.localUser = localUserService.getLocalUser();
     this.title = this.navParams.get('title');
     this.group = this.navParams.get('group');
     this.groups = this.navParams.get('groups');
-    this.tempGroupMembers = (this.group == null)?[]:this.group.members;
+    this.tempGroupMembers = (this.group == null) ? [] : this.group.members;
   }
 
-  addUser(){
-    this.navCtrl.push(GroupEditAddPage,{
-      tempGroupMembers:this.tempGroupMembers,
-      callback:this.getData,
+  addUser() {
+    this.navCtrl.push(GroupEditAddPage, {
+      tempGroupMembers: this.tempGroupMembers,
+      callback: this.getData,
     })
   }
+
   // 回调函数，add页面返回后，把新选择的groupmember返回
-  getData = (g) =>
-  {
+  getData = (g) => {
     return new Promise((resolve, reject) => {
       this.tempGroupMembers = g;
       resolve();
     });
   };
-  confirm(){
-    for (let i = 0 ; i < this.groups.length ; i++){
+
+  confirm() {
+    for (let i = 0; i < this.groups.length; i++) {
       if (this.type == 1 && this.groups[i].groupname === this.group.groupname)
         continue;
-      if (this.groups[i].groupname === this.title){
+      if (this.groups[i].groupname === this.title) {
         alert("已存在相同的组名，请修改");
         return;
       }
@@ -60,7 +62,7 @@ export class GroupEditPage{
     if (this.type == 1) {
       //this.group.members = this.tempGroupMembers;
       //this.group.groupname = this.title;
-      for (let i = 0 ; i < tempGroups.length ; i++){
+      for (let i = 0; i < tempGroups.length; i++) {
         if (tempGroups[i].groupname === this.group.groupname) {
           tempGroups[i].groupname = this.title;
           tempGroups[i].members = this.tempGroupMembers;
@@ -69,7 +71,7 @@ export class GroupEditPage{
       }
     }
     else {
-      let t = new Group(this.title,this.tempGroupMembers);
+      let t = new Group(this.title, this.tempGroupMembers);
       tempGroups.push(t);
       //this.localUser.groups.push(t);
     }

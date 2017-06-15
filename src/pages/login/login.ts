@@ -7,6 +7,7 @@ import {SighupPage} from "../signup/signup";
 import {SignupLoginService} from '../../service/signup-login.service';
 import {LocalUserService} from "../../service/local-user.service";
 import {SocketService} from "../../service/socket.service";
+import {ChangePasswordPage} from "./change-password.component";
 
 @Component({
   selector: 'page-login',
@@ -75,7 +76,7 @@ export class LoginPage {
   }
 
   forget() {
-
+    this.navCtrl.push(ChangePasswordPage);
   }
 
 }

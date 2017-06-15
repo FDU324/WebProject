@@ -4,7 +4,6 @@ import {NavController, NavParams} from 'ionic-angular';
 import {SighupPage} from '../signup/signup';
 import {LoginPage} from '../login/login';
 
-
 @Component({
   selector: 'page-start',
   templateUrl: 'start.html',

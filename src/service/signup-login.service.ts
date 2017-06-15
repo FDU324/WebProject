@@ -107,6 +107,27 @@ export class SignupLoginService {
       });
 
   }
+  changePassword(username,oldPsw,newPsw){
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    let url = 'http://120.25.238.161:3000/user/modifyPassword';
+    let info = {
+      username:username,
+      oldPassword:oldPsw,
+      newPassword:newPsw
+    };
+    return this.http.put(url,JSON.stringify(info),options)
+      .toPromise()
+      .then((res) => {
+        if (typeof res.json().data === 'string') {
+          return Promise.resolve(res.json().data)
+        }
+        return Promise.resolve('error');
+      }).catch((error) => {
+        console.log('SignupLoginService-changePassword', error);
+        return Promise.resolve('error');
+      })
+  }
 
 
 }

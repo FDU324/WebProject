@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, App} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams, App} from 'ionic-angular';
 
 import {FriendAddPage} from './friend-add.component';
 import {FriendDetailPage} from './friend-detail.component';
@@ -32,8 +32,7 @@ export class FriendsTabPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public appCtrl: App,
               public localUserService: LocalUserService,
               public friendListService: FriendListService,
-              public chatService: ChatService
-              ) {
+              public chatService: ChatService) {
     this.friendList = friendListService.getFriendList();
     this.friendGroupsByNickname = this.classifyUserByNickname();
     this.localUser = localUserService.getLocalUser();
@@ -41,7 +40,7 @@ export class FriendsTabPage {
   }
 
   ionViewDidEnter() {
-    this.friendListService.updateFriendList().then(friends=>{
+    this.friendListService.updateFriendList().then(friends => {
       this.friendList = friends;
       this.friendGroupsByNickname = this.classifyUserByNickname();
       this.friendListService.registerPage(this);
@@ -120,7 +119,7 @@ export class FriendsTabPage {
    
 
   update() {
-    this.friendListService.updateFriendList().then(friends=>{
+    this.friendListService.updateFriendList().then(friends => {
       this.friendList = friends;
       this.friendGroupsByNickname = this.classifyUserByNickname();
       this.friendReqList = this.friendListService.getFriendReqList();
@@ -149,12 +148,9 @@ export class FriendsTabPage {
   }
 
   addFriend() {
-
     this.navCtrl.push(FriendAddPage, {
       localUser: this.localUser
     });
-
-
   }
 
   showDetail(friend: User) {
