@@ -154,7 +154,7 @@ export class ImgService {
   modifyImageAtSignup(username:string,imageUrl:string){
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    let url = 'http://localhost:3000/user/modifyUserImage';
+    let url = 'http://120.25.238.161:3000/user/modifyUserImage';
     let info = {
       username: username,
       userImage:imageUrl,
